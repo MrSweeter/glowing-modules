@@ -16,17 +16,17 @@
     </head>
     <body>
         <div class="d-lg-none">
-            <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; width: 100vw;">
-                <img src="./no-mobile.svg" style="width: 60vw; max-width: 400px;" />
-                <p class="mt-5" style="font-size: 4vw;"><i class="fa-solid fa-mobile-screen"></i>This website is not compatible for small screen</p>
+            <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; width: 100vw">
+                <img src="./no-mobile.svg" style="width: 60vw; max-width: 400px" />
+                <p class="mt-5" style="font-size: 4vw"><i class="fa-solid fa-mobile-screen"></i>This website is not compatible for small screen</p>
             </main>
         </div>
         <div class="d-none d-lg-block">
             <header id="menu-compare" class="d-none pt-3">
                 <div class="d-flex justify-content-center align-items-center mx-0 mb-3">
-                    <button id="version-select-from-toggle" class="btn" style="width: 120px;">%version%</button>
+                    <button id="version-select-from-toggle" class="btn" style="width: 120px">%version%</button>
                     <span class="mx-5"><i class="fa-solid fa-arrow-right fa-lg"></i></span>
-                    <button id="version-select-to-toggle" class="btn" style="width: 120px;">%version%</button>
+                    <button id="version-select-to-toggle" class="btn" style="width: 120px">%version%</button>
                 </div>
             </header>
 
@@ -34,9 +34,7 @@
                 <nav class="d-block sidebar bg-white">
                     <div class="position-sticky">
                         <div id="side-menu-version" class="list-group list-group-flush mx-0">
-                            <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center">
-                                <i class="fa-solid fa-spinner"></i><span>Loading</span>
-                            </span>
+                            <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center"> <i class="fa-solid fa-spinner"></i><span>Loading</span> </span>
                         </div>
                         <footer class="text-center mt-5">
                             <div class="text-center p-3 small">
@@ -44,9 +42,10 @@
                                 <p>
                                     &copy; <span id="copyright-year">%yyyy%</span>
                                     <span>All rights reserved:</span>
-                                    <a id="copyright-link" href="https://github.com/MrSweeter/glowing-modules">Glowing Modules</a>
+                                    <a id="copyright-link" href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
                                 </p>
-                                <a href="https://storyset.com/">Illustrations by Storyset</a>
+                                <p><a id="footer-data-source" href="" target="_blank">Data Source (gist)</a></p>
+                                <a href="https://storyset.com/" target="_blank">Illustrations by Storyset</a>
                             </div>
                         </footer>
                     </div>
@@ -67,8 +66,8 @@
             </main>
 
             <div class="fixed-action-btn d-flex flex-row">
-                <input type="text" id="searchInput" class="form-control me-3" style="width: 30rem;" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
-                <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017E84;">
+                <input type="text" id="searchInput" class="form-control me-3" style="width: 30rem" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+                <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
                     <i id="mode-switch-icon" class="fas fa-code-compare"></i>
                 </button>
             </div>

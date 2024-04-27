@@ -1,5 +1,12 @@
+const gistSource =
+    'https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json';
+
 async function onDOMContentLoaded() {
     document.getElementById('copyright-year').innerText = new Date().getFullYear();
+    document.getElementById('footer-data-source').href = gistSource.slice(
+        0,
+        gistSource.lastIndexOf('/', gistSource.lastIndexOf('/') - 1)
+    );
 
     const diff = await loadDifference();
     loadVersionsMenu(diff);
@@ -248,9 +255,7 @@ function stringToHTML(str) {
 
 async function loadDifference() {
     try {
-        const response = await fetch(
-            'https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json'
-        );
+        const response = await fetch(gistSource);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
