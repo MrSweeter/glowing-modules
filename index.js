@@ -151,10 +151,12 @@ function compareVersion(diff, toValue, fromValue = undefined) {
     const versions = Object.keys(diff).sort(
         (a, b) => sanitizeVersionToFloat(a) - sanitizeVersionToFloat(b)
     );
-    const indexOfTo = versions.indexOf(toValue) + 1;
-    const indexOfFrom = fromValue ? versions.indexOf(fromValue) + 1 : indexOfTo - 1;
 
-    for (let i = indexOfFrom; i < indexOfTo; i++) {
+    let indexOfTo = versions.indexOf(toValue);
+    fromValue = fromValue ?? versions[indexOfTo - 1];
+    let indexOfFrom = versions.indexOf(fromValue);
+
+    for (let i = indexOfFrom + 1; i <= indexOfTo; i++) {
         const version = versions[i];
 
         const vcontent = diff[version];
@@ -173,6 +175,13 @@ function compareVersion(diff, toValue, fromValue = undefined) {
 
     const modulesRemovedContentElement = document.getElementById('modules-removed-content');
     loadList(modulesRemovedContentElement, removed, 'danger');
+
+    Array.from(document.getElementsByClassName('tooltip-version-from')).forEach(
+        (e) => (e.innerText = fromValue)
+    );
+    Array.from(document.getElementsByClassName('tooltip-version-to')).forEach(
+        (e) => (e.innerText = toValue)
+    );
 
     searchModule();
     highlightSearch();
