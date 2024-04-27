@@ -1,6 +1,9 @@
 const gistSource =
     'https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json';
 
+let compareMode = false;
+let history = {};
+
 async function onDOMContentLoaded() {
     document.getElementById('copyright-year').innerText = new Date().getFullYear();
     document.getElementById('footer-data-source').href = gistSource.slice(
@@ -9,6 +12,7 @@ async function onDOMContentLoaded() {
     );
 
     const diff = await loadDifference();
+    history = generateModuleHistory(diff);
     loadVersionsMenu(diff);
     loadModeSwitch(diff);
 
@@ -23,7 +27,6 @@ async function onDOMContentLoaded() {
 document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
 document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
 
-let compareMode = false;
 function loadModeSwitch(diff) {
     const modeSwitchElement = document.getElementById('mode-switch');
     modeSwitchElement.onclick = () => {
@@ -50,7 +53,7 @@ function loadVersionsMenu(diff) {
     const versionSelectorElement = document.getElementById('version-selector');
     versionSelectorElement.innerHTML = '';
 
-    Object.keys(diff).forEach((version) => {
+    for (const version of Object.keys(diff)) {
         // List
         const stable = sanitizeVersionToFloat(version) == sanitizeVersionToInteger(version);
         const versionMenuItem = stringToHTML(`
@@ -79,7 +82,7 @@ function loadVersionsMenu(diff) {
 
         versionSelectorItem.onclick = () => onVersionSelected(version, diff);
         versionSelectorElement.prepend(versionSelectorItem);
-    });
+    }
 
     // Selector toggler
     const toSelectorToggleElement = document.getElementById('version-select-to-toggle');
@@ -117,9 +120,9 @@ function updateVersionToggle(element, version) {
 }
 
 function onVersionChange(version, diff) {
-    Array.from(document.getElementsByClassName('side-version-item')).forEach((e) =>
-        e.classList.remove('active')
-    );
+    for (const e of document.getElementsByClassName('side-version-item')) {
+        e.classList.remove('active');
+    }
     document.getElementById(getVersionID(version)).classList.add('active');
 
     compareVersion(diff, version);
@@ -161,13 +164,10 @@ function compareVersion(diff, toValue, fromValue = undefined) {
 
         const vcontent = diff[version];
 
-        Object.entries(vcontent).forEach(([folder, content]) => {
-            if (!(folder in added)) added[folder] = [];
-            if (!(folder in removed)) removed[folder] = [];
-
-            added[folder] = added[folder].concat(content['+'] ?? []);
-            removed[folder] = removed[folder].concat(content['-'] ?? []);
-        });
+        for (const [repo, content] of Object.entries(vcontent)) {
+            added[repo] = (added[repo] || []).concat(content['+'] || []);
+            removed[repo] = (removed[repo] || []).concat(content['-'] || []);
+        }
     }
 
     const modulesAddedContentElement = document.getElementById('modules-added-content');
@@ -176,12 +176,12 @@ function compareVersion(diff, toValue, fromValue = undefined) {
     const modulesRemovedContentElement = document.getElementById('modules-removed-content');
     loadList(modulesRemovedContentElement, removed, 'danger');
 
-    Array.from(document.getElementsByClassName('tooltip-version-from')).forEach(
-        (e) => (e.innerText = fromValue)
-    );
-    Array.from(document.getElementsByClassName('tooltip-version-to')).forEach(
-        (e) => (e.innerText = toValue)
-    );
+    for (const e of document.getElementsByClassName('tooltip-version-from')) {
+        e.innerText = fromValue;
+    }
+    for (const e of document.getElementsByClassName('tooltip-version-to')) {
+        e.innerText = toValue;
+    }
 
     searchModule();
     highlightSearch();
@@ -194,24 +194,40 @@ function highlightSearch() {
     setTimeout(() => element.classList.remove('highlight'), 1000);
 }
 
-function loadList(container, folders, style) {
+function loadList(container, repos, style) {
     container.innerHTML = '';
 
-    Object.entries(folders).forEach(([folder, content]) => {
+    for (const [repo, content] of Object.entries(repos)) {
         if (content.length) {
             const sectionElement = stringToHTML(`
-                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${folder}</span></h5>
+                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${repo}</span></h5>
             `);
             container.appendChild(sectionElement);
 
-            content.forEach((a) => {
+            for (const m of content) {
+                const moduleHistory = history[m]?.join('\n');
                 const listItem = stringToHTML(`
-                <span class="badge badge-module badge-${style} mx-2 my-1">${a}</span>
-            `);
+                    <span class="badge badge-module badge-${style} mx-2 my-1" title="${moduleHistory}">${m}</span>
+                `);
                 container.appendChild(listItem);
-            });
+            }
         }
-    });
+    }
+}
+
+function generateModuleHistory(diff) {
+    const history = {};
+    for (const [version, vcontent] of Object.entries(diff)) {
+        for (const [repo, content] of Object.entries(vcontent)) {
+            for (const [action, modules] of Object.entries(content)) {
+                for (const module of modules) {
+                    history[module] = history[module] || [];
+                    history[module].push(`${repo}/${version}/${action}`);
+                }
+            }
+        }
+    }
+    return history;
 }
 
 function toggleOverlay(show) {
@@ -243,11 +259,11 @@ function searchModule() {
 
     const allBadgeModule = Array.from(document.getElementsByClassName('badge-module'));
 
-    allBadgeModule.forEach((element) => {
+    for (const element of allBadgeModule) {
         const isVisible = regex?.test(element.innerText) ?? true;
         if (isVisible) element.classList.remove('d-none');
         else element.classList.add('d-none');
-    });
+    }
 }
 
 function sanitizeSearchTerm(term) {
