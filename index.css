@@ -85,6 +85,12 @@ body {
     max-width: 50%;
 }
 
+.highlight {
+    border-color: #e4a900;
+    background-color: rgba(228, 167, 0, 0.1);
+    transition: all 500ms ease-in-out;
+}
+
 /* Override MDB */
 .btn-secondary {
     --mdb-btn-bg: #b88cac;

@@ -173,6 +173,16 @@ function compareVersion(diff, toValue, fromValue = undefined) {
 
     const modulesRemovedContentElement = document.getElementById('modules-removed-content');
     loadList(modulesRemovedContentElement, removed, 'danger');
+
+    searchModule();
+    highlightSearch();
+}
+
+function highlightSearch() {
+    const element = document.getElementById('searchInput');
+    if (!element.value) return;
+    element.classList.add('highlight');
+    setTimeout(() => element.classList.remove('highlight'), 1000);
 }
 
 function loadList(container, folders, style) {
@@ -213,16 +223,21 @@ function toggleOverlay(show) {
 
 function handleSearch() {
     const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', function () {
-        const regex = sanitizeSearchTerm(searchInput.value);
+    searchInput.removeEventListener('input', searchModule);
+    searchInput.addEventListener('input', searchModule);
+}
 
-        const allBadgeModule = Array.from(document.getElementsByClassName('badge-module'));
+function searchModule() {
+    const searchInput = document.getElementById('searchInput');
+    const regex = sanitizeSearchTerm(searchInput.value);
+    if (!regex) return;
 
-        allBadgeModule.forEach((element) => {
-            const isVisible = regex?.test(element.innerText) ?? true;
-            if (isVisible) element.classList.remove('d-none');
-            else element.classList.add('d-none');
-        });
+    const allBadgeModule = Array.from(document.getElementsByClassName('badge-module'));
+
+    allBadgeModule.forEach((element) => {
+        const isVisible = regex?.test(element.innerText) ?? true;
+        if (isVisible) element.classList.remove('d-none');
+        else element.classList.add('d-none');
     });
 }
 
