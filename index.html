@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Glowing Modules</title>
+        <link rel="icon" type="image/x+icon" href="./favicon.png" />
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+        <!-- MDB -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" />
+
+        <link href="./index.css" rel="stylesheet" />
+
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div class="d-lg-none">
+            <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; width: 100vw;">
+                <img src="./no-mobile.svg" style="width: 60vw; max-width: 400px;" />
+                <p class="mt-5" style="font-size: 4vw;"><i class="fa-solid fa-mobile-screen"></i>This website is not compatible for small screen</p>
+            </main>
+        </div>
+        <div class="d-none d-lg-block">
+            <header id="menu-compare" class="d-none pt-3">
+                <div class="d-flex justify-content-center align-items-center mx-0 mb-3">
+                    <button id="version-select-from-toggle" class="btn" style="width: 120px;">%version%</button>
+                    <span class="mx-5"><i class="fa-solid fa-arrow-right fa-lg"></i></span>
+                    <button id="version-select-to-toggle" class="btn" style="width: 120px;">%version%</button>
+                </div>
+            </header>
+
+            <header id="side-menu-all">
+                <nav class="d-block sidebar bg-white">
+                    <div class="position-sticky">
+                        <div id="side-menu-version" class="list-group list-group-flush mx-0">
+                            <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center">
+                                <i class="fa-solid fa-spinner"></i><span>Loading</span>
+                            </span>
+                        </div>
+                        <footer class="text-center mt-5">
+                            <div class="text-center p-3 small">
+                                <img src="./banner.png" height="32px" />
+                                <p>
+                                    &copy; <span id="copyright-year">%yyyy%</span>
+                                    <span>All rights reserved:</span>
+                                    <a id="copyright-link" href="https://github.com/MrSweeter/glowing-modules">Glowing Modules</a>
+                                </p>
+                                <a href="https://storyset.com/">Illustrations by Storyset</a>
+                            </div>
+                        </footer>
+                    </div>
+                </nav>
+            </header>
+
+            <main id="modules-list" class="sidebar-offset mb-5">
+                <div class="row mx-0">
+                    <div class="col-6 p-0">
+                        <p class="p-2 text-center bg-success text-white fw-bold">ADD</p>
+                        <div id="modules-added-content" class="d-flex flex-wrap px-2"></div>
+                    </div>
+                    <div class="col-6 p-0">
+                        <p class="p-2 text-center bg-danger text-white fw-bold">REMOVE</p>
+                        <div id="modules-removed-content" class="d-flex flex-wrap px-2"></div>
+                    </div>
+                </div>
+            </main>
+
+            <div class="fixed-action-btn d-flex flex-row">
+                <input type="text" id="searchInput" class="form-control me-3" style="width: 30rem;" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+                <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017E84;">
+                    <i id="mode-switch-icon" class="fas fa-code-compare"></i>
+                </button>
+            </div>
+            <div id="overlay-container" class="justify-content-center align-items-center">
+                <div id="version-selector" class="d-flex flex-wrap justify-content-center"></div>
+            </div>
+        </div>
+    </body>
+</html>
