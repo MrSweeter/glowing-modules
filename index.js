@@ -255,7 +255,6 @@ function handleSearch() {
 function searchModule() {
     const searchInput = document.getElementById('searchInput');
     const regex = sanitizeSearchTerm(searchInput.value);
-    if (!regex) return;
 
     const allBadgeModule = Array.from(document.getElementsByClassName('badge-module'));
 
@@ -268,10 +267,10 @@ function searchModule() {
 
 function sanitizeSearchTerm(term) {
     try {
-        if (term.length < 3) return '';
+        if (term.length < 3) return undefined;
         return new RegExp(term);
     } catch {
-        return '';
+        return undefined;
     }
 }
 
