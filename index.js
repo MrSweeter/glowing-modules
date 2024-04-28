@@ -195,10 +195,19 @@ function compareVersion(diff, toValue, fromValue = undefined) {
     }
 
     const modulesAddedContentElement = document.getElementById('modules-added-content');
-    loadList(modulesAddedContentElement, added, 'success');
+
+    document.getElementById('added-count').innerText = loadList(
+        modulesAddedContentElement,
+        added,
+        'success'
+    );
 
     const modulesRemovedContentElement = document.getElementById('modules-removed-content');
-    loadList(modulesRemovedContentElement, removed, 'danger');
+    document.getElementById('removed-count').innerText = loadList(
+        modulesRemovedContentElement,
+        removed,
+        'danger'
+    );
 
     for (const e of document.getElementsByClassName('tooltip-version-from')) {
         e.innerText = fromValue;
@@ -220,11 +229,13 @@ function highlightSearch() {
 
 function loadList(container, repos, style) {
     container.innerHTML = '';
+    let count = 0;
 
     for (const [repo, content] of Object.entries(repos)) {
         if (content.length) {
+            count += content.length;
             const sectionElement = stringToHTML(`
-                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${repo}</span></h5>
+                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${repo} <span class="small fw-normal text-white-50">(${content.length})</span></span></h5>
             `);
             container.appendChild(sectionElement);
 
@@ -237,6 +248,7 @@ function loadList(container, repos, style) {
             }
         }
     }
+    return count;
 }
 
 function generateModuleHistory(diff) {
