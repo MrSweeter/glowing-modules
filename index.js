@@ -27,6 +27,15 @@ async function onDOMContentLoaded() {
 document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
 document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference
+Array.prototype.gm_difference = function (iterable) {
+    let difference = Array.from(this);
+    for (let elem of iterable) {
+        difference = difference.filter((e) => e != elem);
+    }
+    return difference;
+};
+
 function loadModeSwitch(diff) {
     const modeSwitchElement = document.getElementById('mode-switch');
     modeSwitchElement.onclick = () => {
@@ -165,8 +174,12 @@ function compareVersion(diff, toValue, fromValue = undefined) {
         const vcontent = diff[version];
 
         for (const [repo, content] of Object.entries(vcontent)) {
-            added[repo] = (added[repo] || []).concat(content['+'] || []);
-            removed[repo] = (removed[repo] || []).concat(content['-'] || []);
+            added[repo] = (added[repo] || [])
+                .concat(content['+'] || [])
+                .gm_difference(content['-'] || []);
+            removed[repo] = (removed[repo] || [])
+                .concat(content['-'] || [])
+                .gm_difference(content['+'] || []);
         }
     }
 
