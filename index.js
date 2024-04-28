@@ -263,6 +263,11 @@ function handleSearch() {
     const searchInput = document.getElementById('searchInput');
     searchInput.removeEventListener('input', searchModule);
     searchInput.addEventListener('input', searchModule);
+
+    document.getElementById('clearInput').onclick = () => {
+        searchInput.value = '';
+        searchModule();
+    };
 }
 
 function searchModule() {

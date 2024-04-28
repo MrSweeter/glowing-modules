@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Inter:300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,600&display=swap');
+
 :root {
     --odoo-primary: #714b67;
 
@@ -21,6 +25,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 100vh;
+    font-family: 'Poppins', 'Inter', 'Roboto', sans-serif;
 }
 @media (min-width: 991.98px) {
     .sidebar-offset {
@@ -189,4 +194,18 @@ body {
 
 .badge-danger {
     color: #691422;
+}
+
+.gm-search-form {
+    position: relative;
+    width: 100%;
+}
+
+.gm-search-form .trailing {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--odoo-primary);
 }

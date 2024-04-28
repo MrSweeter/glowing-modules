@@ -56,7 +56,7 @@
                 <div class="row mx-0">
                     <div class="col-6 p-0">
                         <p class="p-2 text-center bg-success text-white fw-bold">
-                            <span>ADD</span>
+                            <span class="text-uppercase">New modules</span>
                             <span class="info-tooltip-container small fw-normal ">
                                 <i class="fa-regular fa-circle-question text-white-50"></i>
                                 <span class="info-tooltip p-3 text-start"
@@ -72,7 +72,7 @@
                     </div>
                     <div class="col-6 p-0">
                         <p class="p-2 text-center bg-danger text-white fw-bold">
-                            <span>REMOVE</span>
+                            <span class="text-uppercase">Removed modules</span>
                             <span class="info-tooltip-container small fw-normal">
                                 <i class="fa-regular fa-circle-question text-white-50"></i>
                                 <span class="info-tooltip p-3 text-start"
@@ -90,7 +90,11 @@
             </main>
 
             <div class="fixed-action-btn d-flex flex-row">
-                <input type="text" id="searchInput" class="form-control me-3" style="width: 30rem" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+                <div class="gm-search-form me-3">
+                    <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
+                    <input type="text" id="searchInput" class="form-control pe-4" style="width: 32rem" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+                </div>
+
                 <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
                     <i id="mode-switch-icon" class="fas fa-code-compare"></i>
                 </button>
