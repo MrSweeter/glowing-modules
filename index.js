@@ -5,7 +5,9 @@ let compareMode = false;
 let history = {};
 
 async function onDOMContentLoaded() {
-    document.getElementById('copyright-year').innerText = new Date().getFullYear();
+    for (element of document.getElementsByClassName('copyright-year')) {
+        element.innerText = new Date().getFullYear();
+    }
     document.getElementById('footer-data-source').href = gistSource.slice(
         0,
         gistSource.lastIndexOf('/', gistSource.lastIndexOf('/') - 1)
@@ -95,10 +97,17 @@ function loadVersionsMenu(diff) {
 
     // Selector toggler
     const toSelectorToggleElement = document.getElementById('version-select-to-toggle');
+    const toSelectorToggleMobileElement = document.getElementById(
+        'version-select-to-mobile-toggle'
+    );
     const fromSelectorToggleElement = document.getElementById('version-select-from-toggle');
 
     toSelectorToggleElement.onclick = () => {
         versionSelectorElement.dataset.mode = 'to';
+        toggleOverlay(true);
+    };
+    toSelectorToggleMobileElement.onclick = () => {
+        versionSelectorElement.dataset.mode = 'to-mobile';
         toggleOverlay(true);
     };
     fromSelectorToggleElement.onclick = () => {
@@ -110,6 +119,7 @@ function loadVersionsMenu(diff) {
     const [previous, current] = Object.keys(diff).slice(-2);
     onVersionChange(current, diff);
     updateVersionToggle(toSelectorToggleElement, current);
+    updateVersionToggle(toSelectorToggleMobileElement, current);
     updateVersionToggle(fromSelectorToggleElement, previous);
 }
 
@@ -120,7 +130,7 @@ function onVersionSelected(version, diff) {
     updateVersionToggle(toggleElement, version);
 
     toggleOverlay(false);
-    onComparatorChange(diff);
+    mode === 'to-mobile' ? onVersionChange(version, diff) : onComparatorChange(diff);
 }
 
 function updateVersionToggle(element, version) {
@@ -133,6 +143,7 @@ function onVersionChange(version, diff) {
         e.classList.remove('active');
     }
     document.getElementById(getVersionID(version)).classList.add('active');
+    updateVersionToggle(document.getElementById(`version-select-to-mobile-toggle`), version);
 
     compareVersion(diff, version);
 }

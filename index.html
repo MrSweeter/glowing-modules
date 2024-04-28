@@ -3,6 +3,7 @@
     <head>
         <title>Glowing Modules</title>
         <link rel="icon" type="image/x+icon" href="./favicon.png" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
         <!-- Font Awesome -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
         <!-- Google Fonts -->
@@ -15,93 +16,98 @@
         <script src="index.js"></script>
     </head>
     <body>
-        <div class="d-lg-none">
-            <main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh; width: 100vw">
-                <img src="./no-mobile.svg" style="width: 60vw; max-width: 400px" />
-                <p class="mt-5" style="font-size: 4vw"><i class="fa-solid fa-mobile-screen"></i>This website is not compatible for small screen</p>
-            </main>
-        </div>
-        <div class="d-none d-lg-block">
-            <header id="menu-compare" class="d-none pt-3">
-                <div class="d-flex justify-content-center align-items-center mx-0 mb-3">
-                    <button id="version-select-from-toggle" class="btn" style="width: 120px">%version%</button>
-                    <span class="mx-5"><i class="fa-solid fa-arrow-right fa-lg"></i></span>
-                    <button id="version-select-to-toggle" class="btn" style="width: 120px">%version%</button>
-                </div>
-            </header>
+        <header id="menu-compare" class="d-none py-1 py-md-3">
+            <div class="d-flex justify-content-center align-items-center mx-0">
+                <button id="version-select-from-toggle" class="btn" style="width: 120px">%version%</button>
+                <span class="mx-5"><i class="fa-solid fa-arrow-right fa-lg"></i></span>
+                <button id="version-select-to-toggle" class="btn" style="width: 120px">%version%</button>
+            </div>
+        </header>
 
-            <header id="side-menu-all">
-                <nav class="d-block sidebar bg-white">
-                    <div class="position-sticky">
-                        <div id="side-menu-version" class="list-group list-group-flush mx-0">
-                            <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center"> <i class="fa-solid fa-spinner"></i><span>Loading</span> </span>
+        <header id="side-menu-all">
+            <nav class="d-none d-md-block sidebar bg-white">
+                <div class="position-sticky">
+                    <div id="side-menu-version" class="list-group list-group-flush mx-0">
+                        <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center"> <i class="fa-solid fa-spinner"></i><span>Loading</span> </span>
+                    </div>
+                    <footer class="text-center mt-5">
+                        <div class="text-center p-3 small">
+                            <img src="./banner.png" height="32px" />
+                            <p>
+                                &copy; <span class="copyright-year">%yyyy%</span>
+                                <span>All rights reserved:</span>
+                                <a href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
+                            </p>
+                            <p><a id="footer-data-source" href="" target="_blank">Data Source (gist)</a></p>
                         </div>
-                        <footer class="text-center mt-5">
-                            <div class="text-center p-3 small">
-                                <img src="./banner.png" height="32px" />
-                                <p>
-                                    &copy; <span id="copyright-year">%yyyy%</span>
-                                    <span>All rights reserved:</span>
-                                    <a id="copyright-link" href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
-                                </p>
-                                <p><a id="footer-data-source" href="" target="_blank">Data Source (gist)</a></p>
-                                <a href="https://storyset.com/" target="_blank">Illustrations by Storyset</a>
-                            </div>
-                        </footer>
-                    </div>
-                </nav>
-            </header>
-
-            <main id="modules-list" class="sidebar-offset mb-5">
-                <div class="row mx-0">
-                    <div class="col-6 p-0">
-                        <p class="p-2 text-center bg-success text-white fw-bold">
-                            <span class="text-uppercase">New modules</span>
-                            <span class="info-tooltip-container small fw-normal ">
-                                <i class="fa-regular fa-circle-question text-white-50"></i>
-                                <span class="info-tooltip p-3 text-start"
-                                    >Behold the newcomers in this column, as Odoo <span class="tooltip-version-to"></span> rolls out the red carpet for the new modules while Odoo
-                                    <span class="tooltip-version-from"></span>'s modules wondering if they're still in the spotlight.
-                                    <br />
-                                    <br />
-                                    <span class="opacity-50">Below modules are new modules in Odoo <span class="tooltip-version-to"></span>.</span>
-                                </span>
-                            </span>
-                        </p>
-                        <div id="modules-added-content" class="d-flex flex-wrap px-2"></div>
-                    </div>
-                    <div class="col-6 p-0">
-                        <p class="p-2 text-center bg-danger text-white fw-bold">
-                            <span class="text-uppercase">Removed modules</span>
-                            <span class="info-tooltip-container small fw-normal">
-                                <i class="fa-regular fa-circle-question text-white-50"></i>
-                                <span class="info-tooltip p-3 text-start"
-                                    >Uh-oh! It seems these modules pulled a disappearing act in Odoo <span class="tooltip-version-to"></span> leaving Odoo
-                                    <span class="tooltip-version-from"></span> wondering if they joined a secret module society.
-                                    <br />
-                                    <br />
-                                    <span class="opacity-50">Below modules have been removed in Odoo <span class="tooltip-version-to"></span>.</span>
-                                </span>
-                            </span>
-                        </p>
-                        <div id="modules-removed-content" class="d-flex flex-wrap px-2"></div>
-                    </div>
+                    </footer>
                 </div>
-            </main>
+            </nav>
+            <nav class="text-center d-block d-md-none py-1 py-md-3">
+                <button id="version-select-to-mobile-toggle" class="btn" style="width: 100%">%version%</button>
+            </nav>
+        </header>
 
-            <div class="fixed-action-btn d-flex flex-row">
-                <div class="gm-search-form me-3">
-                    <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
-                    <input type="text" id="searchInput" class="form-control pe-4" style="width: 32rem" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+        <main id="modules-list" class="sidebar-offset mb-5">
+            <div class="row mx-0">
+                <div class="col-12 col-md-6 p-0">
+                    <p class="p-2 text-center bg-success text-white fw-bold">
+                        <span class="text-uppercase">New modules</span>
+                        <span class="info-tooltip-container small fw-normal d-none d-md-inline">
+                            <i class="fa-regular fa-circle-question text-white-50"></i>
+                            <span class="info-tooltip p-3 text-start"
+                                >Behold the newcomers in this column, as Odoo <span class="tooltip-version-to"></span> rolls out the red carpet for the new modules while Odoo
+                                <span class="tooltip-version-from"></span>'s modules wondering if they're still in the spotlight.
+                                <br />
+                                <br />
+                                <span class="opacity-50">Below modules are new modules in Odoo <span class="tooltip-version-to"></span>.</span>
+                            </span>
+                        </span>
+                    </p>
+                    <div id="modules-added-content" class="d-flex flex-wrap px-2"></div>
                 </div>
+                <div class="col-12 col-md-6 p-0 pt-5 pt-md-0">
+                    <p class="p-2 text-center bg-danger text-white fw-bold">
+                        <span class="text-uppercase">Removed modules</span>
+                        <span class="info-tooltip-container small fw-normal d-none d-md-inline">
+                            <i class="fa-regular fa-circle-question text-white-50"></i>
+                            <span class="info-tooltip p-3 text-start"
+                                >Uh-oh! It seems these modules pulled a disappearing act in Odoo <span class="tooltip-version-to"></span> leaving Odoo
+                                <span class="tooltip-version-from"></span> wondering if they joined a secret module society.
+                                <br />
+                                <br />
+                                <span class="opacity-50">Below modules have been removed in Odoo <span class="tooltip-version-to"></span>.</span>
+                            </span>
+                        </span>
+                    </p>
+                    <div id="modules-removed-content" class="d-flex flex-wrap px-2"></div>
+                </div>
+            </div>
+        </main>
 
-                <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
-                    <i id="mode-switch-icon" class="fas fa-code-compare"></i>
-                </button>
+        <div class="fixed-action-btn d-flex flex-row">
+            <div class="gm-search-form me-3 d-none d-md-flex">
+                <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
+                <input type="text" id="searchInput" class="form-control pe-4" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
             </div>
-            <div id="overlay-container" class="justify-content-center align-items-center">
-                <div id="version-selector" class="d-flex flex-wrap justify-content-center"></div>
-            </div>
+
+            <button id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
+                <i id="mode-switch-icon" class="fas fa-code-compare"></i>
+            </button>
         </div>
+        <div id="overlay-container" class="justify-content-center align-items-center">
+            <div id="version-selector" class="d-flex flex-wrap justify-content-center"></div>
+        </div>
+
+        <footer class="text-center d-block d-md-none">
+            <div class="text-center p-3 small">
+                <img src="./banner.png" height="32px" />
+                <p>
+                    &copy; <span class="copyright-year">%yyyy%</span>
+                    <span>All rights reserved:</span>
+                    <a href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
+                </p>
+            </div>
+        </footer>
     </body>
 </html>
