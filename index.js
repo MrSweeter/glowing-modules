@@ -13,17 +13,10 @@ async function onDOMContentLoaded() {
         gistSource.lastIndexOf('/', gistSource.lastIndexOf('/') - 1)
     );
 
-    const diff = await loadDifference();
-    history = generateModuleHistory(diff);
-    loadVersionsMenu(diff);
-    loadModeSwitch(diff);
-
-    if (window.location.search.includes('compare')) {
-        const modeSwitchElement = document.getElementById('mode-switch');
-        modeSwitchElement.click();
-    }
+    await reload();
 
     handleSearch();
+    handleLTSToggle();
 }
 
 document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
@@ -37,6 +30,25 @@ Array.prototype.gm_difference = function (iterable) {
     }
     return difference;
 };
+
+async function reload() {
+    const diff = await loadDifference();
+    const onlyLTS = document.getElementById('onlyLTSToggle').checked;
+    if (onlyLTS) {
+        for (const version of Object.keys(diff)) {
+            if (version.startsWith('saas')) delete diff[version];
+        }
+    }
+
+    history = generateModuleHistory(diff);
+    loadVersionsMenu(diff);
+    loadModeSwitch(diff);
+
+    if (window.location.search.includes('compare')) {
+        const modeSwitchElement = document.getElementById('mode-switch');
+        modeSwitchElement.click();
+    }
+}
 
 function loadModeSwitch(diff) {
     const modeSwitchElement = document.getElementById('mode-switch');
@@ -280,6 +292,13 @@ function toggleOverlay(show) {
     } else {
         overlayContainer.removeEventListener('click', close);
     }
+}
+
+function handleLTSToggle() {
+    const onlyLTSInput = document.getElementById('onlyLTSToggle');
+    onlyLTSInput.onchange = (e) => {
+        reload();
+    };
 }
 
 function handleSearch() {
