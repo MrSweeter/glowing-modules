@@ -163,6 +163,77 @@ body {
     }
 }
 
+/* Toggle Switch */
+.toggleSwitch {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 100%;
+    background-color: whitesmoke;
+    height: 34px;
+}
+
+.toggleSwitch input {
+    position: absolute;
+    opacity: 0;
+    z-index: 5;
+}
+
+.toggleSwitch > span span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: block;
+    width: 50%;
+    margin-left: 50px;
+    text-align: left;
+    font-size: 0.9em;
+    width: auto;
+    opacity: 1;
+    width: 40%;
+    text-align: center;
+    line-height: 34px;
+}
+.toggleSwitch a {
+    position: absolute;
+    right: 50%;
+    z-index: 4;
+    display: block;
+    top: 3px;
+    bottom: 3px;
+    padding: 0;
+    left: 3px;
+    width: 50%;
+    background-color: var(--odoo-primary);
+    border-radius: 4px;
+    transition: all 0.2s ease-out;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.toggleSwitch > span span:first-of-type {
+    color: whitesmoke;
+    left: 0;
+    margin: 0;
+    width: 50%;
+}
+.toggleSwitch > span span:last-of-type {
+    left: auto;
+    right: 0;
+    color: gray;
+    margin: 0;
+    width: 50%;
+}
+
+.toggleSwitch input:checked ~ a {
+    left: calc(50% - 3px);
+}
+.toggleSwitch input:checked ~ span span:first-of-type {
+    color: gray;
+}
+.toggleSwitch input:checked ~ span span:last-of-type {
+    color: whitesmoke;
+}
+
 /* Override MDB */
 .btn-secondary {
     --mdb-btn-bg: #b88cac;
