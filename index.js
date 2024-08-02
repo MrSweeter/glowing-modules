@@ -336,7 +336,7 @@ function searchModule() {
 function sanitizeSearchTerm(term) {
     try {
         if (!term || term.length < 3) return undefined;
-        return new RegExp(term);
+        return new RegExp(term, 'i');
     } catch {
         return undefined;
     }
