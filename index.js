@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', onDOMContentLoaded);
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/difference
 Array.prototype.gm_difference = function (iterable) {
     let difference = Array.from(this);
-    for (let elem of iterable) {
-        difference = difference.filter((e) => e != elem);
+    for (const elem of iterable) {
+        difference = difference.filter((e) => e !== elem);
     }
     return difference;
 };
@@ -78,18 +78,14 @@ function loadVersionsMenu(diff) {
 
     for (const version of Object.keys(diff)) {
         // List
-        const stable = sanitizeVersionToFloat(version) == sanitizeVersionToInteger(version);
+        const stable = sanitizeVersionToFloat(version) === sanitizeVersionToInteger(version);
         const versionMenuItem = stringToHTML(`
             <a
                 id=${getVersionID(version)}
                 style="cursor: pointer"
-                class="side-version-item list-group-item list-group-item-action py-2 ripple ${
-                    stable ? '' : 'ps-5'
-                }"
+                class="side-version-item list-group-item list-group-item-action py-2 ripple ${stable ? '' : 'ps-5'}"
             >
-                <i class="fas fa-${
-                    stable ? 'code-branch' : 'code-branch'
-                } fa-fw me-3 opacity-50"></i><span>${version}</span>
+                <i class="fas fa-${stable ? 'code-branch' : 'code-branch'} fa-fw me-3 opacity-50"></i><span>${version}</span>
             </a>
         `);
 
@@ -109,9 +105,7 @@ function loadVersionsMenu(diff) {
 
     // Selector toggler
     const toSelectorToggleElement = document.getElementById('version-select-to-toggle');
-    const toSelectorToggleMobileElement = document.getElementById(
-        'version-select-to-mobile-toggle'
-    );
+    const toSelectorToggleMobileElement = document.getElementById('version-select-to-mobile-toggle');
     const fromSelectorToggleElement = document.getElementById('version-select-from-toggle');
 
     toSelectorToggleElement.onclick = () => {
@@ -155,7 +149,7 @@ function onVersionChange(version, diff) {
         e.classList.remove('active');
     }
     document.getElementById(getVersionID(version)).classList.add('active');
-    updateVersionToggle(document.getElementById(`version-select-to-mobile-toggle`), version);
+    updateVersionToggle(document.getElementById('version-select-to-mobile-toggle'), version);
 
     compareVersion(diff, version);
 }
@@ -178,18 +172,16 @@ function onComparatorChange(diff) {
     compareVersion(diff, toValue, fromValue);
 }
 
-function compareVersion(diff, toValue, fromValue = undefined) {
+function compareVersion(diff, toValue, fromValueArg = undefined) {
     const added = {};
     const removed = {};
 
     // from lower to upper
-    const versions = Object.keys(diff).sort(
-        (a, b) => sanitizeVersionToFloat(a) - sanitizeVersionToFloat(b)
-    );
+    const versions = Object.keys(diff).sort((a, b) => sanitizeVersionToFloat(a) - sanitizeVersionToFloat(b));
 
-    let indexOfTo = versions.indexOf(toValue);
-    fromValue = fromValue ?? versions[indexOfTo - 1];
-    let indexOfFrom = versions.indexOf(fromValue);
+    const indexOfTo = versions.indexOf(toValue);
+    const fromValue = fromValueArg ?? versions[indexOfTo - 1];
+    const indexOfFrom = versions.indexOf(fromValue);
 
     for (let i = indexOfFrom + 1; i <= indexOfTo; i++) {
         const version = versions[i];
@@ -197,29 +189,17 @@ function compareVersion(diff, toValue, fromValue = undefined) {
         const vcontent = diff[version];
 
         for (const [repo, content] of Object.entries(vcontent)) {
-            added[repo] = (added[repo] || [])
-                .concat(content['+'] || [])
-                .gm_difference(content['-'] || []);
-            removed[repo] = (removed[repo] || [])
-                .concat(content['-'] || [])
-                .gm_difference(content['+'] || []);
+            added[repo] = (added[repo] || []).concat(content['+'] || []).gm_difference(content['-'] || []);
+            removed[repo] = (removed[repo] || []).concat(content['-'] || []).gm_difference(content['+'] || []);
         }
     }
 
     const modulesAddedContentElement = document.getElementById('modules-added-content');
 
-    document.getElementById('added-count').innerText = loadList(
-        modulesAddedContentElement,
-        added,
-        'success'
-    );
+    document.getElementById('added-count').innerText = loadList(modulesAddedContentElement, added, 'success');
 
     const modulesRemovedContentElement = document.getElementById('modules-removed-content');
-    document.getElementById('removed-count').innerText = loadList(
-        modulesRemovedContentElement,
-        removed,
-        'danger'
-    );
+    document.getElementById('removed-count').innerText = loadList(modulesRemovedContentElement, removed, 'danger');
 
     for (const e of document.getElementsByClassName('tooltip-version-from')) {
         e.innerText = fromValue;
@@ -243,21 +223,29 @@ function loadList(container, repos, style) {
     container.innerHTML = '';
     let count = 0;
 
+    const owners = new Set(Object.keys(repos).map(k => k.split('/')[0]))
+    const uniqueOwner = owners.size === 1
+
     for (const [repo, content] of Object.entries(repos)) {
         if (content.length) {
             count += content.length;
+            const [owner, repoName] = repo.split('/')
+            const repoContainer = stringToHTML(
+                `<div class="badge-container w-100" data-owner="${owner}" data-repo="${repoName}"></div>`
+            );
             const sectionElement = stringToHTML(`
-                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${repo} <span class="small fw-normal text-white-50">(${content.length})</span></span></h5>
+                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${uniqueOwner ? repoName : repo} <span class="small fw-normal text-white-50">(${content.length})</span></span></h5>
             `);
-            container.appendChild(sectionElement);
+            repoContainer.appendChild(sectionElement);
 
             for (const m of content) {
                 const moduleHistory = history[m]?.join('\n');
                 const listItem = stringToHTML(`
-                    <span class="badge badge-module badge-${style} mx-2 my-1" title="${moduleHistory}">${m}</span>
+                    <span class="badge badge-module badge-${style} mx-2 my-1" title="${moduleHistory}" data-module=${m}>${m}</span>
                 `);
-                container.appendChild(listItem);
+                repoContainer.appendChild(listItem);
             }
+            container.appendChild(repoContainer);
         }
     }
     return count;
@@ -312,14 +300,30 @@ function handleSearch() {
     };
 }
 
+const ownerRegex = new RegExp(/^owner:.+/);
+const repositoryRegex = new RegExp(/^repository:.+/);
+
 function searchModule() {
     const searchInput = document.getElementById('searchInput');
-    const regex = sanitizeSearchTerm(searchInput.value);
+
+    const terms = searchInput.value.split(/\s/);
+    const ownerRegexTerm = sanitizeSearchTerm(terms.find((t) => ownerRegex.test(t))?.split(':')[1]);
+    const repositoryRegexTerm = sanitizeSearchTerm(terms.find((t) => repositoryRegex.test(t))?.split(':')[1]);
+    const moduleRegexTerm = sanitizeSearchTerm(terms.find((t) => !t.includes(':')));
 
     const allBadgeModule = Array.from(document.getElementsByClassName('badge-module'));
 
     for (const element of allBadgeModule) {
-        const isVisible = regex?.test(element.innerText) ?? true;
+        const isVisible = moduleRegexTerm?.test(element.dataset.module) ?? true;
+        if (isVisible) element.classList.remove('d-none');
+        else element.classList.add('d-none');
+    }
+
+    const allRepositoryElement = Array.from(document.getElementsByClassName('badge-container'));
+
+    for (const element of allRepositoryElement) {
+        const isVisible =
+            (ownerRegexTerm?.test(element.dataset.owner) || repositoryRegexTerm?.test(element.dataset.repo)) ?? true;
         if (isVisible) element.classList.remove('d-none');
         else element.classList.add('d-none');
     }
@@ -327,7 +331,7 @@ function searchModule() {
 
 function sanitizeSearchTerm(term) {
     try {
-        if (term.length < 3) return undefined;
+        if (!term || term.length < 3) return undefined;
         return new RegExp(term);
     } catch {
         return undefined;
@@ -335,11 +339,11 @@ function sanitizeSearchTerm(term) {
 }
 
 function sanitizeVersionToFloat(versionString) {
-    return parseFloat(versionString.replaceAll('saas-', ''));
+    return Number.parseFloat(versionString.replaceAll('saas-', ''));
 }
 
 function sanitizeVersionToInteger(versionString) {
-    return parseInt(versionString.replaceAll('saas-', ''));
+    return Number.parseInt(versionString.replaceAll('saas-', ''));
 }
 
 function getVersionID(version) {
@@ -353,8 +357,11 @@ function stringToHTML(str) {
 }
 
 async function loadDifference() {
+    // Testing purpose, local file provided by the private checker repository
+    const source = window.location.hostname === 'localhost' ? './glowing-modules-diff_sample.json' : gistSource;
+
     try {
-        const response = await fetch(gistSource);
+        const response = await fetch(source);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
