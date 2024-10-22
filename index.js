@@ -83,9 +83,13 @@ function loadVersionsMenu(diff) {
             <a
                 id=${getVersionID(version)}
                 style="cursor: pointer"
-                class="side-version-item list-group-item list-group-item-action py-2 ripple ${stable ? '' : 'ps-5'}"
+                class="side-version-item list-group-item d-flex justify-content-between align-items-center list-group-item-action py-2 ripple ${stable ? '' : 'ps-5'}"
             >
-                <i class="fas fa-${stable ? 'code-branch' : 'code-branch'} fa-fw me-3 opacity-50"></i><span>${version}</span>
+                <div>
+                    <i class="fas fa-${stable ? 'code-branch' : 'code-branch'} fa-fw me-3 opacity-50"></i>
+                    <span>${version}</span>
+                </div>
+                <span class="d-none badge badge-success rounded-pill">?</span>
             </a>
         `);
 
@@ -239,7 +243,7 @@ function loadList(container, repos, style) {
             repoContainer.appendChild(sectionElement);
 
             for (const m of content) {
-                const moduleHistory = history[m]?.join('\n');
+                const moduleHistory = history[m].history?.join('\n');
                 const listItem = stringToHTML(`
                     <span class="badge badge-module badge-${style} mx-2 my-1" title="${moduleHistory}" data-module=${m}>${m}</span>
                 `);
@@ -257,8 +261,9 @@ function generateModuleHistory(diff) {
         for (const [repo, content] of Object.entries(vcontent)) {
             for (const [action, modules] of Object.entries(content)) {
                 for (const module of modules) {
-                    history[module] = history[module] || [];
-                    history[module].push(`${repo}/${version}/${action}`);
+                    history[module] = history[module] || {history: [], versions: []};
+                    history[module].history.push(`${repo}/${version}/${action}`);
+                    history[module].versions.push(version)
                 }
             }
         }
@@ -305,10 +310,9 @@ const repositoryRegex = new RegExp(/^repository:.+/);
 
 function searchModule() {
     const searchInput = document.getElementById('searchInput');
-
     const terms = searchInput.value.split(/\s/);
-    const ownerRegexTerm = sanitizeSearchTerm(terms.find((t) => ownerRegex.test(t))?.split(':')[1]);
-    const repositoryRegexTerm = sanitizeSearchTerm(terms.find((t) => repositoryRegex.test(t))?.split(':')[1]);
+
+    // Module - Selected version
     const moduleRegexTerm = sanitizeSearchTerm(terms.find((t) => !t.includes(':')));
 
     const allBadgeModule = document.getElementsByClassName('badge-module');
@@ -318,6 +322,29 @@ function searchModule() {
         if (isVisible) element.classList.remove('d-none');
         else element.classList.add('d-none');
     }
+    // Module - Other versions
+    for (const element of document.querySelectorAll('#side-menu-version .badge:not(.d-none)')) element.classList.add('d-none')
+    if (moduleRegexTerm) {
+
+        const versions = {}
+
+        for (const key in history) {
+            if (!(moduleRegexTerm.test(key) ?? true)) continue
+            for (const version of history[key].versions) {
+                versions[version] = (versions[version] || 0) + 1;
+            }
+        }
+
+        for (const version in versions) {
+            const badge = document.querySelector(`#${getVersionID(version)} .badge`)
+            badge.classList.remove('d-none')
+            badge.innerText = versions[version]
+        }
+    }
+
+    // Owner & Repository
+    const ownerRegexTerm = sanitizeSearchTerm(terms.find((t) => ownerRegex.test(t))?.split(':')[1]);
+    const repositoryRegexTerm = sanitizeSearchTerm(terms.find((t) => repositoryRegex.test(t))?.split(':')[1]);
 
     const allRepositoryElement = document.getElementsByClassName('badge-container');
     const hasOwnerRegexTerm = !!ownerRegexTerm;
