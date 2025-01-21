@@ -36,7 +36,7 @@ async function reload() {
     const onlyLTS = document.getElementById('onlyLTSToggle').checked;
     if (onlyLTS) {
         for (const version of Object.keys(diff)) {
-            if (version.startsWith('saas')) delete diff[version];
+            if (version.startsWith('saas') || version === 'master') delete diff[version];
         }
     }
 
@@ -370,10 +370,12 @@ function sanitizeSearchTerm(term) {
 }
 
 function sanitizeVersionToFloat(versionString) {
+    if (versionString === 'master') return 100.0
     return Number.parseFloat(versionString.replaceAll('saas-', ''));
 }
 
 function sanitizeVersionToInteger(versionString) {
+    if (versionString === 'master') return 100
     return Number.parseInt(versionString.replaceAll('saas-', ''));
 }
 
