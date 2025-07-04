@@ -17,6 +17,7 @@ async function onDOMContentLoaded() {
 
     handleSearch();
     handleLTSToggle();
+    handlePresearch();
 }
 
 document.removeEventListener('DOMContentLoaded', onDOMContentLoaded);
@@ -303,6 +304,19 @@ function handleSearch() {
         searchInput.value = '';
         searchModule();
     };
+}
+
+function handlePresearch() {
+    const searchInput = document.getElementById('searchInput');
+    const elements = document.getElementsByClassName('presearch')
+
+    function onclickPresearch(e) {
+        const searchValue = e.target.dataset.searchValue
+        if (searchValue) searchInput.value = searchValue
+        searchModule()
+    }
+
+    for (const element of elements) element.onclick = onclickPresearch
 }
 
 const ownerRegex = new RegExp(/^owner:.+/);

@@ -4,20 +4,20 @@
         <title>Glowing Modules</title>
         <link rel="icon" type="image/x+icon" href="./favicon.png" />
 
-        <meta name="robots" content="index, follow">
-        <meta name="language" content="en">
-        <link rel="canonical" href="https://mrsweeter.github.io/glowing-modules">
-        <link rel="alternate" href="https://github.com/MrSweeter/glowing-modules" title="Glowing Modules repository">
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="en" />
+        <link rel="canonical" href="https://mrsweeter.github.io/glowing-modules" />
+        <link rel="alternate" href="https://github.com/MrSweeter/glowing-modules" title="Glowing Modules repository" />
 
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Discover the Odoo modules's history! Compare Odoo's versions to see modules differences!">
-        <meta name="keywords" content="Odoo, Modules, Productivity, Comparison">
-        <meta name="author" content="Vanden Bergh Gaëtan">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Discover the Odoo modules's history! Compare Odoo's versions to see modules differences!" />
+        <meta name="keywords" content="Odoo, Modules, Productivity, Comparison" />
+        <meta name="author" content="Vanden Bergh Gaëtan" />
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" media="screen"/>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" media="screen"/>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" media="screen"/>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" media="screen" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" media="screen" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" media="screen" />
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js" media="screen"></script>
 
         <link href="./index.css" rel="stylesheet" />
@@ -104,9 +104,17 @@
         </main>
 
         <div class="fixed-action-btn d-flex flex-row">
-            <div class="gm-search-form me-3 d-none d-md-flex">
-                <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
-                <input type="text" id="searchInput" class="form-control pe-4" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+            <div class="me-3 d-none d-md-flex flex-column">
+                <div id="presearchContainer" class="d-flex flex-wrap mb-1">
+                    <span class="presearch badge badge-primary" data-search-value="repository:odoo" title="Odoo repository">odoo</span>
+                    <span class="presearch badge badge-primary" data-search-value="repository:enterprise" title="Odoo Enterprise repository">enterprise</span>
+                    <span class="presearch badge badge-primary" data-search-value="repository:design-themes" title="Design Themes repository">design</span>
+                    <span class="presearch badge badge-primary" data-search-value="repository:industry" title="Industry repository">industry</span>
+                </div>
+                <div class="gm-search-form">
+                    <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
+                    <input type="text" id="searchInput" class="form-control pe-4" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
+                </div>
             </div>
 
             <button title="Switch comparison mode" name="Switch comparison mode" id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
