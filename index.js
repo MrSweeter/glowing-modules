@@ -239,7 +239,7 @@ function loadList(container, repos, style) {
                 `<div class="badge-container w-100" data-owner="${owner}" data-repo="${repoName}"></div>`
             );
             const sectionElement = stringToHTML(`
-                <h5 class="mx-2 my-1 w-100"><span class="badge badge-primary w-100">${uniqueOwner ? repoName : repo} <span class="small fw-normal text-white-50">(${content.length})</span></span></h5>
+                <h5 class="my-1 w-100"><span class="badge badge-primary w-100">${uniqueOwner ? repoName : repo} <span class="small fw-normal text-white-50">(${content.length})</span></span></h5>
             `);
             repoContainer.appendChild(sectionElement);
 
