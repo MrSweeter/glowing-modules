@@ -1,0 +1,24 @@
+version: 2
+updates:
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+          interval: weekly
+      cooldown:
+          default-days: 14 # supply-chain safety: skip versions published less than 2 weeks ago
+      groups:
+          dev-dependencies:
+              dependency-type: development
+          runtime:
+              dependency-type: production
+      commit-message:
+          prefix: "[IMP] deps:"
+
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: monthly
+      cooldown:
+          default-days: 14
+      commit-message:
+          prefix: "[IMP] ci:"

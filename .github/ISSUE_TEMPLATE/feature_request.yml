@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest an improvement.
+labels: [enhancement]
+body:
+    - type: textarea
+      id: problem
+      attributes:
+          label: What problem would this solve?
+          placeholder: When preparing an upgrade from 16.0 to 18.0 I need to…
+      validations:
+          required: true
+    - type: textarea
+      id: proposal
+      attributes:
+          label: What would you like to see?
+      validations:
+          required: true
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives considered

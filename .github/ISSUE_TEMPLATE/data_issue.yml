@@ -1,0 +1,52 @@
+name: Data issue
+description: A module is listed wrongly (added, removed, missing, wrong repository…).
+labels: [data]
+body:
+    - type: input
+      id: module
+      attributes:
+          label: Module technical name
+          placeholder: hr_payroll
+      validations:
+          required: true
+    - type: dropdown
+      id: repository
+      attributes:
+          label: Repository
+          options: [odoo/odoo, odoo/enterprise, odoo/design-themes, odoo/industry, Other]
+      validations:
+          required: true
+    - type: input
+      id: versions
+      attributes:
+          label: Version(s) concerned
+          placeholder: 17.0 → 18.0, or saas-17.2
+      validations:
+          required: true
+    - type: dropdown
+      id: problem
+      attributes:
+          label: What is wrong?
+          options:
+              - Listed as added but it is not new
+              - Listed as removed but it still exists
+              - Missing (should be listed)
+              - Wrong repository
+              - Other
+      validations:
+          required: true
+    - type: input
+      id: evidence
+      attributes:
+          label: Evidence
+          description: A GitHub link showing the module in (or absent from) the branch.
+          placeholder: https://github.com/odoo/odoo/tree/18.0/addons/hr_payroll
+    - type: input
+      id: url
+      attributes:
+          label: Link to the view
+          description: Use the "Copy link" button in the header.
+    - type: textarea
+      id: notes
+      attributes:
+          label: Anything else?

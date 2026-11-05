@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+    - name: Data source (gist)
+      url: https://gist.github.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63
+      about: The raw module data used by the site.
