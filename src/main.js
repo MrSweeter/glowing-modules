@@ -58,6 +58,8 @@ themeSelect.addEventListener('change', () => {
     else document.documentElement.dataset.theme = theme;
     storage.set('gm.theme', theme === 'system' ? null : theme);
 });
+// Settings (theme, your repositories): usable before the data is loaded, or when it fails to load.
+bindDrawer($('#settings-dialog'), $('#settings-toggle'));
 
 start();
 
@@ -131,7 +133,7 @@ function updateOutdatedNotice() {
     notice(
         'warning',
         message,
-        { label: 'Review', onClick: () => /** @type {HTMLDialogElement} */ ($('#filter-dialog')).showModal() },
+        { label: 'Review', onClick: () => /** @type {HTMLDialogElement} */ ($('#settings-dialog')).showModal() },
         'notice-outdated-repos'
     );
 }
@@ -326,12 +328,7 @@ function bindEvents() {
         commit({ query: cycleNameFilter(store.get().query, pattern) }, { mode: 'replace' })
     );
 
-    const filters = /** @type {HTMLDialogElement} */ ($('#filter-dialog'));
-    $('#filter-toggle').addEventListener('click', () => filters.showModal());
-    filters.addEventListener('click', (e) => {
-        if (e.target === filters || e.target.closest('[data-close]')) filters.close();
-    });
-    filters.addEventListener('close', () => $('#filter-toggle').focus());
+    bindDrawer($('#filter-dialog'), $('#filter-toggle'));
     $('#filter-reset').addEventListener('click', () =>
         commit({ query: removeFilterTokens(store.get().query) }, { mode: 'replace' })
     );
@@ -344,6 +341,19 @@ function bindEvents() {
         }
         if (e.target.closest('[data-action="clear-search"]')) clearSearch();
     });
+}
+
+/**
+ * Drawer opened by a toggle button: closes on the backdrop or a [data-close] button, then gives focus back to the toggle.
+ * @param {HTMLDialogElement} dialog
+ * @param {HTMLElement} toggle
+ */
+function bindDrawer(dialog, toggle) {
+    toggle.addEventListener('click', () => dialog.showModal());
+    dialog.addEventListener('click', (e) => {
+        if (e.target === dialog || e.target.closest('[data-close]')) dialog.close();
+    });
+    dialog.addEventListener('close', () => toggle.focus());
 }
 
 function clearSearch() {

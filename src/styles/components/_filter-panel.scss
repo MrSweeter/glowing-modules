@@ -1,6 +1,6 @@
 @use '../abstracts' as *;
 
-/// Group of filters inside the Filters drawer.
+/// Group of controls inside a drawer (Filters, Settings).
 .gm-filter-group {
     & + & {
         margin-top: space(5);
@@ -22,7 +22,7 @@
     }
 }
 
-/// "Your repositories": add form and list of custom repositories.
+/// "Your repositories" (Settings drawer): add form and list of custom repositories.
 .gm-repo-form {
     &__label {
         display: block;
@@ -120,4 +120,15 @@
             color: color('removed');
         }
     }
+}
+
+/// Theme selector (Settings drawer).
+.gm-settings__select {
+    min-height: 2.25rem;
+    padding: space(1) space(2);
+    font: inherit;
+    color: color('text');
+    background: color('surface');
+    border: 1px solid color('border-strong');
+    border-radius: radius('sm');
 }

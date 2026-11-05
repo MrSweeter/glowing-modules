@@ -1,4 +1,4 @@
-// "Your repositories" section of the Filters drawer: add, refresh and remove custom repositories.
+// "Your repositories" section of the Settings drawer: add, refresh and remove custom repositories.
 // GitHub is only called on an explicit action (Add or Refresh), never on page load or in the background.
 
 import { MAX_CUSTOM_REPOS } from '../config.js';

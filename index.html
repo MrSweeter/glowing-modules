@@ -60,8 +60,8 @@
                     </div>
                 </a>
 
-                <div class="gm-header__controls" data-requires-data>
-                    <fieldset class="gm-range">
+                <div class="gm-header__controls">
+                    <fieldset class="gm-range" data-requires-data>
                         <legend class="gm-visually-hidden">Compared versions</legend>
                         <button type="button" class="gm-version-btn" id="from-toggle" aria-haspopup="dialog" aria-controls="version-dialog">
                             <span class="gm-version-btn__label">From</span>
@@ -73,6 +73,17 @@
                             <span class="gm-version-btn__value"><span data-role="to">–</span><span class="gm-icon gm-icon--sm" aria-hidden="true">expand_more</span></span>
                         </button>
                     </fieldset>
+                    <button
+                        type="button"
+                        class="gm-btn gm-btn--icon gm-header__settings"
+                        id="settings-toggle"
+                        aria-haspopup="dialog"
+                        aria-controls="settings-dialog"
+                        aria-label="Settings"
+                        title="Settings"
+                    >
+                        <span class="gm-icon" aria-hidden="true">settings</span>
+                    </button>
                 </div>
             </div>
         </header>
@@ -138,14 +149,6 @@
                         <li><a href="https://github.com/MrSweeter/glowing-modules">GitHub</a></li>
                         <li><a href="https://gist.github.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63" id="data-source-link">Data source</a></li>
                     </ul>
-                    <label class="gm-footer__theme">
-                        Theme
-                        <select id="theme-select">
-                            <option value="system">System</option>
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
-                    </label>
                 </div>
                 <p>© 2024–<span data-role="year">2026</span> Gaëtan Vanden Bergh · All rights reserved · <span id="app-version"></span></p>
                 <p>Odoo is a trademark of Odoo S.A. This project is an independent community tool.</p>
@@ -193,7 +196,29 @@
                     <p class="gm-filter-group__hint" id="name-chips-hint">Click once to show only these, twice to hide them.</p>
                     <div class="gm-cluster" id="name-chips"></div>
                 </fieldset>
-                <section class="gm-filter-group" aria-labelledby="custom-repos-title">
+            </div>
+            <div class="gm-dialog__footer">
+                <button type="button" class="gm-btn gm-btn--sm" id="filter-reset">Reset filters</button>
+            </div>
+        </dialog>
+
+        <dialog class="gm-dialog gm-dialog--drawer" id="settings-dialog" aria-labelledby="settings-dialog-title">
+            <div class="gm-dialog__header">
+                <h2 class="gm-dialog__title" id="settings-dialog-title">Settings</h2>
+                <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon" data-close aria-label="Close">
+                    <span class="gm-icon" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="gm-dialog__body">
+                <section class="gm-filter-group" aria-labelledby="theme-title">
+                    <h3 class="gm-filter-group__title" id="theme-title">Theme</h3>
+                    <select class="gm-settings__select" id="theme-select" aria-labelledby="theme-title">
+                        <option value="system">System</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </section>
+                <section class="gm-filter-group" aria-labelledby="custom-repos-title" data-requires-data>
                     <h3 class="gm-filter-group__title" id="custom-repos-title">Your repositories</h3>
                     <form class="gm-repo-form" id="custom-repo-form" novalidate>
                         <label class="gm-repo-form__label" for="custom-repo-input">GitHub repository</label>
@@ -219,9 +244,6 @@
                         Public repositories with Odoo version branches (17.0, saas-17.2, master). Read from GitHub by your browser and saved in this browser only.
                     </p>
                 </section>
-            </div>
-            <div class="gm-dialog__footer">
-                <button type="button" class="gm-btn gm-btn--sm" id="filter-reset">Reset filters</button>
             </div>
         </dialog>
     </body>

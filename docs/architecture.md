@@ -41,7 +41,7 @@ src/ui/                 DOM rendering, built with text nodes only (never innerHT
   results.js            added / removed / moved lists
   versionPicker.js      version dialog
   moduleDetails.js      module dialog (history, availability, links)
-  customRepos.js        "Your repositories" in the Filters drawer: add, refresh, remove
+  customRepos.js        "Your repositories" in the Settings drawer: add, refresh, remove
 ```
 
 Dependency rule (checked by reading the imports, not enforced by a tool):

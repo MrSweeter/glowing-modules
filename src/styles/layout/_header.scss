@@ -65,6 +65,13 @@
             width: 100%;
         }
     }
+
+    // Square, same height as the version buttons; stays right-aligned while they wait for the data.
+    &__settings {
+        align-self: stretch;
+        width: 3rem;
+        margin-left: auto;
+    }
 }
 
 .gm-range {
@@ -72,9 +79,9 @@
     gap: space(1);
     align-items: center;
 
-    // Full width on small screens: both version buttons share the row.
+    // Small screens: both version buttons share the row with the Settings button.
     @include mq-down(md) {
-        width: 100%;
+        flex: 1;
 
         .gm-version-btn {
             flex: 1;

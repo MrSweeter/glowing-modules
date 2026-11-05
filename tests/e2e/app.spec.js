@@ -310,6 +310,11 @@ test.describe('data loading', () => {
         await page.goto('./');
         await expect(page.getByRole('alert')).toContainText('Could not load module data');
         await expect(page.getByRole('button', { name: 'Retry' })).toBeVisible();
+
+        // Settings still opens: the theme can be changed, "Your repositories" waits for the data.
+        await page.locator('#settings-toggle').click();
+        await expect(page.locator('#theme-select')).toBeVisible();
+        await expect(page.locator('#custom-repo-form')).toBeHidden();
     });
 
     test('rejects malicious data instead of rendering it', async ({ page, data }) => {
@@ -336,6 +341,8 @@ test.describe('theme', () => {
         await expect(select).toHaveValue('system');
         expect(await theme()).toBe('system');
 
+        await page.locator('#settings-toggle').click();
+        await expect(page.locator('#settings-dialog')).toBeVisible();
         await select.selectOption('dark');
         expect(await theme()).toBe('dark');
         await page.reload();
@@ -343,6 +350,7 @@ test.describe('theme', () => {
         await expect(select).toHaveValue('dark');
         expect(await theme()).toBe('dark');
 
+        await page.locator('#settings-toggle').click();
         await select.selectOption('system');
         await page.reload();
         await ready(page);

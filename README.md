@@ -23,7 +23,7 @@ version X and Y, and in which repository?".
   Localization `^l10n_`, Website, Point of Sale, …) that cycle show only → hide → off. They only write `name:` /
   `-name:` terms in the search bar. Shows a count of active
   filters and has a reset button.
-- **Your repositories** (Filter panel): add a public GitHub repository that uses Odoo version branches (`17.0`,
+- **Your repositories** (Settings panel, gear button in the header): add a public GitHub repository that uses Odoo version branches (`17.0`,
   `saas-17.2`, `master`), for example `OCA/sale-workflow`. Its modules join the comparison, search and details like
   the Odoo repositories. Modules are the top-level folders with a `__manifest__.py`; other branches are ignored.
   Repositories of the `odoo` organisation and their forks are refused (already included). The list and a copy of
@@ -32,7 +32,7 @@ version X and Y, and in which repository?".
   allows about 60 anonymous requests per hour, roughly 2 plus one per version branch for each repository.
 - **Module details:** availability ranges, a timeline, the full history and a link to the source on GitHub.
 - **Shareable links:** the URL keeps the versions, search and filters; copy it from the address bar.
-- Light and dark theme: follows the system by default, with a Theme selector in the footer. Keyboard accessible,
+- Light and dark theme: follows the system by default, with a Theme selector in the Settings panel. Keyboard accessible,
   works on mobile.
 
 ### Search syntax
