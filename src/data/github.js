@@ -4,16 +4,16 @@
 // git tree per Odoo version branch whose head moved since the cached copy. Conditional requests (ETag) answered
 // with 304 do not count against the rate limit.
 
-import { FETCH_TIMEOUT_MS, GITHUB_API } from '../config.js';
+import { FETCH_TIMEOUT_MS, GITHUB_API, MAX_BRANCH_PAGES } from '../config.js';
 import { isForbidden, isStandardBranch, modulesFromTree } from '../domain/customRepo.js';
 
-const MAX_BRANCH_PAGES = 3;
 const TREE_CONCURRENCY = 4;
 
 /**
  * @typedef {{ sha: string, modules: string[], truncated: boolean }} BranchData
  * @typedef {{ id: string, fetchedAt: string, etags: { repo?: string|null, branches?: string|null }, pages: number,
- *   ignored: number, branches: Record<string, BranchData> }} RepoData
+ *   ignored: number, branchesCapped?: boolean, branches: Record<string, BranchData> }} RepoData
+ *   `branchesCapped`: more branches than MAX_BRANCH_PAGES pages, the others were not read
  */
 
 export class GitHubError extends Error {
@@ -83,6 +83,7 @@ export async function fetchRepository(
     let heads = null;
     let ignored = 0;
     let pages = 1;
+    let branchesCapped = false;
     const first = await request(
         `/repos/${fullName}/branches?per_page=100`,
         cached?.pages === 1 ? cached.etags?.branches : null
@@ -91,6 +92,7 @@ export async function fetchRepository(
     if (first.notModified && cached) {
         heads = Object.entries(cached.branches).map(([name, b]) => ({ name, sha: b.sha }));
         ignored = cached.ignored ?? 0;
+        branchesCapped = Boolean(cached.branchesCapped);
     } else {
         const all = [...first.data];
         let next = nextLink(first.response);
@@ -100,6 +102,7 @@ export async function fetchRepository(
             next = nextLink(page.response);
             pages++;
         }
+        branchesCapped = Boolean(next);
         const kept = all.filter((b) => isStandardBranch(b.name) && (!known || known.has(b.name)));
         heads = kept.map((b) => ({ name: b.name, sha: b.commit?.sha }));
         ignored = all.length - kept.length;
@@ -138,6 +141,7 @@ export async function fetchRepository(
         etags: { repo: repo.response.headers.get('etag'), branches: branchesEtag ?? cached?.etags?.branches ?? null },
         pages,
         ignored,
+        ...(branchesCapped && { branchesCapped }),
         branches,
     };
 }

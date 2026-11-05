@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { MAX_BRANCH_PAGES } from '../../src/config.js';
 import { fetchRepository, GitHubError } from '../../src/data/github.js';
 
 const API = 'https://api.github.com';
@@ -124,6 +125,30 @@ describe('fetchRepository', () => {
         const data = await fetchRepository('acme/addons', { fetchImpl: impl, knownVersions: KNOWN });
         expect(Object.keys(data.branches)).toEqual(['16.0', '17.0']);
         expect(data.pages).toBe(2);
+        expect(data.branchesCapped).toBeUndefined();
+    });
+
+    it(`stops after ${MAX_BRANCH_PAGES} branch pages and says so`, async () => {
+        const page = (n) => `/repositories/1/branches?per_page=100&page=${n}`;
+        const routes = {
+            '/repos/acme/addons/branches?per_page=100': () => ({
+                body: [{ name: '16.0', commit: { sha: 'a16' } }],
+                headers: { link: `<${API}${page(2)}>; rel="next"` },
+            }),
+        };
+        // Every page links to a next one: the reading stops at the limit.
+        for (let n = 2; n <= MAX_BRANCH_PAGES + 1; n++) {
+            routes[page(n)] = () => ({
+                body: [{ name: `feature-${n}`, commit: { sha: `f${n}` } }],
+                headers: { link: `<${API}${page(n + 1)}>; rel="next"` },
+            });
+        }
+        const { impl, calls } = fakeFetch(basicRoutes(routes));
+        const data = await fetchRepository('acme/addons', { fetchImpl: impl, knownVersions: KNOWN });
+        expect(data.pages).toBe(MAX_BRANCH_PAGES);
+        expect(data.branchesCapped).toBe(true);
+        expect(calls.filter((c) => c.path.includes('branches'))).toHaveLength(MAX_BRANCH_PAGES);
+        expect(Object.keys(data.branches)).toEqual(['16.0']);
     });
 
     const failure = async (routes, kind) => {

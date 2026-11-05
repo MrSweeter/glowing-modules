@@ -1,7 +1,7 @@
 // "Your repositories" section of the Settings drawer: add, refresh and remove custom repositories.
 // GitHub is only called on an explicit action (Add or Refresh), never on page load or in the background.
 
-import { MAX_CUSTOM_REPOS } from '../config.js';
+import { MAX_BRANCH_PAGES, MAX_CUSTOM_REPOS } from '../config.js';
 import { parseRepoInput } from '../domain/customRepo.js';
 import { isOutdated } from '../state/customRepos.js';
 import { $, el, formatCount, icon } from './dom.js';
@@ -170,6 +170,7 @@ export function createCustomRepos({ store, fetchRepository, knownVersions, onCha
         const { versions, modules } = summary(data);
         const parts = [plural(versions, 'version'), plural(modules, 'module'), `updated ${ago(data.fetchedAt)}`];
         if (data.ignored) parts.push(`${plural(data.ignored, 'other branch', 'other branches')} ignored`);
+        if (data.branchesCapped) parts.push(`only the first ${formatCount(MAX_BRANCH_PAGES * 100)} branches were read`);
         if (Object.values(data.branches).some((b) => b.truncated)) parts.push('very large: may be incomplete');
         if (isOutdated(data)) parts.push('outdated: use Refresh to update');
         return parts.join(' · ');
