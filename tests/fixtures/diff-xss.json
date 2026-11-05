@@ -1,0 +1,4 @@
+{
+    "18.0": { "odoo/odoo": { "+": ["<img src=x onerror=alert(1)>", "base"] } },
+    "19.0": { "odoo/odoo": { "+": ["other"] } }
+}

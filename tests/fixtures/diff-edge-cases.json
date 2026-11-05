@@ -1,0 +1,28 @@
+{
+    "16.0": {
+        "odoo/odoo": { "+": ["base", "osc", "remove_then_readd", "moved_mod"] },
+        "odoo/enterprise": { "+": ["ent_base"] },
+        "odoo/design-themes": {}
+    },
+    "saas-16.1": {
+        "odoo/odoo": { "+": ["add_then_remove"], "-": ["osc", "remove_then_readd"] }
+    },
+    "saas-16.2": {
+        "odoo/odoo": { "+": ["osc"], "-": ["add_then_remove"] },
+        "odoo/industry": { "+": ["ind_mod"] }
+    },
+    "17.0": {
+        "odoo/odoo": { "+": ["remove_then_readd", "test_lint"], "-": ["moved_mod"] },
+        "odoo/enterprise": { "+": ["moved_mod"] }
+    },
+    "saas-17.1": {
+        "odoo/odoo": { "+": ["new_in_saas"] }
+    },
+    "18.0": {
+        "odoo/odoo": { "-": ["osc"] },
+        "odoo/enterprise": { "+": ["ent_18"] }
+    },
+    "master": {
+        "odoo/odoo": { "+": ["master_only"] }
+    }
+}
