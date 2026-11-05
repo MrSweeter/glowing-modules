@@ -20,6 +20,9 @@ export const FETCH_TIMEOUT_MS = 8000;
 /** GitHub REST API, used only when a visitor adds a repository (anonymous: 60 requests per hour per IP). */
 export const GITHUB_API = 'https://api.github.com';
 
+/** Branch pages read per repository (100 branches each, one request each); past it, the rest is not read. */
+export const MAX_BRANCH_PAGES = 5;
+
 /** Repositories a visitor can add. */
 export const MAX_CUSTOM_REPOS = 5;
 /** Saved copies are never refreshed automatically (refresh is manual); older than this, they are flagged as outdated. */
