@@ -23,12 +23,9 @@
                 "sourceSchemaVersion": { "type": "integer", "minimum": 1 },
                 "generatedAt": { "type": ["string", "null"], "format": "date-time" },
                 "pulledAt": { "type": ["string", "null"], "format": "date-time" },
+                "pulledFrom": { "type": "string" },
                 "source": { "type": ["string", "null"] },
                 "branches": {
-                    "type": "object",
-                    "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
-                },
-                "renames": {
                     "type": "object",
                     "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
                 }
