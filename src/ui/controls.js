@@ -19,6 +19,11 @@ export function renderControls(state, { view }) {
         chip.setAttribute('aria-pressed', String(hasToken(state.query, chip.dataset.token)));
     }
     /** @type {HTMLInputElement} */ ($('#show-tests')).checked = state.showTests;
+    const active = view.query.repository.length + view.query.owner.length + (state.showTests ? 1 : 0);
+    const badge = $('[data-role="filter-count"]');
+    badge.textContent = String(active);
+    badge.hidden = !active;
+    $('[data-role="filter-count-label"]').textContent = active ? ` (${active} active)` : '';
     $('[data-role="tests-hidden"]').textContent =
         !state.showTests && view.hiddenTests ? `(${formatCount(view.hiddenTests)} hidden)` : '';
 
@@ -31,9 +36,7 @@ export function renderControls(state, { view }) {
 
 /** Repository filter chips (built once from the data). */
 export function renderRepoChips(repos, onToggle) {
-    const container = $('#repo-chips');
-    container.replaceChildren(
-        container.querySelector('legend') ?? '',
+    $('#repo-chips').replaceChildren(
         ...repos.map((full) => {
             const name = full.split('/')[1];
             const token = `repository:${name}`;
@@ -51,18 +54,6 @@ export function renderRepoChips(repos, onToggle) {
             );
         })
     );
-}
-
-/** Theme toggle label reflects the theme it switches to. */
-export function renderThemeToggle() {
-    const dark = effectiveTheme() === 'dark';
-    $('#theme-toggle').setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
-}
-
-export function effectiveTheme() {
-    const explicit = document.documentElement.dataset.theme;
-    if (explicit === 'light' || explicit === 'dark') return explicit;
-    return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
 /**

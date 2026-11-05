@@ -17,13 +17,15 @@ version X and Y, and in which repository?".
   removed again inside the range is not reported.
 - **Moved modules** (same name, different repository, e.g. Community → Enterprise) are listed first, above the
   added and removed ones.
-- **Search** with regular expressions and repository filters (see below). Matches are highlighted, and the
+- **Search** with regular expressions (syntax behind the ⓘ button, see below). Matches are highlighted, and the
   version picker shows how many matching modules changed in each version.
+- **Filter panel** (Filter button in the search bar): repository filters and test modules, with a count of active filters
+  and a reset button.
 - **Module details:** availability ranges, a timeline, the full history and a link to the source on GitHub.
-- **Test modules** (`test_*`, `*_test`, …) are hidden by default, with a toggle and a count of what is hidden.
-- **Export** the visible list: copy as names, CSV or Markdown, or download CSV or JSON.
-- **Shareable links:** the URL keeps the versions, search and filters (**Copy link** button).
-- Light and dark theme, keyboard accessible, works on mobile.
+- **Test modules** (`test_*`, `*_test`, …) are hidden by default; the Filter panel shows them and counts what is hidden.
+- **Shareable links:** the URL keeps the versions, search and filters; copy it from the address bar.
+- Light and dark theme: follows the system by default, with a Theme selector in the footer. Keyboard accessible,
+  works on mobile.
 
 ### Search syntax
 
@@ -79,7 +81,7 @@ Fixtures for edge cases live in `tests/fixtures/` (e.g. `?data=/glowing-modules/
 ```
 index.html              page shell (static content, dialogs)
 src/main.js             bootstrap: data loading, store, events, URL sync
-src/domain/             pure logic: versions, snapshots & comparison, history, search, links, export
+src/domain/             pure logic: versions, snapshots & comparison, history, search, links
 src/data/               data source resolution, fetch with timeout/retry/fallback, validation
 src/state/              store, version selection rules, URL ⇄ state, view model
 src/ui/                 rendering (DOM built with text nodes only, never innerHTML)

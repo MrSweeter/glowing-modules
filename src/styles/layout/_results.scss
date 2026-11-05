@@ -5,7 +5,6 @@
     flex-wrap: wrap;
     gap: space(2) space(4);
     align-items: center;
-    justify-content: space-between;
     margin-bottom: space(4);
 
     &__text {
@@ -14,11 +13,6 @@
         strong {
             color: color('text');
         }
-    }
-
-    &__actions {
-        display: flex;
-        gap: space(2);
     }
 }
 

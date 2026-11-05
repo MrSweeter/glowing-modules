@@ -62,24 +62,6 @@ export function buildView({ model, from, to, query, showTests }) {
 }
 
 /**
- * Visible rows, for export.
- * @param {View} view
- * @returns {{ change: 'added'|'removed'|'moved', repository: string, module: string, from_repository: string }[]}
- */
-export function exportRows(view) {
-    const rows = [];
-    for (const change of /** @type {const} */ (['added', 'removed'])) {
-        for (const g of view[change].groups) {
-            for (const module of g.modules) rows.push({ change, repository: g.repo, module, from_repository: '' });
-        }
-    }
-    for (const mv of view.moved.items) {
-        rows.push({ change: 'moved', repository: mv.toRepo, module: mv.module, from_repository: mv.fromRepo });
-    }
-    return rows;
-}
-
-/**
  * Match counts per version: how many modules matching the query changed (added or removed) in each version.
  * @param {Map<string, import('../domain/history.js').HistoryEvent[]>} history
  * @param {import('../domain/search.js').Query} query

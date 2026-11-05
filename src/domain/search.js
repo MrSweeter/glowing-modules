@@ -90,6 +90,13 @@ export function toggleToken(input, token) {
     return kept.join(' ');
 }
 
+/** Remove every `repository:` / `repo:` / `owner:` token, keeping text terms in order. */
+export function removeFilterTokens(input) {
+    return tokenize(input)
+        .filter((t) => !FILTER_RE.test(t))
+        .join(' ');
+}
+
 function tokenize(input) {
     return input.trim().split(/\s+/).filter(Boolean);
 }

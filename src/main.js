@@ -7,26 +7,17 @@ import './styles/main.scss';
 
 import { REMOTE_DATA_PAGE } from './config.js';
 import { loadData, resolveSource } from './data/source.js';
-import { exportFileName, toCsv, toJson, toMarkdown, toNames } from './domain/export.js';
 import { buildHistory } from './domain/history.js';
-import { parseQuery, toggleToken } from './domain/search.js';
+import { parseQuery, removeFilterTokens, toggleToken } from './domain/search.js';
 import { buildSnapshots } from './domain/snapshots.js';
 import { initialSelection, normalize, setFrom, setTo } from './state/selection.js';
 import { createStore } from './state/store.js';
 import { readUrl, writeUrl } from './state/url.js';
-import { buildView, changeCountsByVersion, exportRows } from './state/view.js';
-import {
-    effectiveTheme,
-    renderAppVersion,
-    renderControls,
-    renderDataInfo,
-    renderRepoChips,
-    renderThemeToggle,
-} from './ui/controls.js';
-import { $, copyText, debounce, download, el, icon, storage } from './ui/dom.js';
+import { buildView, changeCountsByVersion } from './state/view.js';
+import { renderAppVersion, renderControls, renderDataInfo, renderRepoChips } from './ui/controls.js';
+import { $, debounce, el, icon, storage } from './ui/dom.js';
 import { createModuleDetails } from './ui/moduleDetails.js';
 import { renderResults } from './ui/results.js';
-import { toast } from './ui/toast.js';
 import { createVersionPicker } from './ui/versionPicker.js';
 
 const store = createStore({
@@ -42,12 +33,14 @@ const store = createStore({
 let data = null; // { model, history, sorted }
 
 renderAppVersion();
-renderThemeToggle();
-$('#theme-toggle').addEventListener('click', () => {
-    const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    storage.set('gm.theme', next);
-    renderThemeToggle();
+// Theme: follows the system unless the user picks light or dark (saved; applied early by theme-init.js).
+const themeSelect = /** @type {HTMLSelectElement} */ ($('#theme-select'));
+themeSelect.value = document.documentElement.dataset.theme ?? 'system';
+themeSelect.addEventListener('change', () => {
+    const theme = themeSelect.value;
+    if (theme === 'system') delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = theme;
+    storage.set('gm.theme', theme === 'system' ? null : theme);
 });
 
 start();
@@ -192,8 +185,6 @@ addEventListener('popstate', () => {
 
 // ─── Rendering ──────────────────────────────────────────────────────────────────────────────────
 
-let lastView = null;
-
 function render(state) {
     const view = buildView({
         model: data.model,
@@ -202,7 +193,6 @@ function render(state) {
         query: state.query,
         showTests: state.showTests,
     });
-    lastView = view;
     renderControls(state, { view });
     renderResults(view, { model: data.model, tab: state.tab, onTab: (tab) => store.set({ tab }) });
     document.title = `${state.from ? `${state.from} → ` : ''}${state.to} · Glowing Modules`;
@@ -260,6 +250,16 @@ function bindEvents() {
     });
     $('#show-tests').addEventListener('change', (e) => commit({ showTests: e.target.checked }, { mode: 'replace' }));
 
+    const filters = /** @type {HTMLDialogElement} */ ($('#filter-dialog'));
+    $('#filter-toggle').addEventListener('click', () => filters.showModal());
+    filters.addEventListener('click', (e) => {
+        if (e.target === filters || e.target.closest('[data-close]')) filters.close();
+    });
+    filters.addEventListener('close', () => $('#filter-toggle').focus());
+    $('#filter-reset').addEventListener('click', () =>
+        commit({ query: removeFilterTokens(store.get().query), showTests: false }, { mode: 'replace' })
+    );
+
     $('#results-grid').addEventListener('click', (e) => {
         const chip = e.target.closest('[data-module]');
         if (chip) {
@@ -267,15 +267,6 @@ function bindEvents() {
             return;
         }
         if (e.target.closest('[data-action="clear-search"]')) clearSearch();
-    });
-
-    $('#copy-link').addEventListener('click', async () => {
-        toast((await copyText(location.href)) ? 'Link copied' : 'Could not copy the link', 'link');
-    });
-
-    $('#export-menu').addEventListener('click', (e) => {
-        const button = e.target.closest('[data-export]');
-        if (button) exportVisible(button.dataset.export);
     });
 }
 
@@ -288,31 +279,6 @@ function clearSearch() {
 function openModule(module, trigger) {
     const state = store.get();
     if (details.open(module, state, trigger) && state.module !== module) commit({ module }, { mode: 'replace' });
-}
-
-async function exportVisible(format) {
-    $('#export-menu').hidePopover();
-    const state = store.get();
-    const rows = exportRows(lastView);
-    if (!rows.length) {
-        toast('Nothing to export', 'info');
-        return;
-    }
-    const context = {
-        from: lastView.from ?? null,
-        to: lastView.to,
-        query: state.query,
-        showTests: state.showTests,
-        url: location.href,
-    };
-    const copy = async (text, what) =>
-        toast((await copyText(text)) ? `${rows.length} modules copied as ${what}` : 'Copy failed', 'content_copy');
-    if (format === 'text') await copy(toNames(rows), 'names');
-    else if (format === 'csv-copy') await copy(toCsv(rows), 'CSV');
-    else if (format === 'markdown') await copy(toMarkdown(rows), 'Markdown');
-    else if (format === 'csv') download(exportFileName(lastView.from, lastView.to, 'csv'), toCsv(rows), 'text/csv');
-    else if (format === 'json')
-        download(exportFileName(lastView.from, lastView.to, 'json'), toJson(rows, context), 'application/json');
 }
 
 function notice(kind, message, action) {

@@ -29,6 +29,14 @@ for (const scheme of /** @type {const} */ (['light', 'dark'])) {
             await audit(page);
         });
 
+        test('filter panel', async ({ page }) => {
+            await page.goto('./?q=repository:odoo');
+            await ready(page);
+            await page.locator('#filter-toggle').click();
+            await expect(page.locator('#filter-dialog')).toBeVisible();
+            await audit(page);
+        });
+
         test('module details', async ({ page }) => {
             await page.goto('./?from=16.0&to=18.0&m=moved_mod');
             await ready(page);

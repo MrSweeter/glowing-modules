@@ -56,7 +56,7 @@ fieldset {
     display: none !important;
 }
 
-// Author `display` rules (e.g. `.gm-menu { display: flex }`) must not reveal closed popovers.
+// Author `display` rules (e.g. `.gm-popover { display: flex }`) must not reveal closed popovers.
 [popover]:not(:popover-open) {
     display: none !important;
 }
