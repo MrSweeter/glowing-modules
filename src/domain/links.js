@@ -1,6 +1,6 @@
 // External links for a module. Pure.
 
-import { compareVersions, isSaas, versionKey } from './versions.js';
+import { isSaas, versionKey } from './versions.js';
 
 // design-themes has no branch for most saas versions before saas-14.1 (checked 2026-11-04).
 const DESIGN_THEMES_OLD_SAAS = new Set(['saas-11.3', 'saas-12.3', 'saas-13.5']);
@@ -10,18 +10,16 @@ const DESIGN_THEMES_OLD_SAAS = new Set(['saas-11.3', 'saas-12.3', 'saas-13.5']);
  * @param {string} repo `owner/name`
  * @param {string} version
  * @param {string} module
- * @param {{ branches?: string[] }} [options] branches of a custom repository: the link points to the latest
- *   branch at or before `version` (a version without branch carries the previous branch's modules)
+ * @param {{ branches?: string[] }} [options] branches of a custom repository: no link for a version without a
+ *   branch (its modules there are unknown)
  * @returns {{ url: string, branch: string, private: boolean } | null}
  */
 export function githubUrl(repo, version, module, { branches } = {}) {
     const [owner, name] = repo.split('/');
     if (owner !== 'odoo') {
-        const branch = (branches ?? [])
-            .filter((b) => compareVersions(b, version) <= 0)
-            .sort(compareVersions)
-            .at(-1);
-        return branch ? { url: treeUrl(repo, branch, module), branch, private: false } : null;
+        return branches?.includes(version)
+            ? { url: treeUrl(repo, version, module), branch: version, private: false }
+            : null;
     }
     let branch = version;
     if (

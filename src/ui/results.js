@@ -52,7 +52,18 @@ function renderSummary(view, model) {
     ];
     if (view.moved.total) parts.push(' / ', countText(view.moved, '⇄'));
     if (view.query.active) parts.push(' (filtered)');
+    if (view.unknown?.length) parts.push(' · ', unknownText(view.unknown));
     $('#summary').replaceChildren(...parts);
+}
+
+/** Repositories left out of the comparison: no branch for one of the two versions, so their state is unknown. */
+function unknownText(unknown) {
+    const list = unknown.map((u) => `${u.repo} (no ${u.versions.join(' / ')} branch)`).join(', ');
+    return el(
+        'span',
+        { class: 'gm-results__unknown', title: 'No branch for this version: its modules there are unknown.' },
+        `Not compared: ${list}`
+    );
 }
 
 function countText(column, sign) {

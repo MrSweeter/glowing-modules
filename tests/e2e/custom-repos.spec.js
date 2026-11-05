@@ -95,6 +95,27 @@ test('adds a repository, keeps it after a reload and removes it', async ({ page,
     expect(consoleErrors).toEqual([]);
 });
 
+test('a version without a branch is unknown: not compared, not carried forward', async ({ page, consoleErrors }) => {
+    await github(page);
+    await page.goto('./');
+    await ready(page);
+    await addRepository(page, 'acme/addons');
+    await expect(page.locator('#custom-repo-status')).toHaveText('Added acme/addons: 3 modules in 2 versions.');
+
+    // acme/addons has no master branch: its 18.0 modules are neither carried into master nor listed as removed.
+    await page.goto('./?from=18.0&to=master');
+    await ready(page);
+    await expect(page.locator('#summary')).toContainText('Not compared: acme/addons (no master branch)');
+    await expect(page.locator('[data-module^="acme_"]')).toHaveCount(0);
+
+    await page.goto('./?from=18.0&to=master&m=acme_c');
+    await expect(page.locator('#module-details')).toContainText(
+        'Unknown in master: acme/addons has no master branch. Last seen in 18.0.'
+    );
+    await expect(page.locator('#module-details .gm-timeline__cell.is-unknown').first()).toBeAttached();
+    expect(consoleErrors).toEqual([]);
+});
+
 test('refuses Odoo repositories before calling GitHub', async ({ page }) => {
     const calls = await github(page);
     await page.goto('./');

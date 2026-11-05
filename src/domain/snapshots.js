@@ -8,14 +8,17 @@ import { sortVersions } from './versions.js';
 
 /**
  * @typedef {Map<string, Set<string>>} RepoSets  repo → modules
- * @typedef {{ versions: string[], repos: string[], snapshots: Map<string, RepoSets> }} Snapshots
+ * @typedef {Map<string, Set<string>>} UnknownRepos  version → repos whose module set is unknown there
+ * @typedef {{ versions: string[], repos: string[], snapshots: Map<string, RepoSets>, unknown: UnknownRepos }} Snapshots
  */
 
 /**
  * @param {import('../data/validate.js').VersionsDiff} diff
+ * @param {UnknownRepos} [unknown] repositories left out of a version's snapshot because their state there is
+ *   unknown (a custom repository with no branch for that version): neither present nor removed
  * @returns {Snapshots}
  */
-export function buildSnapshots(diff) {
+export function buildSnapshots(diff, unknown = new Map()) {
     const versions = sortVersions(Object.keys(diff));
     /** @type {RepoSets} */
     const current = new Map();
@@ -28,9 +31,11 @@ export function buildSnapshots(diff) {
             for (const m of content['-'] ?? []) set.delete(m);
             current.set(repo, set);
         }
-        snapshots.set(version, new Map([...current].map(([repo, set]) => [repo, new Set(set)])));
+        const skip = unknown.get(version);
+        const known = [...current].filter(([repo]) => !skip?.has(repo));
+        snapshots.set(version, new Map(known.map(([repo, set]) => [repo, new Set(set)])));
     }
-    return { versions, repos: [...current.keys()], snapshots };
+    return { versions, repos: [...current.keys()], snapshots, unknown };
 }
 
 /**
@@ -41,6 +46,16 @@ export function buildSnapshots(diff) {
  */
 export function snapshotOf(model, version) {
     return (version && model.snapshots.get(version)) || new Map();
+}
+
+/**
+ * Whether the module set of `repo` is unknown at `version` (see buildSnapshots).
+ * @param {Snapshots} model
+ * @param {string|undefined} version
+ * @param {string} repo
+ */
+export function isUnknown(model, version, repo) {
+    return Boolean(version && model.unknown?.get(version)?.has(repo));
 }
 
 /**

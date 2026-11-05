@@ -1,17 +1,20 @@
 // Compare two versions using full snapshots (correct for any range).
 
-import { snapshotOf } from './snapshots.js';
+import { isUnknown, snapshotOf } from './snapshots.js';
 import { compareVersions } from './versions.js';
 
 /**
  * @typedef {{ repo: string, module: string }} Entry
  * @typedef {{ module: string, fromRepo: string, toRepo: string }} Move
- * @typedef {{ from: string|undefined, to: string, added: Record<string,string[]>, removed: Record<string,string[]>, moved: Move[] }} Comparison
+ * @typedef {{ repo: string, versions: string[] }} Unknown  a repository not compared: no branch for `versions`
+ * @typedef {{ from: string|undefined, to: string, added: Record<string,string[]>, removed: Record<string,string[]>,
+ *   moved: Move[], unknown: Unknown[] }} Comparison
  */
 
 /**
  * Modules added (present in `to`, absent in `from`) and removed (present in `from`, absent in `to`), per repository.
  * Inputs are normalised so `from` is the older version. `from` may be undefined (compare against nothing).
+ * A repository whose state is unknown at `from` or `to` (see buildSnapshots) is not compared: listed in `unknown`.
  * When `detectMoves` is true, a module removed from repo A and added to repo B is reported in `moved` instead.
  *
  * @param {import('./snapshots.js').Snapshots} model
@@ -27,14 +30,20 @@ export function compare(model, from, to, { detectMoves = false } = {}) {
     const repos = orderRepos(model.repos, [...a.keys(), ...b.keys()]);
     const added = {};
     const removed = {};
+    const unknown = [];
     for (const repo of repos) {
+        const missing = [from, to].filter((v) => isUnknown(model, v, repo));
+        if (missing.length) {
+            unknown.push({ repo, versions: missing });
+            continue;
+        }
         const before = a.get(repo) ?? new Set();
         const after = b.get(repo) ?? new Set();
         added[repo] = [...after.difference(before)].sort();
         removed[repo] = [...before.difference(after)].sort();
     }
     const moved = detectMoves ? extractMoves(added, removed) : [];
-    return { from, to, added, removed, moved };
+    return { from, to, added, removed, moved, unknown };
 }
 
 /**

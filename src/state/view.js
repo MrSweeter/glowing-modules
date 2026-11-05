@@ -9,7 +9,8 @@ import { matches, parseQuery } from '../domain/search.js';
  * @typedef {{ groups: Group[], total: number, visible: number }} Column
  * @typedef {{ items: import('../domain/compare.js').Move[], total: number, visible: number }} MovedColumn
  * @typedef {{ from: string|undefined, to: string, query: import('../domain/search.js').Query,
- *   added: Column, removed: Column, moved: MovedColumn, hiddenTests: number }} View
+ *   added: Column, removed: Column, moved: MovedColumn, unknown: import('../domain/compare.js').Unknown[],
+ *   hiddenTests: number }} View
  */
 
 /**
@@ -57,6 +58,7 @@ export function buildView({ model, from, to, query, showTests }) {
         added,
         removed,
         moved: { items: movedItems, total: movedBase.length, visible: movedItems.length },
+        unknown: cmp.unknown,
         hiddenTests,
     };
 }
