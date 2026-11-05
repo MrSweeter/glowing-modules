@@ -82,7 +82,7 @@ Fixtures for edge cases live in `tests/fixtures/` (e.g. `?data=/glowing-modules/
 | `npm run lint` | Biome (JS, JSON, HTML) + Stylelint (SCSS) |
 | `npm run format` | Auto-format everything |
 | `npm test` | Unit tests (Vitest); `npm run test:coverage` for coverage |
-| `npm run test:e2e` | End-to-end and accessibility tests (Playwright + axe) on the production build. Run `npx playwright install chromium webkit` once. `PW_WEBKIT=0` skips WebKit. |
+| `npm run test:e2e` | End-to-end and accessibility tests (Playwright + axe) on the production build. Run `npx playwright install chromium` once. WebKit is opt-in: `PW_WEBKIT=1` (after `npx playwright install webkit`). |
 | `npm run icons:fetch` | Regenerate the Material Symbols subset after adding an icon to `scripts/fetch-icons.mjs` |
 | `npm run assets:build` | Regenerate the logo, icons and social image from `design/` |
 

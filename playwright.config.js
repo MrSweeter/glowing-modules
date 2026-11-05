@@ -15,7 +15,8 @@ export default defineConfig({
     projects: [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
         { name: 'mobile', use: { ...devices['Pixel 7'] } },
-        ...(process.env.PW_WEBKIT === '0' ? [] : [{ name: 'webkit', use: { ...devices['Desktop Safari'] } }]),
+        // WebKit is opt-in (PW_WEBKIT=1): it needs `npx playwright install webkit` and its system libraries.
+        ...(process.env.PW_WEBKIT === '1' ? [{ name: 'webkit', use: { ...devices['Desktop Safari'] } }] : []),
     ],
     webServer: {
         // Tests run against the production build (CSP, base path, hashed assets).
