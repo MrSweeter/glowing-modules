@@ -71,6 +71,7 @@ describe('modulesFromTree', () => {
             tree: [
                 { path: 'sale_order_type/__manifest__.py', type: 'blob' },
                 { path: 'old_module/__openerp__.py', type: 'blob' },
+                { path: 'base_old/__terp__.py', type: 'blob' },
                 { path: 'setup/sale_order_type/setup.py', type: 'blob' },
                 { path: 'setup', type: 'tree' },
                 { path: 'nested/inner/__manifest__.py', type: 'blob' },
@@ -79,7 +80,7 @@ describe('modulesFromTree', () => {
                 { path: 'sale_order_type/models/__init__.py', type: 'blob' },
             ],
         };
-        expect(modulesFromTree(tree)).toEqual(['old_module', 'sale_order_type']);
+        expect(modulesFromTree(tree)).toEqual(['base_old', 'old_module', 'sale_order_type']);
         expect(modulesFromTree({})).toEqual([]);
     });
 });
