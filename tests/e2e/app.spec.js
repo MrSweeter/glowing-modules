@@ -149,6 +149,20 @@ test.describe('search', () => {
         if (!isMobile) await expect(page.locator('#filter-toggle')).toBeFocused();
     });
 
+    test('owner chips', async ({ page }) => {
+        await page.goto('./');
+        await ready(page);
+        const search = page.locator('#search');
+        await page.locator('#filter-toggle').click();
+
+        const owner = page.locator('#owner-chips [data-token="owner:odoo"]');
+        await owner.click();
+        await expect(search).toHaveValue('owner:odoo');
+        await expect(owner).toHaveAttribute('aria-pressed', 'true');
+        await owner.click();
+        await expect(search).toHaveValue('');
+    });
+
     test('reports invalid regexes and short terms', async ({ page }) => {
         await page.goto('./');
         await ready(page);
