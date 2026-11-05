@@ -19,6 +19,7 @@ import { createStore } from './state/store.js';
 import { readUrl, writeUrl } from './state/url.js';
 import { buildView, changeCountsByVersion } from './state/view.js';
 import {
+    initSearchHelp,
     renderAppVersion,
     renderControls,
     renderDataInfo,
@@ -271,6 +272,7 @@ let customRepos = null;
 
 function bindEvents() {
     initTooltips();
+    initSearchHelp();
     picker = createVersionPicker({
         sorted: data.sorted,
         onPick: (end, version) => {

@@ -179,6 +179,44 @@ test.describe('search', () => {
         await expect(tooltip.locator('.gm-tooltip__text')).toHaveText(/^Only /);
     });
 
+    test('search syntax help is a tooltip: hover, focus, or click / tap to keep it open', async ({
+        page,
+        isMobile,
+    }) => {
+        await page.goto('./');
+        await ready(page);
+        await expect(page.locator('[popover]:not(#gm-tooltip)')).toHaveCount(0);
+        const help = page.locator('#search-help');
+        const tooltip = page.locator('#gm-tooltip');
+        await expect(help).toHaveAttribute('aria-description', /-name:\^l10n_: hide module names matching/);
+
+        if (!isMobile) {
+            await help.hover();
+            await expect(tooltip).toBeVisible();
+            await expect(tooltip.locator('.gm-tooltip__text')).toHaveText('Search syntax');
+            await expect(tooltip.locator('.gm-tooltip__list li')).toHaveCount(7);
+            await expect(tooltip.locator('.gm-tooltip__list')).toContainText('-name:^l10n_');
+            await page.mouse.move(0, 0);
+            await expect(tooltip).toBeHidden();
+        }
+
+        // Click / tap: stays open when the pointer leaves, closes on a second click or a click elsewhere.
+        const press = (locator) => (isMobile ? locator.tap() : locator.click());
+        await press(help);
+        await expect(tooltip).toBeVisible();
+        await expect(tooltip.locator('.gm-tooltip__list li')).toHaveCount(7);
+        if (!isMobile) {
+            await page.mouse.move(0, 0);
+            await expect(tooltip).toBeVisible();
+            await press(help);
+            await expect(tooltip).toBeHidden();
+            await press(help);
+            await expect(tooltip).toBeVisible();
+        }
+        await press(page.locator('#summary'));
+        await expect(tooltip).toBeHidden();
+    });
+
     test('owner chips and module-name chips (show only → hide → off)', async ({ page }) => {
         await page.goto('./');
         await ready(page);
