@@ -1,7 +1,7 @@
 {
     "name": "Glowing Modules",
-    "short_name": "Glowing Modules",
-    "description": "Compare Odoo versions and see which modules were added, removed or moved.",
+    "short_name": "Glowing",
+    "description": "The history of every Odoo module: compare Odoo versions and see which modules were added, removed or moved.",
     "start_url": "./",
     "scope": "./",
     "display": "standalone",

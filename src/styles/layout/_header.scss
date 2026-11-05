@@ -45,6 +45,13 @@
         white-space: nowrap;
     }
 
+    // Phones show the short form "Glowing"; screen readers still get the full name.
+    &__title-rest {
+        @include mq-down(sm) {
+            @include visually-hidden;
+        }
+    }
+
     &__tagline {
         display: none;
         font-size: 0.8125rem;

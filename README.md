@@ -2,6 +2,8 @@
 
 # Glowing Modules
 
+_The history of every Odoo module._
+
 **See which Odoo modules were added, removed or moved between any two Odoo versions**, from 5.0 to `master`,
 across `odoo/odoo` (Community), `odoo/enterprise`, `odoo/design-themes` and `odoo/industry`.
 
