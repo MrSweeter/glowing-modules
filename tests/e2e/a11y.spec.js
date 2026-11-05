@@ -13,11 +13,14 @@ async function audit(page) {
 
 for (const scheme of /** @type {const} */ (['light', 'dark'])) {
     test.describe(`${scheme} theme`, () => {
-        test.use({ colorScheme: scheme });
+        // Reduced motion: no fade-in, so axe never measures a half-transparent tooltip.
+        test.use({ colorScheme: scheme, reducedMotion: 'reduce' });
 
         test('results view', async ({ page }) => {
             await page.goto('./?from=16.0&to=18.0&q=ent');
             await ready(page);
+            await page.locator('#search-help').click();
+            await expect(page.locator('#gm-tooltip')).toBeVisible();
             await audit(page);
         });
 

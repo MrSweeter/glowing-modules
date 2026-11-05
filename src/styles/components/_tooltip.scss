@@ -60,13 +60,35 @@
         border-radius: radius('sm');
     }
 
+    // Longer content (a list of rows, e.g. the search syntax).
+    &--wide {
+        max-width: min(24rem, calc(100vw - 1rem));
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: space(1);
+        padding: 0;
+        list-style: none;
+    }
+
+    &__list &__code {
+        margin-inline-end: space(1);
+    }
+
     &__hint {
         font-size: 0.75rem;
         opacity: 0.75;
     }
 
+    &__text + &__list {
+        padding-top: space(1);
+    }
+
     &__text + &__hint,
-    &__code + &__hint {
+    &__code + &__hint,
+    &__list + &__hint {
         padding-top: space(1);
         border-top: 1px solid rgb(127 127 127 / 35%);
     }

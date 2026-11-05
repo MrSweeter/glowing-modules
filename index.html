@@ -95,7 +95,7 @@
                     <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon gm-btn--sm" id="search-clear" aria-label="Clear search" hidden>
                         <span class="gm-icon" aria-hidden="true">close</span>
                     </button>
-                    <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon gm-btn--sm gm-search__help" popovertarget="search-help" aria-label="Search syntax" title="Search syntax">
+                    <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon gm-btn--sm gm-search__help" id="search-help" aria-label="Search syntax">
                         <span class="gm-icon" aria-hidden="true">info</span>
                     </button>
                 </div>
@@ -110,18 +110,6 @@
                 -name: to hide them.
             </p>
             <p class="gm-search__errors" id="search-errors" aria-live="polite"></p>
-            <div popover id="search-help" class="gm-popover">
-                <h3>Search syntax</h3>
-                <ul>
-                    <li><code>account</code>: module names containing "account" (case-insensitive, 3+ characters)</li>
-                    <li><code>^l10n_(be|lu)_</code>: regular expressions work</li>
-                    <li><code>account edi</code>: several words must all match</li>
-                    <li><code>repository:enterprise</code> (or <code>repo:</code>): only that repository; several are combined with OR</li>
-                    <li><code>owner:odoo</code>: only repositories of that owner</li>
-                    <li><code>name:^pos_</code>: only module names matching; several are combined with OR</li>
-                    <li><code>-name:^l10n_</code>: hide module names matching</li>
-                </ul>
-            </div>
         </section>
 
         <main class="gm-container gm-main" id="results" tabindex="-1">

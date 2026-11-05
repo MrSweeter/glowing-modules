@@ -4,6 +4,22 @@ import { hasToken, nameFilterState } from '../domain/search.js';
 import { $, el } from './dom.js';
 import { setTip } from './tooltip.js';
 
+/** Search syntax, shown by the help button next to the search field. */
+const SEARCH_SYNTAX = [
+    { code: 'account', text: 'module names containing "account" (case-insensitive, 3+ characters)' },
+    { code: '^l10n_(be|lu)_', text: 'regular expressions work' },
+    { code: 'account edi', text: 'several words must all match' },
+    { code: 'repository:enterprise', text: 'only that repository (or repo:); several are combined with OR' },
+    { code: 'owner:odoo', text: 'only repositories of that owner' },
+    { code: 'name:^pos_', text: 'only module names matching; several are combined with OR' },
+    { code: '-name:^l10n_', text: 'hide module names matching' },
+];
+
+/** Search syntax help: a tooltip on hover / focus, kept open by a click or tap. */
+export function initSearchHelp() {
+    setTip($('#search-help'), { text: 'Search syntax', items: SEARCH_SYNTAX, toggle: true });
+}
+
 /**
  * @param {object} state store state
  * @param {{ view: import('../state/view.js').View }} ctx
