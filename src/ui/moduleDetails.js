@@ -2,6 +2,7 @@
 
 import { availability } from '../domain/history.js';
 import { githubUrl } from '../domain/links.js';
+import { isUnknown } from '../domain/snapshots.js';
 import { isMajor } from '../domain/versions.js';
 import { $, el, icon } from './dom.js';
 
@@ -46,11 +47,16 @@ export function createModuleDetails({ getData, onClose }) {
         const last = ranges.at(-1);
         const latest = model.versions.at(-1);
         const inLatest = last?.to === latest;
+        // Repositories that ever held the module: a version where one has no branch is unknown, not absent.
+        const repos = [...new Set(events.map((e) => e.repo))];
+        const unknownRepo = (v) => repos.find((r) => isUnknown(model, v, r));
         const status = inLatest
             ? `Available in ${latest} (${last.repo}) since ${last.from}.`
-            : last
-              ? `Not in ${latest}. Last seen in ${last.to} (${last.repo}).`
-              : 'Never available.';
+            : last && isUnknown(model, latest, last.repo)
+              ? `Unknown in ${latest}: ${last.repo} has no ${latest} branch. Last seen in ${last.to}.`
+              : last
+                ? `Not in ${latest}. Last seen in ${last.to} (${last.repo}).`
+                : 'Never available.';
 
         // Link to the selected "to" version when the module exists there, else to its last known version.
         const linkRange = ranges.find((r) => inRange(model.versions, selection.to, r)) ?? last;
@@ -67,12 +73,14 @@ export function createModuleDetails({ getData, onClose }) {
             el(
                 'div',
                 { class: 'gm-timeline' },
-                ...model.versions.map((v) =>
-                    el('span', {
-                        class: `gm-timeline__cell${isMajor(v) ? ' gm-timeline__cell--major' : ''}${present.has(v) ? ' is-present' : ''}${v === selection.to || v === selection.from ? ' is-selected' : ''}`,
-                        title: `${v}: ${present.has(v) ? 'present' : 'absent'}`,
-                    })
-                )
+                ...model.versions.map((v) => {
+                    const unknown = present.has(v) ? undefined : unknownRepo(v);
+                    const state = present.has(v) ? ' is-present' : unknown ? ' is-unknown' : '';
+                    return el('span', {
+                        class: `gm-timeline__cell${isMajor(v) ? ' gm-timeline__cell--major' : ''}${state}${v === selection.to || v === selection.from ? ' is-selected' : ''}`,
+                        title: `${v}: ${present.has(v) ? 'present' : unknown ? `unknown (no branch in ${unknown})` : 'absent'}`,
+                    });
+                })
             ),
             el('div', { class: 'gm-timeline__axis' }, el('span', {}, model.versions[0]), el('span', {}, latest))
         );

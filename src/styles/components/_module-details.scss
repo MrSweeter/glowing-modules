@@ -74,6 +74,11 @@
             background: color('added-strong');
         }
 
+        // No branch of the custom repository for this version: present or not is unknown.
+        &.is-unknown {
+            background: repeating-linear-gradient(-45deg, color('border-strong') 0 2px, transparent 2px 4px);
+        }
+
         &.is-selected {
             outline: 2px solid color('primary');
             outline-offset: 1px;

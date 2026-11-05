@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { compare } from '../../src/domain/compare.js';
 import {
     isForbidden,
     isStandardBranch,
@@ -7,9 +8,10 @@ import {
     parseRepoInput,
     RepoInputError,
     toVersionDiff,
+    unknownVersions,
 } from '../../src/domain/customRepo.js';
 import { githubUrl } from '../../src/domain/links.js';
-import { buildSnapshots, snapshotOf } from '../../src/domain/snapshots.js';
+import { buildSnapshots, isUnknown, snapshotOf, stats } from '../../src/domain/snapshots.js';
 import { createCustomRepoStore, isOutdated, modulesByVersion } from '../../src/state/customRepos.js';
 
 describe('parseRepoInput', () => {
@@ -93,12 +95,50 @@ describe('toVersionDiff', () => {
         });
     });
 
-    it('carries modules forward over versions without a branch', () => {
+    it('diffs each branch against the previous branch', () => {
         const diff = toVersionDiff('acme/addons', { '14.0': ['a', 'b'], '17.0': ['b', 'c'] }, known);
-        const model = buildSnapshots(mergeVersionDiffs({ 'saas-14.1': {}, '15.0': {}, '16.0': {} }, diff));
-        expect([...snapshotOf(model, '15.0').get('acme/addons')]).toEqual(['a', 'b']);
-        expect([...snapshotOf(model, '17.0').get('acme/addons')].sort()).toEqual(['b', 'c']);
         expect(diff['17.0']['acme/addons']).toEqual({ '+': ['c'], '-': ['a'] });
+        expect(diff['15.0']).toBeUndefined();
+    });
+});
+
+describe('versions without a branch are unknown', () => {
+    const known = ['14.0', 'saas-14.1', '15.0', '16.0', '17.0', 'master'];
+    const repo = 'acme/addons';
+    const branches = { '14.0': ['a', 'b'], '17.0': ['b', 'c'] };
+    const unknown = new Map(unknownVersions(known, Object.keys(branches)).map((v) => [v, new Set([repo])]));
+    const base = { '14.0': { 'odoo/odoo': { '+': ['sale'] } }, 'saas-14.1': {}, '15.0': {}, '16.0': {}, master: {} };
+    const model = buildSnapshots(mergeVersionDiffs(base, toVersionDiff(repo, branches, known)), unknown);
+
+    it('lists the known versions without a branch', () => {
+        expect(unknownVersions(known, ['14.0', '17.0', '99.0'])).toEqual(['saas-14.1', '15.0', '16.0', 'master']);
+    });
+
+    it('leaves the repository out of those snapshots (not carried forward)', () => {
+        expect([...snapshotOf(model, '14.0').get(repo)]).toEqual(['a', 'b']);
+        for (const v of ['saas-14.1', '15.0', '16.0', 'master']) {
+            expect(snapshotOf(model, v).has(repo)).toBe(false);
+            expect(isUnknown(model, v, repo)).toBe(true);
+        }
+        expect([...snapshotOf(model, '17.0').get(repo)].sort()).toEqual(['b', 'c']);
+        expect(isUnknown(model, '17.0', repo)).toBe(false);
+        expect(isUnknown(model, '15.0', 'odoo/odoo')).toBe(false);
+        expect(stats(model, 'master').perRepo).toEqual({ 'odoo/odoo': 1 });
+    });
+
+    it('does not compare a repository unknown on either side', () => {
+        const cmp = compare(model, '14.0', 'master');
+        expect(cmp.removed[repo]).toBeUndefined();
+        expect(cmp.added[repo]).toBeUndefined();
+        expect(cmp.unknown).toEqual([{ repo, versions: ['master'] }]);
+        expect(compare(model, '15.0', '16.0').unknown).toEqual([{ repo, versions: ['15.0', '16.0'] }]);
+    });
+
+    it('compares branch versions across an unknown gap', () => {
+        const cmp = compare(model, '14.0', '17.0');
+        expect(cmp.added[repo]).toEqual(['c']);
+        expect(cmp.removed[repo]).toEqual(['a']);
+        expect(cmp.unknown).toEqual([]);
     });
 });
 
@@ -114,15 +154,14 @@ describe('mergeVersionDiffs', () => {
 });
 
 describe('githubUrl for custom repositories', () => {
-    it('links the latest branch at or before the version', () => {
+    it('links the branch of the version, none without a branch', () => {
         const branches = ['14.0', '16.0'];
-        expect(githubUrl('acme/addons', '15.0', 'x', { branches })).toEqual({
-            url: 'https://github.com/acme/addons/tree/14.0/x',
-            branch: '14.0',
+        expect(githubUrl('acme/addons', '16.0', 'x', { branches })).toEqual({
+            url: 'https://github.com/acme/addons/tree/16.0/x',
+            branch: '16.0',
             private: false,
         });
-        expect(githubUrl('acme/addons', '16.0', 'x', { branches })?.branch).toBe('16.0');
-        expect(githubUrl('acme/addons', '13.0', 'x', { branches })).toBeNull();
+        expect(githubUrl('acme/addons', '15.0', 'x', { branches })).toBeNull();
         expect(githubUrl('acme/addons', '16.0', 'x')).toBeNull();
     });
 });

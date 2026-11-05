@@ -8,7 +8,7 @@ import './styles/main.scss';
 import { CUSTOM_REPO_OUTDATED_MS, REMOTE_DATA_PAGE } from './config.js';
 import { fetchRepository } from './data/github.js';
 import { loadData, resolveSource } from './data/source.js';
-import { mergeVersionDiffs, toVersionDiff } from './domain/customRepo.js';
+import { mergeVersionDiffs, toVersionDiff, unknownVersions } from './domain/customRepo.js';
 import { formatDuration } from './domain/duration.js';
 import { buildHistory } from './domain/history.js';
 import { parseQuery, removeFilterTokens, toggleToken } from './domain/search.js';
@@ -142,7 +142,15 @@ function buildData() {
         baseVersions,
         ...custom.map((d) => toVersionDiff(d.id, modulesByVersion(d), known))
     );
-    const model = buildSnapshots(versions);
+    // A version without a branch is unknown for that repository (not carried forward from the previous branch).
+    const unknown = new Map();
+    for (const d of custom) {
+        for (const v of unknownVersions(known, Object.keys(d.branches))) {
+            if (!unknown.has(v)) unknown.set(v, new Set());
+            unknown.get(v).add(d.id);
+        }
+    }
+    const model = buildSnapshots(versions, unknown);
     data = {
         model,
         history: buildHistory(versions),
