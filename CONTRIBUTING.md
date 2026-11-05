@@ -17,7 +17,7 @@ See [README → Development](README.md#development). In short: Node.js 24, `npm 
 2. Make your change with tests:
    - domain logic (`src/domain`, `src/state`, `src/data`): unit tests in `tests/unit/`;
    - user-facing behaviour: Playwright tests in `tests/e2e/` (they run on the production build with stubbed data).
-3. Run `npm run lint`, `npm test` and `npm run test:e2e` (`PW_WEBKIT=0` if WebKit is not installed).
+3. Run `npm run lint`, `npm test` and `npm run test:e2e` (`PW_WEBKIT=1` to also run WebKit).
 4. Open a PR. CI runs lint, unit tests and the build (the Playwright tests are not run in CI).
 
 ## Commit messages

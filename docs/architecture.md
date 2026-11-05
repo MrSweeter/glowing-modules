@@ -137,7 +137,7 @@ npm run dev
 
 This is enough to work on the page. Everything else is optional:
 
-- Playwright browsers (`npx playwright install chromium webkit`) are only needed for `npm run test:e2e`.
+- Playwright browsers (`npx playwright install chromium`, plus `webkit` for `PW_WEBKIT=1`) are only needed for `npm run test:e2e`.
 - The icon and asset scripts are only needed when adding an icon or changing the artwork.
 - Coverage (`npm run test:coverage`) is only needed when checking the domain threshold.
 
