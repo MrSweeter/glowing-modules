@@ -101,7 +101,7 @@ Custom SCSS, no CSS framework, compiled into one CSS file. Entry point: `src/sty
 | **Prettier** | Formats SCSS, which Biome cannot read | `.prettierrc.json` | `npm run format`, CI | no |
 | **Stylelint** | Lints SCSS: invalid properties, duplicates, plus the `gm-` BEM naming rule | `.stylelintrc.json` | `npm run lint`, CI | no |
 | **Vitest** | Unit tests and coverage (≥ 90 % lines on `src/domain/`) | `tests/unit/` | `npm test`, CI | no |
-| **Playwright** | Drives real browsers (Chromium, mobile emulation, WebKit) against the production build: the user flows, fallbacks, filters, theme | `tests/e2e/`, `playwright.config.js` | `npm run test:e2e`, CI | no |
+| **Playwright** | Drives real browsers (Chromium, mobile emulation, WebKit) against the production build: the user flows, fallbacks, filters, theme | `tests/e2e/`, `playwright.config.js` | `npm run test:e2e` (local only) | no |
 | **axe** | Accessibility audit (WCAG 2.2 AA) inside the Playwright tests, light and dark themes | `tests/e2e/a11y.spec.js` | with Playwright | no |
 | **ajv** | Validates JSON against the JSON Schema of the data format | `tests/unit/schema.test.js` | `npm test`, CI | no |
 | **sharp** | Resizes and converts images | `scripts/build-assets.mjs` | one-off, when the artwork in `design/` changes | no |
@@ -119,7 +119,7 @@ Custom SCSS, no CSS framework, compiled into one CSS file. Entry point: `src/sty
 
 | Workflow | Trigger | Purpose |
 |---|---|---|
-| `ci.yml` | pull requests, pushes to other branches, called by deploy | Lint, unit tests with coverage, Playwright tests, build |
+| `ci.yml` | pull requests, pushes to other branches, called by deploy | Lint, unit tests with coverage, build |
 | `deploy.yml` | push to `master`, manual | Pull the live data, build, publish `dist/` to GitHub Pages |
 | `health.yml` | daily, manual | Check that the site answers and the live data is valid |
 | `refresh-data.yml` | Mondays, manual | Open a PR that updates the committed data snapshot |
