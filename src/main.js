@@ -30,6 +30,7 @@ import { createCustomRepos } from './ui/customRepos.js';
 import { $, debounce, el, icon, storage } from './ui/dom.js';
 import { createModuleDetails } from './ui/moduleDetails.js';
 import { renderResults } from './ui/results.js';
+import { initTooltips } from './ui/tooltip.js';
 import { createVersionPicker } from './ui/versionPicker.js';
 
 const store = createStore({
@@ -269,6 +270,7 @@ let details = null;
 let customRepos = null;
 
 function bindEvents() {
+    initTooltips();
     picker = createVersionPicker({
         sorted: data.sorted,
         onPick: (end, version) => {

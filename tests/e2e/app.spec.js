@@ -146,6 +146,39 @@ test.describe('search', () => {
         if (!isMobile) await expect(page.locator('#filter-toggle')).toBeFocused();
     });
 
+    test('filter chips show a styled tooltip on hover and keyboard focus', async ({ page, isMobile }) => {
+        test.skip(isMobile, 'no hover on touch screens');
+        await page.goto('./');
+        await ready(page);
+        await page.locator('#filter-toggle').click();
+        await expect(page.locator('#filter-dialog [title]')).toHaveCount(0);
+
+        const tooltip = page.locator('#gm-tooltip');
+        const l10n = page.locator('#name-chips [data-pattern="^l10n_"]');
+        await l10n.hover();
+        await expect(tooltip).toBeVisible();
+        await expect(tooltip.locator('.gm-tooltip__text')).toHaveText(
+            'Country-specific modules (l10n = localization).'
+        );
+        await expect(tooltip.locator('.gm-tooltip__code')).toHaveText('^l10n_');
+        await expect(tooltip.locator('.gm-tooltip__hint')).toHaveText('Click to show only these modules');
+
+        await l10n.click();
+        await expect(tooltip).toBeHidden();
+        await page.mouse.move(0, 0);
+        await l10n.hover();
+        await expect(tooltip.locator('.gm-tooltip__hint')).toHaveText('Click to hide these modules');
+        await page.keyboard.press('Escape');
+        await expect(tooltip).toBeHidden();
+
+        await page.locator('#filter-toggle').click();
+        await page.mouse.move(0, 0);
+        await page.locator('#owner-chips [data-token="owner:odoo"]').focus();
+        await page.keyboard.press('Tab');
+        await expect(tooltip).toBeVisible();
+        await expect(tooltip.locator('.gm-tooltip__text')).toHaveText(/^Only /);
+    });
+
     test('owner chips and module-name chips (show only → hide → off)', async ({ page }) => {
         await page.goto('./');
         await ready(page);
@@ -162,10 +195,7 @@ test.describe('search', () => {
 
         const l10n = page.locator('#name-chips [data-pattern="^l10n_"]');
         await expect(l10n).toHaveAccessibleName(/Localization/);
-        await expect(l10n).toHaveAttribute(
-            'title',
-            /Country-specific modules.*\nPattern: \^l10n_\nClick to show only/s
-        );
+        await expect(l10n).toHaveAttribute('aria-description', /Country-specific modules.*\^l10n_/);
         await l10n.click();
         await expect(search).toHaveValue('name:^l10n_');
         await expect(l10n).toHaveAttribute('data-state', 'include');

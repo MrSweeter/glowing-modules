@@ -3,6 +3,7 @@
 import { matchRanges } from '../domain/search.js';
 import { stats } from '../domain/snapshots.js';
 import { $, el, formatCount, highlighted, icon } from './dom.js';
+import { setTip } from './tooltip.js';
 
 const COLUMNS = {
     added: {
@@ -59,11 +60,11 @@ function renderSummary(view, model) {
 /** Repositories left out of the comparison: no branch for one of the two versions, so their state is unknown. */
 function unknownText(unknown) {
     const list = unknown.map((u) => `${u.repo} (no ${u.versions.join(' / ')} branch)`).join(', ');
-    return el(
-        'span',
-        { class: 'gm-results__unknown', title: 'No branch for this version: its modules there are unknown.' },
-        `Not compared: ${list}`
-    );
+    const note = el('span', { class: 'gm-results__unknown' }, `Not compared: ${list}`);
+    setTip(note, {
+        text: 'These repositories have no branch for this version: their modules there are unknown.',
+    });
+    return note;
 }
 
 function countText(column, sign) {

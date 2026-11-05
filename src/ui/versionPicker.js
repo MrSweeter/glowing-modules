@@ -2,6 +2,7 @@
 
 import { compareVersions, groupByMajor, isMajor, previousVersion } from '../domain/versions.js';
 import { $, el } from './dom.js';
+import { setTip } from './tooltip.js';
 
 /**
  * @param {{ sorted: string[], onPick: (end: 'from'|'to', version: string|undefined) => void }} options
@@ -49,7 +50,7 @@ export function createVersionPicker({ sorted, onPick }) {
                     ...versions.map((v) => {
                         const disabled = end === 'from' ? compareVersions(v, selection.to) >= 0 : false;
                         const count = matchCounts.get(v);
-                        return el(
+                        const item = el(
                             'button',
                             {
                                 type: 'button',
@@ -57,7 +58,6 @@ export function createVersionPicker({ sorted, onPick }) {
                                 dataset: { version: v },
                                 'aria-current': v === current ? 'true' : null,
                                 disabled,
-                                title: count ? `${count} matching module(s) changed in ${v}` : null,
                                 onclick: () => {
                                     dialog.close();
                                     onPick(end, v);
@@ -72,6 +72,11 @@ export function createVersionPicker({ sorted, onPick }) {
                                   )
                                 : null
                         );
+                        if (count) {
+                            const modules = count === 1 ? '1 matching module' : `${count} matching modules`;
+                            setTip(item, { text: `${modules} changed in ${v}` });
+                        }
+                        return item;
                     })
                 )
             )
