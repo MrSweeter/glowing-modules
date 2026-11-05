@@ -1,0 +1,60 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://mrsweeter.github.io/glowing-modules/schema/glowing-modules-diff.schema.json",
+    "title": "Glowing Modules data",
+    "description": "Per-version module diffs of the Odoo repositories. v1 is the bare `versions` object, v2 wraps it with `meta`.",
+    "oneOf": [
+        { "$ref": "#/$defs/versions" },
+        {
+            "type": "object",
+            "required": ["versions"],
+            "additionalProperties": false,
+            "properties": {
+                "meta": { "$ref": "#/$defs/meta" },
+                "versions": { "$ref": "#/$defs/versions" }
+            }
+        }
+    ],
+    "$defs": {
+        "meta": {
+            "type": "object",
+            "properties": {
+                "schemaVersion": { "type": "integer", "minimum": 1 },
+                "sourceSchemaVersion": { "type": "integer", "minimum": 1 },
+                "generatedAt": { "type": ["string", "null"], "format": "date-time" },
+                "pulledAt": { "type": ["string", "null"], "format": "date-time" },
+                "source": { "type": ["string", "null"] },
+                "branches": {
+                    "type": "object",
+                    "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
+                },
+                "renames": {
+                    "type": "object",
+                    "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
+                }
+            }
+        },
+        "versions": {
+            "type": "object",
+            "minProperties": 1,
+            "propertyNames": { "pattern": "^(?:saas-)?\\d+\\.\\d+$|^master$" },
+            "additionalProperties": {
+                "type": "object",
+                "propertyNames": { "pattern": "^[\\w.-]+/[\\w.-]+$" },
+                "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "+": { "$ref": "#/$defs/modules" },
+                        "-": { "$ref": "#/$defs/modules" }
+                    }
+                }
+            }
+        },
+        "modules": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[A-Za-z0-9_]+$" },
+            "uniqueItems": true
+        }
+    }
+}
