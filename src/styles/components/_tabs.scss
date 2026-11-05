@@ -1,0 +1,32 @@
+@use '../abstracts' as *;
+
+/// Mobile tabs switching between result columns (hidden from md up).
+.gm-tabs {
+    display: flex;
+    gap: space(1);
+    padding: 3px;
+    margin-bottom: space(3);
+    background: color('surface-2');
+    border-radius: radius('md');
+
+    @include mq(md) {
+        display: none;
+    }
+
+    &__tab {
+        @include button-reset;
+
+        flex: 1;
+        padding: space(2);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: color('text-muted');
+        border-radius: calc(#{radius('md')} - 3px);
+
+        &[aria-selected='true'] {
+            color: color('text');
+            background: color('surface');
+            box-shadow: var(--gm-shadow-sm);
+        }
+    }
+}

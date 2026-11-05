@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t">
+  <title id="t">Glowing Modules</title>
+  <defs>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#glow)">
+    <g stroke="#e4a900" stroke-width="7">
+      <path d="M32 6 54 18v28L32 58 10 46V18Z"/>
+      <path d="M10 18 32 30 54 18M32 30v28"/>
+    </g>
+    <g stroke="#fff8e1" stroke-width="2.5">
+      <path d="M32 6 54 18v28L32 58 10 46V18Z"/>
+      <path d="M10 18 32 30 54 18M32 30v28"/>
+    </g>
+  </g>
+</svg>

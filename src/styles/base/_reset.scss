@@ -1,0 +1,62 @@
+// Small modern reset.
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+
+html {
+    // stylelint-disable-next-line property-no-vendor-prefix -- still required by iOS Safari
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100dvh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg,
+picture {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+ul[class],
+ol[class] {
+    padding: 0;
+    list-style: none;
+}
+
+fieldset {
+    min-inline-size: 0;
+    padding: 0;
+    border: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+// Author `display` rules (e.g. `.gm-menu { display: flex }`) must not reveal closed popovers.
+[popover]:not(:popover-open) {
+    display: none !important;
+}

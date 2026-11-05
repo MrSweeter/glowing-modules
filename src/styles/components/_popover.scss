@@ -1,0 +1,71 @@
+@use '../abstracts' as *;
+
+/// Native [popover] element, toggled by a [popovertarget] button.
+.gm-popover {
+    max-width: min(26rem, calc(100vw - 2rem));
+    padding: space(4);
+    margin: auto;
+    font-size: 0.875rem;
+    color: color('text');
+    background: color('surface');
+    border: 1px solid color('border-strong');
+    border-radius: radius('md');
+    box-shadow: var(--gm-shadow-lg);
+
+    &::backdrop {
+        background: transparent;
+    }
+
+    h3 {
+        margin-bottom: space(2);
+        font-size: 0.9375rem;
+    }
+
+    p + p,
+    p + ul,
+    ul + p {
+        margin-top: space(2);
+    }
+
+    ul {
+        padding-left: space(4);
+    }
+
+    li + li {
+        margin-top: space(1);
+    }
+}
+
+/// Menu inside a popover.
+.gm-menu {
+    display: flex;
+    flex-direction: column;
+    min-width: 14rem;
+    padding: space(1);
+
+    &__item {
+        @include button-reset;
+
+        display: flex;
+        gap: space(2);
+        align-items: center;
+        padding: space(2) space(3);
+        font-size: 0.875rem;
+        text-align: left;
+        border-radius: radius('sm');
+
+        &:hover,
+        &:focus-visible {
+            background: color('surface-2');
+        }
+    }
+
+    &__heading {
+        padding: space(2) space(3) space(1);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: color('text-muted');
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+}

@@ -1,0 +1,9 @@
+// Text font (Poppins, OFL-1.1) is imported from @fontsource in src/main.js.
+// Material Symbols Outlined subset (Apache-2.0): regenerate with `npm run icons:fetch`.
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block; // avoid flashing ligature names ("arrow_forward") before the font loads
+    src: url('/src/assets/fonts/material-symbols-outlined-subset.woff2') format('woff2');
+}

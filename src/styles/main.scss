@@ -1,0 +1,25 @@
+// Glowing Modules styles: fully custom SCSS (no CSS framework).
+// Order: abstracts (no output) → base → layout → components → utilities.
+
+@use 'base/reset';
+@use 'base/root';
+@use 'base/fonts';
+@use 'base/typography';
+@use 'layout/app';
+@use 'layout/header';
+@use 'layout/search-bar';
+@use 'layout/results';
+@use 'layout/footer';
+@use 'components/icon';
+@use 'components/button';
+@use 'components/chip';
+@use 'components/check';
+@use 'components/dialog';
+@use 'components/popover';
+@use 'components/toast';
+@use 'components/skeleton';
+@use 'components/tabs';
+@use 'components/notice';
+@use 'components/version-picker';
+@use 'components/module-details';
+@use 'utilities/helpers';

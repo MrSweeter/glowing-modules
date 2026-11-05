@@ -1,139 +1,206 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <title>Glowing Modules</title>
-        <link rel="icon" type="image/x+icon" href="./favicon.png" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Glowing Modules · Odoo modules history across versions</title>
+        <meta name="description" content="Compare Odoo versions, from 5.0 to master, and see which modules were added, removed or moved in Community, Enterprise, Themes and Industry.">
+        <meta name="author" content="Gaëtan Vanden Bergh">
+        <meta name="referrer" content="strict-origin-when-cross-origin">
+        <meta name="color-scheme" content="light dark">
+        <meta name="theme-color" content="#714b67" media="(prefers-color-scheme: light)">
+        <meta name="theme-color" content="#17121a" media="(prefers-color-scheme: dark)">
+        <link rel="canonical" href="https://mrsweeter.github.io/glowing-modules/">
 
-        <meta name="robots" content="index, follow" />
-        <meta name="language" content="en" />
-        <link rel="canonical" href="https://mrsweeter.github.io/glowing-modules" />
-        <link rel="alternate" href="https://github.com/MrSweeter/glowing-modules" title="Glowing Modules repository" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <link rel="manifest" href="/manifest.webmanifest">
 
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Discover the Odoo modules's history! Compare Odoo's versions to see modules differences!" />
-        <meta name="keywords" content="Odoo, Modules, Productivity, Comparison" />
-        <meta name="author" content="Vanden Bergh Gaëtan" />
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Glowing Modules">
+        <meta property="og:title" content="Glowing Modules · Odoo modules history across versions">
+        <meta property="og:description" content="Compare Odoo versions, from 5.0 to master, and see which modules were added, removed or moved in Community, Enterprise, Themes and Industry.">
+        <meta property="og:url" content="https://mrsweeter.github.io/glowing-modules/">
+        <meta property="og:image" content="https://mrsweeter.github.io/glowing-modules/og-image.png">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="Glowing Modules logo: five neon cubes">
+        <meta name="twitter:card" content="summary_large_image">
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" media="screen" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" media="screen" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.min.css" rel="stylesheet" media="screen" />
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js" media="screen"></script>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Glowing Modules",
+                "url": "https://mrsweeter.github.io/glowing-modules/",
+                "description": "Compare Odoo versions and see which modules were added, removed or moved.",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Any",
+                "isAccessibleForFree": true,
+                "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                "author": { "@type": "Person", "name": "Gaëtan Vanden Bergh" }
+            }
+        </script>
 
-        <link href="./index.css" rel="stylesheet" />
-        <script src="index.js"></script>
+        <!-- Applies the saved theme before first paint (external file: the CSP forbids inline scripts). -->
+        <script src="./theme-init.js"></script>
+        <script type="module" src="/src/main.js"></script>
     </head>
     <body>
-        <header id="menu-compare" class="d-none py-1 py-md-3">
-            <div class="d-flex justify-content-center align-items-center mx-0">
-                <button id="version-select-from-toggle" class="btn" style="width: 120px">%version%</button>
-                <span class="mx-5"><i class="fa-solid fa-arrow-right fa-lg"></i></span>
-                <button id="version-select-to-toggle" class="btn" style="width: 120px">%version%</button>
+        <a class="gm-skip-link" href="#results">Skip to results</a>
+
+        <header class="gm-header">
+            <div class="gm-container gm-header__inner">
+                <a class="gm-header__brand" href="./">
+                    <img class="gm-header__logo" src="/logo.webp" width="117" height="36" alt="">
+                    <div>
+                        <h1 class="gm-header__title">Glowing Modules</h1>
+                        <p class="gm-header__tagline">Odoo modules added, removed and moved between versions</p>
+                    </div>
+                </a>
+
+                <div class="gm-header__controls" data-requires-data>
+                    <fieldset class="gm-range">
+                        <legend class="gm-visually-hidden">Compared versions</legend>
+                        <button type="button" class="gm-version-btn" id="from-toggle" aria-haspopup="dialog" aria-controls="version-dialog">
+                            <span class="gm-version-btn__label">From</span>
+                            <span class="gm-version-btn__value"><span data-role="from">–</span><span class="gm-icon gm-icon--sm" aria-hidden="true">expand_more</span></span>
+                        </button>
+                        <span class="gm-icon gm-range__arrow" aria-hidden="true">chevron_right</span>
+                        <button type="button" class="gm-version-btn" id="to-toggle" aria-haspopup="dialog" aria-controls="version-dialog">
+                            <span class="gm-version-btn__label">To</span>
+                            <span class="gm-version-btn__value"><span data-role="to">–</span><span class="gm-icon gm-icon--sm" aria-hidden="true">expand_more</span></span>
+                        </button>
+                    </fieldset>
+
+                    <div class="gm-header__tools">
+                        <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon" id="copy-link" aria-label="Copy link to this view" title="Copy link">
+                            <span class="gm-icon" aria-hidden="true">link</span>
+                        </button>
+                        <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon" id="theme-toggle" aria-label="Switch to dark theme" title="Toggle theme">
+                            <span class="gm-icon" aria-hidden="true">contrast</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </header>
 
-        <header id="side-menu-all">
-            <nav class="d-none d-md-block sidebar bg-white">
-                <div class="position-sticky">
-                    <div class="text-center">
-                        <label class="toggleSwitch">
-                            <input id="onlyLTSToggle" type="checkbox" />
-                            <a href="#"></a>
-                            <span>
-                                <span>ALL</span>
-                                <span>LTS</span>
-                            </span>
-                        </label>
-                    </div>
-                    <div id="side-menu-version" class="list-group list-group-flush mx-0">
-                        <span class="list-group-item list-group-item-action py-2 ripple py-5 text-center"> <i class="fa-solid fa-spinner"></i><span>Loading</span> </span>
-                    </div>
-                    <footer class="text-center mt-5">
-                        <div class="text-center p-3 small">
-                            <img src="./banner.png" height="32px" alt="Glowing Modules Banner" />
-                            <p>
-                                &copy; <span class="copyright-year">%yyyy%</span>
-                                <span>All rights reserved:</span>
-                                <a href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
-                            </p>
-                            <p><a id="footer-data-source" href="" target="_blank">Data Source (gist)</a></p>
-                        </div>
-                    </footer>
-                </div>
-            </nav>
-            <nav class="text-center d-block d-md-none py-1 py-md-3">
-                <button id="version-select-to-mobile-toggle" class="btn" style="width: 100%">%version%</button>
-            </nav>
-        </header>
+        <section class="gm-container gm-search" aria-label="Search modules" data-requires-data>
+            <label for="search" class="gm-visually-hidden">Search modules</label>
+            <div class="gm-search__field">
+                <span class="gm-icon" aria-hidden="true">search</span>
+                <input
+                    class="gm-search__input"
+                    id="search"
+                    type="search"
+                    placeholder="Search modules (regex ok, 3+ characters)"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="search-syntax search-errors"
+                >
+                <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon gm-btn--sm" id="search-clear" aria-label="Clear search" hidden>
+                    <span class="gm-icon" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="gm-search__filters">
+                <fieldset class="gm-cluster" id="repo-chips">
+                    <legend class="gm-visually-hidden">Filter by repository</legend>
+                </fieldset>
+                <label class="gm-check">
+                    <input type="checkbox" id="show-tests">
+                    <span>Show test modules <span data-role="tests-hidden"></span></span>
+                </label>
+                <button type="button" class="gm-btn gm-btn--ghost gm-btn--sm" popovertarget="search-help"><span class="gm-icon gm-icon--sm" aria-hidden="true">info</span> Search syntax</button>
+            </div>
+            <p class="gm-visually-hidden" id="search-syntax">Plain words are regular expressions matched against module names. Use repository: or owner: to filter repositories.</p>
+            <p class="gm-search__errors" id="search-errors" aria-live="polite"></p>
+            <div popover id="search-help" class="gm-popover">
+                <h3>Search syntax</h3>
+                <ul>
+                    <li><code>account</code>: module names containing "account" (case-insensitive, 3+ characters)</li>
+                    <li><code>^l10n_(be|lu)_</code>: regular expressions work</li>
+                    <li><code>account edi</code>: several words must all match</li>
+                    <li><code>repository:enterprise</code> (or <code>repo:</code>): only that repository; several are combined with OR</li>
+                    <li><code>owner:odoo</code>: only repositories of that owner</li>
+                </ul>
+            </div>
+        </section>
 
-        <main id="modules-list" class="sidebar-offset mb-5">
-            <div class="row mx-0">
-                <div class="col-12 col-md-6 p-0">
-                    <p class="p-2 text-center bg-success text-white fw-bold">
-                        <span class="text-uppercase"><span id="added-count"></span> new modules</span>
-                        <span class="info-tooltip-container small fw-normal d-none d-md-inline">
-                            <i class="fa-regular fa-circle-question text-white-50"></i>
-                            <span class="info-tooltip p-3 text-start"
-                                >Behold the newcomers in this column, as Odoo <span class="tooltip-version-to"></span> rolls out the red carpet for the new modules while Odoo
-                                <span class="tooltip-version-from"></span>'s modules wondering if they're still in the spotlight.
-                                <br />
-                                <br />
-                                <span class="opacity-50">Below modules are new modules in Odoo <span class="tooltip-version-to"></span>.</span>
-                            </span>
-                        </span>
-                    </p>
-                    <div id="modules-added-content" class="d-flex flex-wrap px-2"></div>
+        <main class="gm-container gm-main" id="results" tabindex="-1">
+            <div id="notices"></div>
+
+            <noscript>
+                <div class="gm-notice gm-notice--warning">
+                    <div class="gm-notice__body">Glowing Modules needs JavaScript to compare Odoo versions.</div>
                 </div>
-                <div class="col-12 col-md-6 p-0 pt-5 pt-md-0">
-                    <p class="p-2 text-center bg-danger text-white fw-bold">
-                        <span class="text-uppercase"><span id="removed-count"></span> modules removed </span>
-                        <span class="info-tooltip-container small fw-normal d-none d-md-inline">
-                            <i class="fa-regular fa-circle-question text-white-50"></i>
-                            <span class="info-tooltip p-3 text-start"
-                                >Uh-oh! It seems these modules pulled a disappearing act in Odoo <span class="tooltip-version-to"></span> leaving Odoo
-                                <span class="tooltip-version-from"></span> wondering if they joined a secret module society.
-                                <br />
-                                <br />
-                                <span class="opacity-50">Below modules have been removed in Odoo <span class="tooltip-version-to"></span>.</span>
-                            </span>
-                        </span>
-                    </p>
-                    <div id="modules-removed-content" class="d-flex flex-wrap px-2"></div>
+            </noscript>
+
+            <p class="gm-intro" id="intro">
+                Glowing Modules shows which Odoo modules were added, removed or moved between two versions of Odoo, from 5.0 to <code>master</code>, across the Community, Enterprise, Design Themes and
+                Industry repositories.
+            </p>
+
+            <div id="loading" class="gm-skeleton" aria-hidden="true">
+                <span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span
+                ><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span
+                ><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span>
+            </div>
+
+            <div id="app" data-requires-data>
+                <div class="gm-summary">
+                    <p class="gm-summary__text" id="summary" aria-live="polite"></p>
+                    <div class="gm-summary__actions">
+                        <button type="button" class="gm-btn gm-btn--sm" popovertarget="export-menu"><span class="gm-icon gm-icon--sm" aria-hidden="true">download</span> Export</button>
+                        <div popover id="export-menu" class="gm-popover gm-menu">
+                            <p class="gm-menu__heading">Visible modules</p>
+                            <button type="button" class="gm-menu__item" data-export="text"><span class="gm-icon gm-icon--sm" aria-hidden="true">content_copy</span> Copy names</button>
+                            <button type="button" class="gm-menu__item" data-export="csv-copy"><span class="gm-icon gm-icon--sm" aria-hidden="true">content_copy</span> Copy as CSV</button>
+                            <button type="button" class="gm-menu__item" data-export="markdown"><span class="gm-icon gm-icon--sm" aria-hidden="true">content_copy</span> Copy as Markdown table</button>
+                            <button type="button" class="gm-menu__item" data-export="csv"><span class="gm-icon gm-icon--sm" aria-hidden="true">download</span> Download CSV</button>
+                            <button type="button" class="gm-menu__item" data-export="json"><span class="gm-icon gm-icon--sm" aria-hidden="true">download</span> Download JSON</button>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="gm-tabs" role="tablist" aria-label="Result type" id="result-tabs"></div>
+
+                <div class="gm-results" id="results-grid" data-tab="added"></div>
             </div>
         </main>
 
-        <div class="fixed-action-btn d-flex flex-row">
-            <div class="me-3 d-none d-md-flex flex-column">
-                <div id="presearchContainer" class="d-flex flex-wrap mb-1">
-                    <span class="presearch badge badge-primary" data-search-value="repository:odoo" title="Odoo repository">odoo</span>
-                    <span class="presearch badge badge-primary" data-search-value="repository:enterprise" title="Odoo Enterprise repository">enterprise</span>
-                    <span class="presearch badge badge-primary" data-search-value="repository:design-themes" title="Design Themes repository">design</span>
-                    <span class="presearch badge badge-primary" data-search-value="repository:industry" title="Industry repository">industry</span>
-                </div>
-                <div class="gm-search-form">
-                    <i id="clearInput" class="fas fa-xmark trailing" title="Clear input"></i>
-                    <input type="text" id="searchInput" class="form-control pe-4" placeholder="Are you hunting for the hidden module? (min: 3, regex: ok)" />
-                </div>
-            </div>
-
-            <button title="Switch comparison mode" name="Switch comparison mode" id="mode-switch" class="btn btn-floating text-white" style="background-color: #017e84">
-                <i id="mode-switch-icon" class="fas fa-code-compare"></i>
-            </button>
-        </div>
-        <div id="overlay-container" class="justify-content-center align-items-center">
-            <div id="version-selector" class="d-flex flex-wrap justify-content-center"></div>
-        </div>
-
-        <footer class="text-center d-block d-md-none">
-            <div class="text-center p-3 small">
-                <img src="./banner.png" height="32px" alt="Glowing Modules Banner" />
-                <p>
-                    &copy; <span class="copyright-year">%yyyy%</span>
-                    <span>All rights reserved:</span>
-                    <a href="https://github.com/MrSweeter/glowing-modules" target="_blank">Glowing Modules</a>
-                </p>
+        <footer class="gm-footer">
+            <div class="gm-container gm-footer__inner">
+                <p id="data-info"></p>
+                <ul class="gm-footer__links">
+                    <li><a href="https://github.com/MrSweeter/glowing-modules">GitHub</a></li>
+                    <li><a href="https://gist.github.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63" id="data-source-link">Data source</a></li>
+                </ul>
+                <p>© 2024–<span data-role="year">2026</span> Gaëtan Vanden Bergh · All rights reserved · <span id="app-version"></span></p>
+                <p>Odoo is a trademark of Odoo S.A. This project is an independent community tool.</p>
             </div>
         </footer>
+
+        <dialog class="gm-dialog" id="version-dialog" aria-labelledby="version-dialog-title">
+            <div class="gm-dialog__header">
+                <h2 class="gm-dialog__title" id="version-dialog-title">Select a version</h2>
+                <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon" data-close aria-label="Close">
+                    <span class="gm-icon" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="gm-dialog__body gm-version-picker" id="version-picker"></div>
+        </dialog>
+
+        <dialog class="gm-dialog gm-dialog--drawer" id="module-dialog" aria-labelledby="module-dialog-title">
+            <div class="gm-dialog__header">
+                <h2 class="gm-dialog__title gm-module__name" id="module-dialog-title">Module</h2>
+                <button type="button" class="gm-btn gm-btn--ghost gm-btn--icon" data-close aria-label="Close">
+                    <span class="gm-icon" aria-hidden="true">close</span>
+                </button>
+            </div>
+            <div class="gm-dialog__body" id="module-details"></div>
+        </dialog>
+
+        <div class="gm-toast" id="toast" role="status" aria-live="polite"></div>
     </body>
 </html>
