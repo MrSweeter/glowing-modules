@@ -60,12 +60,10 @@
         flex-wrap: wrap;
         gap: space(2) space(3);
         align-items: center;
-    }
 
-    &__tools {
-        display: flex;
-        gap: space(1);
-        align-items: center;
+        @include mq-down(md) {
+            width: 100%;
+        }
     }
 }
 
@@ -73,6 +71,15 @@
     display: flex;
     gap: space(1);
     align-items: center;
+
+    // Full width on small screens: both version buttons share the row.
+    @include mq-down(md) {
+        width: 100%;
+
+        .gm-version-btn {
+            flex: 1;
+        }
+    }
 
     &__arrow {
         color: color('text-muted');

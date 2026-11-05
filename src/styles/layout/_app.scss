@@ -15,7 +15,7 @@
     position: absolute;
     top: space(2);
     left: space(2);
-    z-index: z('toast');
+    z-index: z('skip-link');
     padding: space(2) space(4);
     color: color('on-primary');
     background: color('primary');
@@ -34,13 +34,6 @@
     &:focus {
         outline: none;
     }
-}
-
-.gm-intro {
-    max-width: 60rem;
-    margin-bottom: space(3);
-    font-size: 0.875rem;
-    color: color('text-muted');
 }
 
 // Controls keep their space while data loads (avoids layout shift), but are neither visible nor focusable.

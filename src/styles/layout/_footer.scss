@@ -12,6 +12,30 @@
         gap: space(2);
     }
 
+    &__bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: space(2) space(4);
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__theme {
+        display: inline-flex;
+        gap: space(2);
+        align-items: center;
+
+        select {
+            min-height: 2rem;
+            padding: space(1) space(2);
+            font: inherit;
+            color: color('text');
+            background: color('surface');
+            border: 1px solid color('border-strong');
+            border-radius: radius('sm');
+        }
+    }
+
     &__links {
         display: flex;
         flex-wrap: wrap;

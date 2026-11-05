@@ -80,28 +80,3 @@ export const storage = {
         }
     },
 };
-
-/** Copy text to the clipboard, with a textarea fallback. Resolves to true on success. */
-export async function copyText(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        return true;
-    } catch {
-        const area = el('textarea', { readonly: true, class: 'gm-visually-hidden' }, text);
-        document.body.append(area);
-        area.select();
-        const ok = document.execCommand?.('copy') ?? false;
-        area.remove();
-        return ok;
-    }
-}
-
-/** Trigger a file download for generated content. */
-export function download(filename, content, type) {
-    const url = URL.createObjectURL(new Blob([content], { type }));
-    const a = el('a', { href: url, download: filename, hidden: true });
-    document.body.append(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-}

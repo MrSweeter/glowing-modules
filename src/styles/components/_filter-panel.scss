@@ -1,0 +1,17 @@
+@use '../abstracts' as *;
+
+/// Group of filters inside the Filters drawer.
+.gm-filter-group {
+    & + & {
+        margin-top: space(5);
+    }
+
+    &__title {
+        margin-bottom: space(3);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        color: color('text-muted');
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+}

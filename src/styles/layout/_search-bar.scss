@@ -3,9 +3,16 @@
 .gm-search {
     padding-block: space(4) space(2);
 
+    &__row {
+        display: flex;
+        gap: space(2);
+    }
+
     &__field {
         position: relative;
         display: flex;
+        flex: 1;
+        min-width: 0;
         align-items: center;
         background: color('surface');
         border: 1px solid color('border-strong');
@@ -41,12 +48,25 @@
         }
     }
 
-    &__filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: space(2) space(4);
-        align-items: center;
-        margin-top: space(3);
+    // Same height as the field next to it.
+    &__filter {
+        align-self: stretch;
+        box-shadow: var(--gm-shadow-sm);
+
+        // Icon (and badge) only on small screens; the label stays for screen readers.
+        @include mq-down(md) {
+            padding-inline: space(3);
+        }
+    }
+
+    &__filter-label {
+        @include mq-down(md) {
+            @include visually-hidden;
+        }
+    }
+
+    &__help {
+        margin-right: space(1);
     }
 
     &__errors {

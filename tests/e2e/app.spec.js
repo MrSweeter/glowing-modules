@@ -97,12 +97,16 @@ test.describe('search', () => {
         await expect(heading(page, 'added')).toContainText('1 of 3 added');
         await expect(page.locator('#results-grid mark')).toHaveText(['ent_']);
 
+        await page.locator('#filter-toggle').click();
         await page.locator('#repo-chips [data-token="repository:odoo"]').click();
         await expect(page.locator('#search')).toHaveValue('ent_ repository:odoo');
         await expect(page.locator('#repo-chips [data-token="repository:odoo"]')).toHaveAttribute(
             'aria-pressed',
             'true'
         );
+        await expect(page.locator('[data-role="filter-count"]')).toHaveText('1');
+        await page.keyboard.press('Escape');
+        await expect(page.locator('#filter-dialog')).toBeHidden();
         await expect(page.locator('#col-added .gm-empty')).toContainText('No module matches');
 
         await page.locator('#col-added [data-action="clear-search"]').click();
@@ -113,10 +117,36 @@ test.describe('search', () => {
     test('shows test modules on demand', async ({ page }) => {
         await page.goto('./?from=16.0&to=17.0');
         await ready(page);
+        await page.locator('#filter-toggle').click();
         await expect(page.locator('[data-role="tests-hidden"]')).toHaveText('(1 hidden)');
         await page.locator('#show-tests').check();
         await expect(page.locator('[data-module="test_lint"]')).toBeVisible();
         await expect(page).toHaveURL(/tests=1/);
+    });
+
+    test('filter panel counts active filters and resets them', async ({ page, isMobile }) => {
+        await page.goto('./');
+        await ready(page);
+        const badge = page.locator('[data-role="filter-count"]');
+        await expect(badge).toBeHidden();
+
+        await page.goto('./?q=ent+repository:odoo&tests=1');
+        await ready(page);
+        await expect(badge).toHaveText('2');
+        await expect(page.locator('#filter-toggle')).toHaveAccessibleName(/Filter.*2 active/);
+
+        await page.locator('#filter-toggle').click();
+        await expect(page.locator('#filter-dialog')).toBeVisible();
+        await expect(page.locator('#show-tests')).toBeChecked();
+        await page.locator('#filter-reset').click();
+        await expect(page.locator('#search')).toHaveValue('ent');
+        await expect(page.locator('#show-tests')).not.toBeChecked();
+        await expect(badge).toBeHidden();
+        await expect(page).not.toHaveURL(/tests=1/);
+
+        await page.locator('#filter-dialog [data-close]').click();
+        await expect(page.locator('#filter-dialog')).toBeHidden();
+        if (!isMobile) await expect(page.locator('#filter-toggle')).toBeFocused();
     });
 
     test('reports invalid regexes and short terms', async ({ page }) => {
@@ -192,39 +222,26 @@ test.describe('data loading', () => {
     });
 });
 
-test.describe('export & sharing', () => {
-    test('copies the visible module names', async ({ page, context, browserName }) => {
-        test.skip(browserName !== 'chromium', 'clipboard permissions are Chromium-only in Playwright');
-        await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-        await page.goto('./');
-        await ready(page);
-        await page.getByRole('button', { name: 'Export' }).click();
-        await page.getByRole('button', { name: 'Copy names' }).click();
-        await expect(page.locator('#toast')).toContainText('3 modules copied as names');
-        const text = await page.evaluate(() => navigator.clipboard.readText());
-        expect(text.split('\n').sort()).toEqual(['ent_18', 'new_in_saas', 'osc']);
-    });
-
-    test('downloads CSV', async ({ page }) => {
-        await page.goto('./');
-        await ready(page);
-        await page.getByRole('button', { name: 'Export' }).click();
-        const [download] = await Promise.all([
-            page.waitForEvent('download'),
-            page.getByRole('button', { name: 'Download CSV' }).click(),
-        ]);
-        expect(download.suggestedFilename()).toBe('glowing-modules_17.0_18.0.csv');
-    });
-});
-
 test.describe('theme', () => {
-    test('toggles and remembers the theme', async ({ page }) => {
+    test('follows the system by default and remembers a chosen theme', async ({ page }) => {
+        const theme = () => page.evaluate(() => document.documentElement.dataset.theme ?? 'system');
+        const select = page.locator('#theme-select');
         await page.goto('./');
         await ready(page);
-        await page.locator('#theme-toggle').click();
-        const theme = await page.evaluate(() => document.documentElement.dataset.theme);
+        await expect(select).toHaveValue('system');
+        expect(await theme()).toBe('system');
+
+        await select.selectOption('dark');
+        expect(await theme()).toBe('dark');
         await page.reload();
         await ready(page);
-        expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe(theme);
+        await expect(select).toHaveValue('dark');
+        expect(await theme()).toBe('dark');
+
+        await select.selectOption('system');
+        await page.reload();
+        await ready(page);
+        await expect(select).toHaveValue('system');
+        expect(await theme()).toBe('system');
     });
 });

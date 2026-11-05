@@ -5,6 +5,11 @@
     flex-wrap: wrap;
     gap: space(2);
     padding: space(2) 0 space(3);
+
+    // Let long module names truncate instead of widening the page.
+    > li {
+        max-width: 100%;
+    }
 }
 
 /// Module chip (a <button> opening the module details).

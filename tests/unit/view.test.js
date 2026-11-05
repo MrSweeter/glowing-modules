@@ -1,10 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { exportFileName, toCsv, toJson, toMarkdown, toNames } from '../../src/domain/export.js';
 import { buildHistory } from '../../src/domain/history.js';
 import { parseQuery } from '../../src/domain/search.js';
 import { buildSnapshots } from '../../src/domain/snapshots.js';
-import { buildView, changeCountsByVersion, exportRows } from '../../src/state/view.js';
+import { buildView, changeCountsByVersion } from '../../src/state/view.js';
 
 const fixture = JSON.parse(readFileSync(new URL('../fixtures/diff-edge-cases.json', import.meta.url)));
 const model = buildSnapshots(fixture);
@@ -34,34 +33,6 @@ describe('buildView', () => {
     it('matches moved modules on either repository', () => {
         const v = buildView({ model, from: '16.0', to: '18.0', query: 'repository:enterprise', showTests: false });
         expect(v.moved.visible).toBe(1);
-    });
-});
-
-describe('exports', () => {
-    const view = buildView({ model, from: '16.0', to: '18.0', query: '', showTests: false });
-    const rows = exportRows(view);
-
-    it('lists visible rows', () => {
-        expect(rows).toContainEqual({
-            change: 'moved',
-            repository: 'odoo/enterprise',
-            module: 'moved_mod',
-            from_repository: 'odoo/odoo',
-        });
-        expect(rows).toContainEqual({ change: 'removed', repository: 'odoo/odoo', module: 'osc', from_repository: '' });
-    });
-
-    it('formats names, CSV, Markdown and JSON', () => {
-        expect(toNames(rows).split('\n')).toContain('ent_18');
-        expect(toCsv([{ change: 'added', repository: 'odoo/odoo', module: 'a,b' }])).toBe(
-            'change,repository,module,from_repository\r\nadded,odoo/odoo,"a,b",'
-        );
-        expect(toMarkdown([{ change: 'added', repository: 'x|y', module: 'm' }]).split('\n')[2]).toBe(
-            '| added | x\\|y | m |  |'
-        );
-        expect(JSON.parse(toJson(rows, { from: '16.0', to: '18.0' })).modules).toHaveLength(rows.length);
-        expect(exportFileName('saas-17.1', 'master', 'csv')).toBe('glowing-modules_saas-17.1_master.csv');
-        expect(exportFileName(undefined, '5.0', 'json')).toBe('glowing-modules_start_5.0.json');
     });
 });
 

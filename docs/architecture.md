@@ -25,7 +25,6 @@ src/domain/             pure functions, no DOM, no state: the logic that is unit
   history.js            buildHistory: per-module timeline; availability ranges; isTestModule
   search.js             parseQuery (text, owner:, repository:), matching, highlight ranges, chip tokens
   links.js              GitHub URL of a module at a version
-  export.js             names / CSV / Markdown / JSON export
 
 src/state/              application state
   store.js              20-line observable store
@@ -34,12 +33,11 @@ src/state/              application state
   view.js               buildView: domain + state → what to render; per-version match counts
 
 src/ui/                 DOM rendering, built with text nodes only (never innerHTML)
-  dom.js                el(), $, icon(), debounce, storage, copy and download helpers
-  controls.js           header controls, repository chips, theme toggle, data info, app version
+  dom.js                el(), $, icon(), debounce, storage
+  controls.js           header controls, repository chips, data info, app version
   results.js            added / removed / moved lists
   versionPicker.js      version dialog
   moduleDetails.js      module dialog (history, availability, links)
-  toast.js              transient messages
 ```
 
 Dependency rule (checked by reading the imports, not enforced by a tool):
@@ -103,7 +101,7 @@ Custom SCSS, no CSS framework, compiled into one CSS file. Entry point: `src/sty
 | **Prettier** | Formats SCSS, which Biome cannot read | `.prettierrc.json` | `npm run format`, CI | no |
 | **Stylelint** | Lints SCSS: invalid properties, duplicates, plus the `gm-` BEM naming rule | `.stylelintrc.json` | `npm run lint`, CI | no |
 | **Vitest** | Unit tests and coverage (≥ 90 % lines on `src/domain/`) | `tests/unit/` | `npm test`, CI | no |
-| **Playwright** | Drives real browsers (Chromium, mobile emulation, WebKit) against the production build: the user flows, fallbacks, export, theme | `tests/e2e/`, `playwright.config.js` | `npm run test:e2e`, CI | no |
+| **Playwright** | Drives real browsers (Chromium, mobile emulation, WebKit) against the production build: the user flows, fallbacks, filters, theme | `tests/e2e/`, `playwright.config.js` | `npm run test:e2e`, CI | no |
 | **axe** | Accessibility audit (WCAG 2.2 AA) inside the Playwright tests, light and dark themes | `tests/e2e/a11y.spec.js` | with Playwright | no |
 | **ajv** | Validates JSON against the JSON Schema of the data format | `tests/unit/schema.test.js` | `npm test`, CI | no |
 | **sharp** | Resizes and converts images | `scripts/build-assets.mjs` | one-off, when the artwork in `design/` changes | no |

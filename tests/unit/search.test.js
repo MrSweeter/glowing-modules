@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { hasToken, matches, matchRanges, parseQuery, toggleToken } from '../../src/domain/search.js';
+import {
+    hasToken,
+    matches,
+    matchRanges,
+    parseQuery,
+    removeFilterTokens,
+    toggleToken,
+} from '../../src/domain/search.js';
 
 describe('parseQuery', () => {
     it('parses text, repository and owner terms', () => {
@@ -67,5 +74,14 @@ describe('toggleToken', () => {
         expect(toggleToken('account repository:odoo', 'repository:odoo')).toBe('account');
         expect(toggleToken('', 'repository:odoo')).toBe('repository:odoo');
         expect(hasToken('acc Repository:Odoo', 'repository:odoo')).toBe(true);
+    });
+});
+
+describe('removeFilterTokens', () => {
+    it('drops repository, repo and owner tokens and keeps text terms in order', () => {
+        expect(removeFilterTokens('sale repository:odoo stock Repo:enterprise owner:odoo')).toBe('sale stock');
+        expect(removeFilterTokens('repository:odoo')).toBe('');
+        expect(removeFilterTokens('')).toBe('');
+        expect(removeFilterTokens('  account  ')).toBe('account');
     });
 });
