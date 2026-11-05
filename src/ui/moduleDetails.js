@@ -5,6 +5,7 @@ import { githubUrl } from '../domain/links.js';
 import { isUnknown } from '../domain/snapshots.js';
 import { isMajor } from '../domain/versions.js';
 import { $, el, icon } from './dom.js';
+import { setTip } from './tooltip.js';
 
 /**
  * @typedef {{ model: import('../domain/snapshots.js').Snapshots, history: Map<string, import('../domain/history.js').HistoryEvent[]>,
@@ -76,10 +77,12 @@ export function createModuleDetails({ getData, onClose }) {
                 ...model.versions.map((v) => {
                     const unknown = present.has(v) ? undefined : unknownRepo(v);
                     const state = present.has(v) ? ' is-present' : unknown ? ' is-unknown' : '';
-                    return el('span', {
+                    const cell = el('span', {
                         class: `gm-timeline__cell${isMajor(v) ? ' gm-timeline__cell--major' : ''}${state}${v === selection.to || v === selection.from ? ' is-selected' : ''}`,
-                        title: `${v}: ${present.has(v) ? 'present' : unknown ? `unknown (no branch in ${unknown})` : 'absent'}`,
                     });
+                    const hint = present.has(v) ? 'Present' : unknown ? `Unknown: no branch in ${unknown}` : 'Absent';
+                    setTip(cell, { text: v, hint });
+                    return cell;
                 })
             ),
             el('div', { class: 'gm-timeline__axis' }, el('span', {}, model.versions[0]), el('span', {}, latest))

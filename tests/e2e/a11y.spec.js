@@ -34,6 +34,7 @@ for (const scheme of /** @type {const} */ (['light', 'dark'])) {
             await ready(page);
             await page.locator('#filter-toggle').click();
             await expect(page.locator('#filter-dialog')).toBeVisible();
+            await page.locator('#name-chips [data-pattern="^l10n_"]').hover();
             await audit(page);
         });
 

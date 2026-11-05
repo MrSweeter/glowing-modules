@@ -2,6 +2,7 @@
 
 import { hasToken, nameFilterState } from '../domain/search.js';
 import { $, el } from './dom.js';
+import { setTip } from './tooltip.js';
 
 /**
  * @param {object} state store state
@@ -16,13 +17,15 @@ export function renderControls(state, { view }) {
     $('#search-clear').hidden = !input.value;
 
     for (const chip of document.querySelectorAll('#owner-chips [data-token], #repo-chips [data-token]')) {
-        chip.setAttribute('aria-pressed', String(hasToken(state.query, chip.dataset.token)));
+        const pressed = hasToken(state.query, chip.dataset.token);
+        chip.setAttribute('aria-pressed', String(pressed));
+        setTip(chip, { text: chip.dataset.tip, hint: pressed ? 'Click to remove this filter' : null });
     }
     for (const chip of document.querySelectorAll('#name-chips [data-pattern]')) {
         const chipState = nameFilterState(state.query, chip.dataset.pattern);
         chip.dataset.state = chipState;
         chip.setAttribute('aria-pressed', String(chipState !== 'off'));
-        chip.title = `${chip.dataset.hint}\n${NAME_CHIP_TITLE[chipState]}`;
+        setTip(chip, { text: chip.dataset.tip, code: chip.dataset.tipCode, hint: NAME_CHIP_HINT[chipState] });
         chip.querySelector('[data-role="name-state"]').textContent = NAME_CHIP_STATE[chipState];
     }
     const q = view.query;
@@ -40,7 +43,7 @@ export function renderControls(state, { view }) {
 }
 
 const NAME_CHIP_STATE = { off: '', include: ', showing only these', exclude: ', hidden' };
-const NAME_CHIP_TITLE = {
+const NAME_CHIP_HINT = {
     off: 'Click to show only these modules',
     include: 'Click to hide these modules',
     exclude: 'Click to clear this filter',
@@ -66,44 +69,45 @@ export function renderRepoChips(repos, onToggle) {
 
 /**
  * Module-name filter chips (`name:` / `-name:` tokens); each click moves to the next state (see cycleNameFilter).
- * The tooltip gives the description (if any), the pattern and what the next click does.
+ * The tooltip gives the description (if any), the pattern and what the next click does (see renderControls).
  * @param {{ label: string, pattern: string, description?: string }[]} filters
  * @param {(pattern: string) => void} onCycle
  */
 export function renderNameChips(filters, onCycle) {
     $('#name-chips').replaceChildren(
         ...filters.map(({ label, pattern, description }) => {
-            const hint = [description, `Pattern: ${pattern}`].filter(Boolean).join('\n');
-            return el(
+            const chip = el(
                 'button',
                 {
                     type: 'button',
                     class: 'gm-filter-chip',
-                    dataset: { pattern, hint },
+                    dataset: { pattern },
                     'aria-pressed': 'false',
-                    title: `${hint}\n${NAME_CHIP_TITLE.off}`,
                     onclick: () => onCycle(pattern),
                 },
                 el('span', { class: 'gm-filter-chip__label' }, label),
                 el('span', { class: 'gm-visually-hidden', dataset: { role: 'name-state' } })
             );
+            setTip(chip, { text: description, code: pattern, hint: NAME_CHIP_HINT.off });
+            return chip;
         })
     );
 }
 
-function tokenChip(token, label, title, onToggle) {
-    return el(
+function tokenChip(token, label, tip, onToggle) {
+    const chip = el(
         'button',
         {
             type: 'button',
             class: 'gm-filter-chip',
             dataset: { token },
             'aria-pressed': 'false',
-            title,
             onclick: () => onToggle(token),
         },
         label
     );
+    setTip(chip, { text: tip });
+    return chip;
 }
 
 /**
