@@ -1,1 +1,18 @@
-.idea/**
+# Dependencies & build output
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+glowing-modules-checker/
+
+# Environment
+.env*.local
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

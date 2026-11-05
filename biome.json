@@ -1,5 +1,10 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
     "formatter": {
         "enabled": true,
         "formatWithErrors": false,
@@ -12,10 +17,7 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "recommended": true,
-            "suspicious": {
-                "noGlobalIsNan": "off"
-            }
+            "preset": "recommended"
         }
     },
     "javascript": {
@@ -31,9 +33,28 @@
             "attributePosition": "auto"
         }
     },
-    "overrides": [{ "include": ["*.html"], "formatter": { "lineWidth": 200 } }],
+    "overrides": [
+        {
+            "includes": ["**/*.html"],
+            "formatter": {
+                "lineWidth": 200
+            }
+        }
+    ],
     "files": {
-        "ignore": ["bundle", "node_modules", "docs"],
+        "includes": [
+            "**",
+            "!**/node_modules",
+            "!**/dist",
+            "!**/coverage",
+            "!**/playwright-report",
+            "!**/test-results",
+            "!**/*.scss",
+            "!public/data",
+            "!glowing-modules-checker",
+            "!package-lock.json",
+            "!**/*.md"
+        ],
         "maxSize": 4194304
     }
 }

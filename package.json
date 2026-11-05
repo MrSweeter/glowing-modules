@@ -1,0 +1,45 @@
+{
+    "name": "glowing-modules",
+    "version": "2.0.0",
+    "description": "Discover the Odoo modules' history: compare Odoo versions and see which modules were added, removed or moved.",
+    "private": true,
+    "author": "Gaëtan Vanden Bergh (MrSweeter)",
+    "type": "module",
+    "engines": {
+        "node": ">=24"
+    },
+    "scripts": {
+        "predev": "node scripts/pull-data.mjs --if-missing",
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite build && vite preview",
+        "data:pull": "node scripts/pull-data.mjs",
+        "icons:fetch": "node scripts/fetch-icons.mjs",
+        "assets:build": "node scripts/build-assets.mjs",
+        "lint": "biome check . && stylelint \"src/**/*.scss\"",
+        "lint:styles": "stylelint \"src/**/*.scss\"",
+        "format": "biome check --write . && prettier --write \"src/**/*.scss\" && stylelint --fix \"src/**/*.scss\"",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "test:e2e": "playwright test",
+        "test:e2e:ui": "playwright test --ui"
+    },
+    "devDependencies": {
+        "@axe-core/playwright": "4.14.0",
+        "@biomejs/biome": "2.6.2",
+        "@playwright/test": "1.64.1",
+        "@vitest/coverage-v8": "4.1.12",
+        "ajv": "8.20.0",
+        "prettier": "3.9.10",
+        "sass-embedded": "1.106.1",
+        "sharp": "0.35.5",
+        "stylelint": "17.16.0",
+        "stylelint-config-standard-scss": "17.0.0",
+        "vite": "8.3.5",
+        "vitest": "4.1.12"
+    },
+    "dependencies": {
+        "@fontsource/poppins": "5.3.0"
+    }
+}

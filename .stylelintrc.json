@@ -1,0 +1,46 @@
+{
+    "extends": ["stylelint-config-standard-scss"],
+    "ignoreFiles": ["glowing-modules-checker/**"],
+    "rules": {
+        "selector-class-pattern": [
+            "^(gm-[a-z0-9]+(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?|is-[a-z]+(-[a-z]+)*)$",
+            {
+                "message": "Use BEM with the gm- prefix (gm-block__element--modifier) or an is-* state class"
+            }
+        ],
+        "keyframes-name-pattern": "^gm-[a-z-]+$",
+        "scss/dollar-variable-pattern": "^[a-z][a-z0-9-]*$",
+        "scss/at-mixin-pattern": "^[a-z][a-z0-9-]*$",
+        "scss/at-function-pattern": "^[a-z][a-z0-9-]*$",
+        "scss/double-slash-comment-empty-line-before": null,
+        "scss/comment-no-empty": null,
+        "no-descending-specificity": null,
+        "declaration-no-important": null,
+        "property-no-vendor-prefix": [
+            true,
+            {
+                "ignoreProperties": ["text-size-adjust"]
+            }
+        ],
+        "selector-no-vendor-prefix": [
+            true,
+            {
+                "ignoreSelectors": ["::-webkit-search-cancel-button", "::-webkit-details-marker"]
+            }
+        ],
+        "value-keyword-case": [
+            "lower",
+            {
+                "ignoreKeywords": ["currentColor"],
+                "camelCaseSvgKeywords": false
+            }
+        ],
+        "scss/dollar-variable-empty-line-before": null,
+        "font-family-no-missing-generic-family-keyword": [
+            true,
+            {
+                "ignoreFontFamilies": ["Material Symbols Outlined"]
+            }
+        ]
+    }
+}

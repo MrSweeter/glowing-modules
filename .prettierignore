@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+public
+package-lock.json
+*.js
+*.mjs
+*.json
+*.html
+*.md
+*.yml
+glowing-modules-checker
