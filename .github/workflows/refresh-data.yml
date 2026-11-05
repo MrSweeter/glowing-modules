@@ -1,0 +1,42 @@
+name: Refresh data snapshot
+
+# The live data stays in the gist (runtime source). This keeps the committed copy
+# (public/data/glowing-modules-diff.json: local dev data, production fallback, regression tests) in sync.
+
+on:
+    schedule:
+        - cron: "0 5 * * 1" # Mondays 05:00 UTC
+    workflow_dispatch:
+
+permissions:
+    contents: write
+    pull-requests: write
+
+jobs:
+    refresh:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+            - run: npm ci
+            - run: npm run data:pull
+            - id: summary
+              run: node scripts/data-summary.mjs >> "$GITHUB_OUTPUT"
+            - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+              with:
+                  branch: data/refresh-snapshot
+                  delete-branch: true
+                  add-paths: public/data/glowing-modules-diff.json
+                  commit-message: "[IMP] data: refresh bundled snapshot"
+                  title: "[IMP] data: refresh bundled snapshot"
+                  body: |
+                      Automated refresh of the bundled data snapshot from the live gist.
+
+                      ${{ steps.summary.outputs.markdown }}
+
+                      If the real-data regression test (`tests/unit/compare.test.js`) fails, re-baseline its expected counts
+                      in this PR after checking the differences make sense.
+                  labels: data
