@@ -7,9 +7,9 @@ removed (`-`) in each repository **compared to the previous version** (versions 
 JSON Schema: [`schema/glowing-modules-diff.schema.json`](../schema/glowing-modules-diff.schema.json).
 Validation in the app and scripts: [`src/data/validate.js`](../src/data/validate.js).
 
-## v1 (current gist)
+## v1 (legacy, still accepted)
 
-A bare object keyed by version:
+The format the checker published before November 2026: a bare object keyed by version.
 
 ```json
 {
@@ -22,9 +22,10 @@ A bare object keyed by version:
 }
 ```
 
-## v2 (recommended for the generator)
+## v2 (published by the checker)
 
-The same `versions` object wrapped with metadata. The app accepts both formats. The bundled snapshot
+The same `versions` object wrapped with metadata, written to the gist by the checker (`src/payload.js` in
+`MrSweeter/glowing-modules-checker`). The app accepts both formats. The bundled snapshot
 (`public/data/glowing-modules-diff.json`) is written as v2 by `npm run data:pull`.
 
 ```json
@@ -41,8 +42,9 @@ The same `versions` object wrapped with metadata. The app accepts both formats. 
 
 | Field | Meaning |
 |---|---|
-| `meta.generatedAt` | When the generator ran (shown in the footer as "Data updated …"). Without it, the app falls back to the HTTP `Last-Modified` header, then to `meta.pulledAt`. |
-| `meta.branches` | Optional: commit of each repository branch used, for traceability. |
+| `meta.generatedAt` | When the checker last published a change (it only writes the gist when the data changed). Shown in the footer as "Data updated …". Without it, the app falls back to the HTTP `Last-Modified` header, then to `meta.pulledAt`. |
+| `meta.source` | URL of the checker repository. |
+| `meta.branches` | Optional: commit of each repository branch the checker read (`{ version: { "owner/repo": sha } }`), for traceability. Versions the checker has not fetched since this field was added have no entry. |
 | `meta.pulledAt`, `meta.sourceSchemaVersion` | Written by `scripts/pull-data.mjs` for the bundled snapshot. |
 | `meta.renames` | Reserved for a future rename mapping (`{ "17.0": { "old_name": "new_name" } }`). |
 
