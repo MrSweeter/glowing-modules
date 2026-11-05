@@ -41,7 +41,7 @@ for (const scheme of /** @type {const} */ (['light', 'dark'])) {
             await audit(page);
         });
 
-        test('filter panel with a custom repository', async ({ page }) => {
+        test('settings panel with a custom repository', async ({ page }) => {
             await page.addInitScript(() => {
                 const repo = {
                     id: 'acme/addons',
@@ -56,7 +56,7 @@ for (const scheme of /** @type {const} */ (['light', 'dark'])) {
             });
             await page.goto('./');
             await ready(page);
-            await page.locator('#filter-toggle').click();
+            await page.locator('#settings-toggle').click();
             await expect(page.locator('#custom-repo-list li')).toHaveCount(1);
             await audit(page);
         });

@@ -30,6 +30,7 @@ export const ICONS = [
     'remove',
     'schedule',
     'search',
+    'settings',
     'sync_alt',
     'warning',
 ].sort();

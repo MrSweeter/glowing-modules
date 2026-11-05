@@ -1,6 +1,6 @@
 import { expect, ready, test } from './fixtures.js';
 
-// Custom repositories (Filters drawer → "Your repositories"), with the GitHub API stubbed.
+// Custom repositories (Settings drawer → "Your repositories"), with the GitHub API stubbed.
 // Edge-case fixture: default comparison 17.0 → 18.0.
 
 const API = 'https://api.github.com';
@@ -43,7 +43,7 @@ async function github(page, routes = ACME) {
 }
 
 async function addRepository(page, value) {
-    await page.locator('#filter-toggle').click();
+    await page.locator('#settings-toggle').click();
     await page.locator('#custom-repo-input').fill(value);
     await page.getByRole('button', { name: 'Add', exact: true }).click();
 }
@@ -57,7 +57,7 @@ test('adds a repository, keeps it after a reload and removes it', async ({ page,
     await expect(page.locator('#custom-repo-status')).toHaveText('Added acme/addons: 3 modules in 2 versions.');
     await expect(page.locator('#custom-repo-list')).toContainText('2 versions · 3 modules');
     await expect(page.locator('#custom-repo-list')).toContainText('1 other branch ignored');
-    await expect(page.locator('#repo-chips [data-token="repository:addons"]')).toBeVisible();
+    await expect(page.locator('#repo-chips [data-token="repository:addons"]')).toHaveCount(1);
     expect(calls).toEqual([
         '/repos/acme/addons',
         '/repos/acme/addons/branches',
@@ -82,7 +82,7 @@ test('adds a repository, keeps it after a reload and removes it', async ({ page,
     await expect(page.locator('[data-module="acme_c"]')).toBeVisible();
     expect(calls).toHaveLength(before);
 
-    await page.locator('#filter-toggle').click();
+    await page.locator('#settings-toggle').click();
     await page.getByRole('button', { name: 'Remove acme/addons' }).click();
     await expect(page.locator('#custom-repo-status')).toHaveText('Removed acme/addons.');
     await expect(page.locator('#repo-chips [data-token="repository:addons"]')).toHaveCount(0);
@@ -182,7 +182,7 @@ test('never calls GitHub on its own, flags copies older than a week and refreshe
     expect(calls).toEqual([]);
 
     await page.locator('#notices').getByRole('button', { name: 'Review' }).click();
-    await expect(page.locator('#filter-dialog')).toBeVisible();
+    await expect(page.locator('#settings-dialog')).toBeVisible();
     const row = page.locator('#custom-repo-list li');
     await expect(row).toContainText('outdated: use Refresh to update');
 
