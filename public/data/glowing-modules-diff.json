@@ -1,9 +1,296 @@
 {
   "meta": {
     "schemaVersion": 2,
-    "sourceSchemaVersion": 1,
-    "source": "https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json",
-    "pulledAt": "2026-11-04T21:43:47.160Z"
+    "generatedAt": "2026-11-05T10:50:15.047Z",
+    "source": "https://github.com/MrSweeter/glowing-modules-checker",
+    "branches": {
+      "10.0": {
+        "odoo/design-themes": "3b950ac178e44e3e319264fb085f7954f1d1b508",
+        "odoo/enterprise": "a27e3599eaca2c12344e68c034de5ae20a03ff4c",
+        "odoo/odoo": "28c3f51c4878fbcd79b2e819948465fcf2160ebc"
+      },
+      "11.0": {
+        "odoo/design-themes": "eb7759a75b3b93aa0d6170bd879bccb5fa070047",
+        "odoo/enterprise": "81dbbd673a3c48cc0f7eba9d240d391f6fb03540",
+        "odoo/odoo": "d07ffce41df433e51d1239be855cd52867b905e0"
+      },
+      "12.0": {
+        "odoo/design-themes": "e606911ccbbc51d410af781765c238802ad4aeb5",
+        "odoo/enterprise": "ed3d5560a93c92829c68b390374b8980b828827d",
+        "odoo/odoo": "ba1ba88874e2ae9716e59ec199eb739d58c3f771"
+      },
+      "13.0": {
+        "odoo/design-themes": "8d8ff598ab5aaebf395bb388e8e73e75eb1bf158",
+        "odoo/enterprise": "b27b98153f966c36700d154bdad4603eb85ecb32",
+        "odoo/odoo": "4cc086d330b73514fbc64a7fcf22d8a7a9f1b691"
+      },
+      "14.0": {
+        "odoo/design-themes": "1d25efb732f9cfeae11fe4b416baa1f994608120",
+        "odoo/enterprise": "c81dd03a10b02c3128c7a0f4853bae263f2ac521",
+        "odoo/odoo": "cc0060e889603eb2e47fa44a8a22a70d7d784185"
+      },
+      "15.0": {
+        "odoo/design-themes": "a3bd2bd51edd8837e81123ba5e55fe0304f24191",
+        "odoo/enterprise": "1f5f7a580d85a8aff9a82ca441c7c82249712a57",
+        "odoo/odoo": "3a28e5b0adbb36bdb1155a6854cdfbe4e7f9b187"
+      },
+      "16.0": {
+        "odoo/design-themes": "470f66b9c1c135ae60bc4b229296f71324e7753b",
+        "odoo/enterprise": "e12820c482f906731729528032face0df0154775",
+        "odoo/odoo": "a7a38b444d8d72a0e5585bc57ac904d2ccc1927e"
+      },
+      "17.0": {
+        "odoo/design-themes": "312e77eaa2ea88a180027194106e1d2cac94ca6c",
+        "odoo/enterprise": "1a15a6b9633019db4cbbbf6327bef6920e8a797a",
+        "odoo/industry": "2a75f8b0581a5bbf0fa8ec822ba5439d842a74ae",
+        "odoo/odoo": "0f8fff61ec9693fe35295a15ebb3c72f94fca094"
+      },
+      "18.0": {
+        "odoo/design-themes": "21f90352d6c3a96c3d62214972f50848f9799789",
+        "odoo/enterprise": "b3e321a922b9fb599a9fcc09f5f7b21408e9b9a6",
+        "odoo/industry": "42ed466c17816fe705bb9c4c685770a575aade9b",
+        "odoo/odoo": "e16af5fb7d34b5eab703ff8e34f481adccc929af"
+      },
+      "19.0": {
+        "odoo/design-themes": "1e974823a0ada1fc0d31acff343e11c53c086d0b",
+        "odoo/enterprise": "46464eeb87305df10967873d5d0f552980fed01e",
+        "odoo/industry": "4fb6c46706109d8574d6a4c4330fbcbf1cf54ca6",
+        "odoo/odoo": "3828306014f63c07b769f0fb3cfce5eb7f7c50d3"
+      },
+      "20.0": {
+        "odoo/design-themes": "29a1133a56376c557a7984ccf3649c153b2cf4f4",
+        "odoo/enterprise": "0d2a8594a0384be465e7bb8ce6835c246cafe4cc",
+        "odoo/industry": "202f456c46d18ca71d84747fb90e613308ecf156",
+        "odoo/odoo": "15847649b67efb5c8e2d314363aa97c33061a99b"
+      },
+      "8.0": {
+        "odoo/design-themes": "02b2cc072a33ca66342d82d4ec429ed41920e17c",
+        "odoo/odoo": "9e8f70e4849b0eeaca8b5cf51372ecfa23dc561b"
+      },
+      "9.0": {
+        "odoo/design-themes": "1a679e9aaa3ec071daa2e38ea474c14df4397d48",
+        "odoo/enterprise": "d96bdcf86a53b08747e845874d41b5d9e4c195b4",
+        "odoo/odoo": "7132a15c38a3b5e5ec232404d21aacfa2ac5874e"
+      },
+      "master": {
+        "odoo/design-themes": "efe3122c8b674a85f09173426db1237c1a36df40",
+        "odoo/enterprise": "28bc1ff36eaba6546d357cad47ab09ea6c8b3c6c",
+        "odoo/industry": "e3b90a70a1fba15a076b449ffa906c75d9e8d61c",
+        "odoo/odoo": "5268d45fe39a8c0296bfe0a9ace805dc28a50356"
+      },
+      "saas-11.3": {
+        "odoo/design-themes": "68b9b836c07a5be30c927cb91fee0d686c3904db",
+        "odoo/enterprise": "6f97d7b0f866a2c91c61936d885a7d674df566c3",
+        "odoo/odoo": "b3bae63cb16e12c9d189627ed3ade1d0718eb7c1"
+      },
+      "saas-12.3": {
+        "odoo/design-themes": "3800b85dea3b897633ea0e7441c07fd426d67499",
+        "odoo/enterprise": "c1e75ea56aa8a7377be27efac7ee83e3540ec896",
+        "odoo/odoo": "e7c6445dd1896bb182b44af768814f297027d3a4"
+      },
+      "saas-13.5": {
+        "odoo/design-themes": "1052f84b4a57bc1df826619c8553fdc130d61bea",
+        "odoo/enterprise": "c7172652a35586bd2a4bee95b6c92cc7bf8b1aa8",
+        "odoo/odoo": "eb25bed4a1c0c25267ca02f90da7f6f1658fd896"
+      },
+      "saas-14.1": {
+        "odoo/design-themes": "f8d6990b6bd55731327aaff153c31a5cea2d22ab",
+        "odoo/enterprise": "fa43d3ea4a588cd2fe6887342d256dfc87f768e4",
+        "odoo/odoo": "4ca8dd55645055ad645363fab697790a6abf45b0"
+      },
+      "saas-14.2": {
+        "odoo/design-themes": "2bdf71a2b2bd15c384eef82753288af8ab15bcf2",
+        "odoo/enterprise": "9c30100f27921ca21ce5868343eaa88169f50fa1",
+        "odoo/odoo": "d5b9403c0023d8df49487293b217c59265189a7a"
+      },
+      "saas-14.3": {
+        "odoo/design-themes": "3354986eadadc64bacf549f348aa80b768bba0f8",
+        "odoo/enterprise": "0eaf8ae621af8a0c5d4c1c7f38a61438a4def2aa",
+        "odoo/odoo": "257b30c8b0b72d47dff007aa6f9604a41a0becb4"
+      },
+      "saas-14.4": {
+        "odoo/design-themes": "fdea0dc1dd5cc9d76f1036966af5132472bcf25a",
+        "odoo/enterprise": "b34d6e8c17de3c0518374ca0e8193e6cc0c9898d",
+        "odoo/odoo": "c4332db24c5070213d7259eedcee6f0bc064eed6"
+      },
+      "saas-14.5": {
+        "odoo/design-themes": "2ed70c99c9d47f1cb21fc9774b9d39665f9432f6",
+        "odoo/enterprise": "d50b90accc0bc1f759c1b379e2b55a3db04f3423",
+        "odoo/odoo": "bab94dd20c87ca0ab283945963988a3e61893b33"
+      },
+      "saas-15.1": {
+        "odoo/design-themes": "97c72597b8d1567dcb86a205304e440cbc5a8b97",
+        "odoo/enterprise": "971aad3ec7e012b076fb53f8e780b12dd9ee06aa",
+        "odoo/odoo": "0529829d3ecbe15f94865b4f1769acf0c40cf52e"
+      },
+      "saas-15.2": {
+        "odoo/design-themes": "1beb3ac387c438f068d5bb1b741cceda278b2f40",
+        "odoo/enterprise": "49f8a395dec89b49d70465cf81b14bf8eb7daa9f",
+        "odoo/odoo": "46e2333f5ea6df10eb7f5b330bb35a4f48095312"
+      },
+      "saas-15.3": {
+        "odoo/design-themes": "53da459ede9fbdce87d96ea90c05e3f26767d704",
+        "odoo/enterprise": "e0c75f5a732e67a17dda6c6023bcaaa021599308",
+        "odoo/odoo": "016a2be35f56a6ecca8268f81ce13ef66d8ae3f2"
+      },
+      "saas-15.4": {
+        "odoo/design-themes": "8c6d55d196edc92e4c3bbcc99bb01c76788925b5",
+        "odoo/enterprise": "c62a58ec0c9ef094b7bed17342ba4ab158651416",
+        "odoo/odoo": "f9f8cee51a28219f13766a403f6fd4944bdee9d1"
+      },
+      "saas-16.1": {
+        "odoo/design-themes": "54652d11752366f87e5db70c84e522e9e73d39cd",
+        "odoo/enterprise": "a474b44aba8402e39501263a56e53a3423f0750b",
+        "odoo/odoo": "05dff053277c629443390ffdfbd1bd26d1583831"
+      },
+      "saas-16.2": {
+        "odoo/design-themes": "819eb83f62224ab43cefa18cd1de7c6cd63e849e",
+        "odoo/enterprise": "4f7f83812c86187583fddf272d9c4a6616fd268d",
+        "odoo/odoo": "d0ea51c5a84f0c082822bf00e2bd174c22a9f853"
+      },
+      "saas-16.3": {
+        "odoo/design-themes": "4a4342928aeb8d21ac7f38e148fdc79d328c7c36",
+        "odoo/enterprise": "e93a1e15fcbe689ae9be8314e8d033f88888522e",
+        "odoo/odoo": "fc14ae1f39fd2a0a8c7478cd4895b932f77872e7"
+      },
+      "saas-16.4": {
+        "odoo/design-themes": "e32e6de6b8a0d4d81a379fd94bb3a23be810a77a",
+        "odoo/enterprise": "1b7bebf26a49fa87d0ed2a44d5de3866243906da",
+        "odoo/odoo": "01e5a65f1b2e327d0d43b0f9f813c65468342d0f"
+      },
+      "saas-17.1": {
+        "odoo/design-themes": "f066daf506670374a2aefe646ee41aabf5f83956",
+        "odoo/enterprise": "bb8173bbbdbae8e2604ce91687de987fc133feb0",
+        "odoo/industry": "61a5d919d74f615b6837ff7c9031a2c4fe927a84",
+        "odoo/odoo": "b61e749825955e7f7457b6f2b5e4fa4d677662c7"
+      },
+      "saas-17.2": {
+        "odoo/design-themes": "d1a88fc6338d6f2a591f93572986559c35c12b88",
+        "odoo/enterprise": "5c136ba7965c1a2d52bcf91bd468c033d89ce0b6",
+        "odoo/industry": "acf3139c878f96d5694b20c3d495d2c5dd079238",
+        "odoo/odoo": "f55cd308379ded0fb0948634632ca187871b4161"
+      },
+      "saas-17.3": {
+        "odoo/design-themes": "21d16d415dcebeb230717a32359406b80c03760d",
+        "odoo/enterprise": "ea1da371b31900123246bbc57a3b1ed997e7b051",
+        "odoo/industry": "05a7e8cc4c15048f2178af06af1f200b36d95dc8",
+        "odoo/odoo": "e1fb54cb3d5db9c906946fa11ff49c1ca86d3722"
+      },
+      "saas-17.4": {
+        "odoo/design-themes": "e75a3d24453bf527c406d1cbe9ae20a944392313",
+        "odoo/enterprise": "07d72862d99be993cd8e03cc08c55fe173224465",
+        "odoo/industry": "0b37ee90ff2fad12c209b742de0821d59b4a453a",
+        "odoo/odoo": "d5baeec9b60bdf3a5ab9d1243f46e957c0489877"
+      },
+      "saas-18.1": {
+        "odoo/design-themes": "fc19a0720f9fe35641fe70afe284a46d3eaf63f6",
+        "odoo/enterprise": "fadbcc7eff3130b1531e5036ff2b1085e4c189e7",
+        "odoo/industry": "e0205f4a1a23d57a8e8a383ff8e4a7589b5781e4",
+        "odoo/odoo": "462f620803e22da4a2d08915eb31fcda876ec73e"
+      },
+      "saas-18.2": {
+        "odoo/design-themes": "8c895fcafcbd6c450c73d9a2022b6b85ddb7036f",
+        "odoo/enterprise": "7d40d6b787511bf2fcbf581859ed2cd38ba3f658",
+        "odoo/industry": "8ae6ad768ee011aa21aea1f7ac79b80f2f9f031f",
+        "odoo/odoo": "dcff521d41f0d5f4e14176d95796d6c192666dd9"
+      },
+      "saas-18.3": {
+        "odoo/design-themes": "f2064b20549ddeeda40a4b9dec3421c29548b295",
+        "odoo/enterprise": "5911be10a9b430661dea4ac8bc147a18736a4a28",
+        "odoo/industry": "c9866097c64f51fbda00dcdf687af81c3f5fb6e6",
+        "odoo/odoo": "c6dfe6d6af8e74895a6fe6f82aed64e86a5bf0f8"
+      },
+      "saas-18.4": {
+        "odoo/design-themes": "19f2dd672f5b44b49d13b25f6ff431126adeda37",
+        "odoo/enterprise": "0ccebcf06a8f9d586458aca6a203599b46c37e04",
+        "odoo/industry": "af11ab5711a04b06eaaf2864aca50de5f7be5bf6",
+        "odoo/odoo": "d8da4c45035c663ec288b202f909beca6e30c18a"
+      },
+      "saas-19.1": {
+        "odoo/design-themes": "8db77c6343de1cfd177a8b62e3bc2732acb724fa",
+        "odoo/enterprise": "1b8a03acb0a9fa55295c76e2c36789da08531a85",
+        "odoo/industry": "53b27c3f09ebe972c43f07e762c6a15e742aeb02",
+        "odoo/odoo": "d141211cd9e52a572233bf9f2c8ecd9dc5bbd02c"
+      },
+      "saas-19.2": {
+        "odoo/design-themes": "97143a1d5baf18aaf852c019760c09923d916724",
+        "odoo/enterprise": "13bfb88ce50cfcbb2f3401171a91c0f87734525f",
+        "odoo/industry": "b6b79b6d655c82ae8e55684e3c67e055277ce1c0",
+        "odoo/odoo": "7a751f3cba5f44d3fcd160dfe0e18a6580884e5c"
+      },
+      "saas-19.3": {
+        "odoo/design-themes": "08e5a4275f50e37fbceab01ffb14b8fabfe5e4f8",
+        "odoo/enterprise": "bf0997d40d5195acc389f4ea55db3f84e3e42a97",
+        "odoo/industry": "b2b5b1e401f80acf598996c6d5f06e3706a49bd0",
+        "odoo/odoo": "a92377c428dcf132a4ac50ec160fb887eb8662c9"
+      },
+      "saas-19.4": {
+        "odoo/design-themes": "99e2238db1a8f87f4d4945e41e1662b270bfa4f7",
+        "odoo/enterprise": "c50d3534b4a36a3726635664c36e23bb5507f635",
+        "odoo/industry": "010ea0a2d7241775db03ff0f197a746f4bd59b43",
+        "odoo/odoo": "349253b03e4eae40645e1944dc7e44d767173cd5"
+      },
+      "saas-11.1": {
+        "odoo/enterprise": "1a31f92c4c11bea8303230da52b855562407ad48",
+        "odoo/odoo": "e750bb6e1149cb05e13424d66d4ff12198b4cffe"
+      },
+      "saas-11.2": {
+        "odoo/enterprise": "a18c0140be2a5b8ff5d0fba15ef05525bebdda10",
+        "odoo/odoo": "499af66727e46272efcd7f6785176097642cb096"
+      },
+      "saas-11.4": {
+        "odoo/enterprise": "832b1ec34150917b5ed7acde640a66f3b4ca1eb6",
+        "odoo/odoo": "289982a03d6686e4c02ea246a596d0401f58e423"
+      },
+      "saas-11.5": {
+        "odoo/enterprise": "7f1aa1d7196d56bea774f8d1a692ede832da56cc",
+        "odoo/odoo": "e6c27216bee1198a76895496f2ea19e7466b8df5"
+      },
+      "saas-12.1": {
+        "odoo/enterprise": "dc028ba754efeb256642d13753571048029508a9",
+        "odoo/odoo": "05ed9ebbe575aa4647eadd4897a3e0b15bb68f9f"
+      },
+      "saas-12.2": {
+        "odoo/enterprise": "1a6e52cf49cd82f99b94c05b435cbe8888db0378",
+        "odoo/odoo": "9e74730a26b09fa4e516bc0d76550f7c7c502fac"
+      },
+      "saas-12.4": {
+        "odoo/enterprise": "07b93f4fed98df9b3c6445c3060115066503d3d5",
+        "odoo/odoo": "b045be2814cee96c9723f0c9d07462e07cab4773"
+      },
+      "saas-12.5": {
+        "odoo/enterprise": "a65fbe32ddfde804c4f5d4f1fb3369855a9ed4b6",
+        "odoo/odoo": "350701bf3d7d4298a2b2dc0e82935393595ae294"
+      },
+      "saas-13.1": {
+        "odoo/enterprise": "2a8b986de51b1995b4ec510c7bd604616ec42d5d",
+        "odoo/odoo": "e2672f1b60575f03cbbf5d64cf3901ebcc49a2ea"
+      },
+      "saas-13.2": {
+        "odoo/enterprise": "64319028475d5648cd65d7ac1b91f9c4a52ad59b",
+        "odoo/odoo": "4586d0fbf0bdd5959b274611c58df911e50f4ef2"
+      },
+      "saas-13.3": {
+        "odoo/enterprise": "6053506aea00554e6a62d644ff093981c7bdfaf2",
+        "odoo/odoo": "98d36b80ed1b4f11491301d3b7b5818d81edf542"
+      },
+      "saas-13.4": {
+        "odoo/enterprise": "be82a3d9ba288e07e8b3e96ee30c5d5143fb56c1",
+        "odoo/odoo": "ee04a9dea33a59ed6a5cdffc4db38b4bc4de9459"
+      },
+      "5.0": {
+        "odoo/odoo": "6d5118a629678145e664961c071d28df1295b95f"
+      },
+      "6.0": {
+        "odoo/odoo": "1eaf46603ef51f59a164dec31366a285188a5404"
+      },
+      "7.0": {
+        "odoo/odoo": "01279359b9e5340d5ecb15f0fee186f039356374"
+      }
+    },
+    "sourceSchemaVersion": 2,
+    "pulledFrom": "https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json",
+    "pulledAt": "2026-11-05T21:35:59.466Z"
   },
   "versions": {
     "5.0": {
@@ -5346,7 +5633,6 @@
           "website_event_track_location_display"
         ],
         "-": [
-          "l10n_bh_pos",
           "l10n_ec_stock",
           "l10n_tr_nilvera_base_vat",
           "test_testing_utilities",
@@ -5535,11 +5821,13 @@
           "iot_webserial",
           "l10n_eg_edi_pos",
           "l10n_es_website_sale",
+          "l10n_es_website_sale_id_type",
           "l10n_eu_account_vies",
           "l10n_gr_edi_delivery_note",
           "l10n_id_pos_self_order_qris",
           "l10n_in_boe",
           "l10n_kr_sale",
+          "l10n_la",
           "l10n_mm",
           "l10n_ph_invoice",
           "l10n_ph_sale",
@@ -5621,11 +5909,13 @@
           "l10n_ge_hr_payroll",
           "l10n_ge_hr_payroll_account",
           "l10n_gt_reports",
+          "l10n_it_cbi",
           "l10n_it_pos_fiskaly",
           "l10n_it_pos_fiskaly_edi",
           "l10n_it_pos_fiskaly_loyalty",
           "l10n_it_pos_fiskaly_sale",
           "l10n_it_pos_fiskaly_self_order",
+          "l10n_la_reports",
           "l10n_tr_currency_live_rate",
           "l10n_tr_nilvera",
           "l10n_tr_nilvera_edispatch",
@@ -5706,6 +5996,10 @@
           "hr_event",
           "hr_slides",
           "hr_survey",
+          "l10n_ec_website_sale",
+          "l10n_jp_purchase",
+          "l10n_jp_sale",
+          "l10n_jp_stock",
           "pos_discount_self_order",
           "project_hr"
         ],
@@ -5716,6 +6010,7 @@
           "hr_skills_event",
           "hr_skills_slides",
           "hr_skills_survey",
+          "l10n_bh_pos",
           "project_hr_skills"
         ]
       },

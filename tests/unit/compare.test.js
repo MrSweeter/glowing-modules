@@ -101,12 +101,12 @@ describe.skipIf(!real)('real data (public/data snapshot)', () => {
         }
     });
 
-    // Baseline from the live gist on 2026-11-04. Re-baseline when stable branches change.
+    // Baseline from the live gist on 2026-11-05. Re-baseline when stable branches change.
     it.each([
         ['17.0', '18.0', 227, 76],
         ['16.0', '18.0', 542, 124],
         ['12.0', '19.0', 1226, 175],
-        ['saas-19.4', '20.0', 101, 46],
+        ['saas-19.4', '20.0', 105, 46],
     ])('%s → %s = +%i / −%i', (from, to, plus, minus) => {
         const r = compare(realModel, from, to);
         expect(countEntries(r.added)).toBe(plus);
