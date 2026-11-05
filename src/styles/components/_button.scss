@@ -1,0 +1,100 @@
+@use '../abstracts' as *;
+
+.gm-btn {
+    @include button-reset;
+
+    display: inline-flex;
+    gap: space(2);
+    align-items: center;
+    justify-content: center;
+    min-height: 2.5rem;
+    padding: space(2) space(4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: color('text');
+    background: color('surface');
+    border: 1px solid color('border-strong');
+    border-radius: radius('md');
+
+    @include motion-safe {
+        transition:
+            background-color 120ms ease,
+            border-color 120ms ease,
+            color 120ms ease;
+    }
+
+    &:hover:not(:disabled) {
+        background: color('surface-2');
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+    }
+
+    &--primary {
+        color: color('on-primary');
+        background: color('primary');
+        border-color: color('primary');
+
+        &:hover:not(:disabled) {
+            background: color('primary-hover');
+        }
+    }
+
+    &--ghost {
+        background: transparent;
+        border-color: transparent;
+    }
+
+    &--icon {
+        width: 2.5rem;
+        padding: 0;
+    }
+
+    &--sm {
+        min-height: 2rem;
+        padding: space(1) space(3);
+        font-size: 0.8125rem;
+
+        &.gm-btn--icon {
+            width: 2rem;
+        }
+    }
+}
+
+/// Version selector button ("From 19.0 ▾").
+.gm-version-btn {
+    @include button-reset;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 7.5rem;
+    padding: space(1) space(3);
+    text-align: left;
+    background: color('surface');
+    border: 1px solid color('border-strong');
+    border-radius: radius('md');
+
+    &:hover {
+        border-color: color('primary');
+    }
+
+    &__label {
+        font-size: 0.6875rem;
+        font-weight: 500;
+        color: color('text-muted');
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+    }
+
+    &__value {
+        display: inline-flex;
+        gap: space(1);
+        align-items: center;
+        font-size: 1.0625rem;
+        font-weight: 600;
+        color: color('primary');
+    }
+}

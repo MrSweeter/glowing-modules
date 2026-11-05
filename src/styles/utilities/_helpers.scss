@@ -1,0 +1,20 @@
+@use '../abstracts' as *;
+
+.gm-visually-hidden {
+    @include visually-hidden;
+}
+
+/// Horizontal group that wraps.
+.gm-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+    align-items: center;
+}
+
+/// Vertical rhythm.
+.gm-stack {
+    display: flex;
+    flex-direction: column;
+    gap: space(3);
+}

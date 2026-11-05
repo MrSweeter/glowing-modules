@@ -1,0 +1,16 @@
+@use '../abstracts' as *;
+
+.gm-check {
+    display: inline-flex;
+    gap: space(2);
+    align-items: center;
+    font-size: 0.8125rem;
+    color: color('text-muted');
+    cursor: pointer;
+
+    input {
+        width: 1rem;
+        height: 1rem;
+        accent-color: var(--gm-primary);
+    }
+}

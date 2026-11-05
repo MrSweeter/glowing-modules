@@ -1,0 +1,33 @@
+@use '../abstracts' as *;
+
+.gm-skeleton {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+    padding: space(3) 0;
+
+    &__item {
+        width: var(--gm-skeleton-width, 7rem);
+        height: 1.75rem;
+        background: color('surface-2');
+        border-radius: radius('pill');
+
+        @include motion-safe {
+            animation: gm-pulse 1.2s ease-in-out infinite alternate;
+        }
+
+        &:nth-child(3n) {
+            --gm-skeleton-width: 9rem;
+        }
+
+        &:nth-child(4n + 1) {
+            --gm-skeleton-width: 5rem;
+        }
+    }
+}
+
+@keyframes gm-pulse {
+    to {
+        opacity: 0.5;
+    }
+}

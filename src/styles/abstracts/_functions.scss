@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use 'sass:math';
+@use 'tokens';
+
+@function space($step) {
+    @if not map.has-key(tokens.$space, $step) {
+        @error 'Unknown space step `#{$step}`.';
+    }
+
+    @return map.get(tokens.$space, $step);
+}
+
+@function radius($key) {
+    @return map.get(tokens.$radius, $key);
+}
+
+@function z($layer) {
+    @return map.get(tokens.$z, $layer);
+}
+
+@function rem($px) {
+    @return math.div($px, 16px) * 1rem;
+}
+
+/// `var(--gm-<name>)` with a compile-time check that the token exists.
+@function color($name) {
+    @if not map.has-key(tokens.$colors-light, $name) {
+        @error 'Unknown color token `#{$name}`.';
+    }
+
+    @return var(--gm-#{$name});
+}

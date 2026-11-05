@@ -1,0 +1,49 @@
+@use '../abstracts' as *;
+
+.gm-container {
+    width: 100%;
+    max-width: $container-max;
+    padding-inline: space(4);
+    margin-inline: auto;
+
+    @include mq(lg) {
+        padding-inline: space(6);
+    }
+}
+
+.gm-skip-link {
+    position: absolute;
+    top: space(2);
+    left: space(2);
+    z-index: z('toast');
+    padding: space(2) space(4);
+    color: color('on-primary');
+    background: color('primary');
+    border-radius: radius('md');
+    transform: translateY(-200%);
+
+    &:focus {
+        transform: none;
+    }
+}
+
+.gm-main {
+    min-height: 100dvh; // keeps the footer below the fold while data loads (no layout shift)
+    padding-block: space(4) space(7);
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.gm-intro {
+    max-width: 60rem;
+    margin-bottom: space(3);
+    font-size: 0.875rem;
+    color: color('text-muted');
+}
+
+// Controls keep their space while data loads (avoids layout shift), but are neither visible nor focusable.
+:root:not(.gm-ready) [data-requires-data] {
+    visibility: hidden;
+}

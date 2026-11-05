@@ -1,0 +1,41 @@
+@use '../abstracts' as *;
+
+// Usage: <span class="gm-icon" aria-hidden="true">search</span>
+.gm-icon {
+    display: inline-block;
+    flex: none;
+    width: 1em;
+    overflow: hidden;
+    font-family: 'Material Symbols Outlined';
+    font-size: 1.25rem;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: nowrap;
+    direction: ltr;
+    vertical-align: middle;
+    user-select: none;
+    font-feature-settings: 'liga';
+
+    &--sm {
+        font-size: 1rem;
+    }
+
+    &--lg {
+        font-size: 2rem;
+    }
+
+    &--spin {
+        @include motion-safe {
+            animation: gm-spin 1s linear infinite;
+        }
+    }
+}
+
+@keyframes gm-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

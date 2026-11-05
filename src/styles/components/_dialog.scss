@@ -1,0 +1,74 @@
+@use '../abstracts' as *;
+
+/// Native <dialog> opened with showModal().
+.gm-dialog {
+    width: min(44rem, calc(100vw - 2rem));
+    margin: auto; // the reset removes the UA centering margin
+    max-height: min(85dvh, 48rem);
+    padding: 0;
+    color: color('text');
+    background: color('surface');
+    border: 1px solid color('border');
+    border-radius: radius('lg');
+    box-shadow: var(--gm-shadow-lg);
+
+    &::backdrop {
+        background: color('backdrop');
+    }
+
+    &[open] {
+        display: flex;
+        flex-direction: column;
+
+        @include motion-safe {
+            animation: gm-dialog-in 140ms ease-out;
+        }
+    }
+
+    &__header {
+        display: flex;
+        gap: space(3);
+        align-items: center;
+        justify-content: space-between;
+        padding: space(4) space(4) space(3) space(5);
+        border-bottom: 1px solid color('border');
+    }
+
+    &__title {
+        font-size: 1.125rem;
+    }
+
+    &__body {
+        flex: 1;
+        padding: space(4) space(5) space(5);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+
+    // Side drawer on desktop, bottom sheet on mobile.
+    &--drawer {
+        @include mq(md) {
+            width: min(32rem, 100vw);
+            max-width: none;
+            height: 100dvh;
+            max-height: none;
+            margin: 0 0 0 auto;
+            border-radius: radius('lg') 0 0 radius('lg');
+        }
+
+        @include mq-down(md) {
+            width: 100vw;
+            max-width: none;
+            max-height: 85dvh;
+            margin: auto 0 0;
+            border-radius: radius('lg') radius('lg') 0 0;
+        }
+    }
+}
+
+@keyframes gm-dialog-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}

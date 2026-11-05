@@ -1,0 +1,48 @@
+@use '../abstracts' as *;
+
+body {
+    font-family: var(--gm-font-sans);
+    font-size: 1rem;
+    color: color('text');
+    background-color: color('bg');
+    background-image: var(--gm-page-gradient);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+h1,
+h2,
+h3 {
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+a {
+    color: color('accent');
+    text-underline-offset: 0.2em;
+
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
+}
+
+:focus-visible {
+    @include focus-ring;
+}
+
+mark {
+    color: color('mark-text');
+    background: color('mark-bg');
+    border-radius: 2px;
+}
+
+
+code {
+    font-family: var(--gm-font-mono);
+    font-size: 0.875em;
+}
+
+::selection {
+    color: color('on-primary');
+    background: color('primary');
+}

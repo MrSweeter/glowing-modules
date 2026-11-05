@@ -1,0 +1,62 @@
+@use '../abstracts' as *;
+
+/// Inline message: fallback data, URL warnings, errors, empty states.
+.gm-notice {
+    display: flex;
+    gap: space(3);
+    align-items: flex-start;
+    padding: space(3) space(4);
+    font-size: 0.875rem;
+    background: color('surface');
+    border: 1px solid color('border');
+    border-left: 4px solid color('accent');
+    border-radius: radius('md');
+
+    & + & {
+        margin-top: space(2);
+    }
+
+    &__body {
+        flex: 1;
+    }
+
+    &--warning {
+        border-left-color: color('moved-strong');
+    }
+
+    &--error {
+        border-left-color: color('removed-strong');
+    }
+}
+
+.gm-empty {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+    align-items: center;
+    padding: space(6) space(4);
+    color: color('text-muted');
+    text-align: center;
+
+    .gm-icon {
+        font-size: 2rem;
+    }
+}
+
+.gm-error-card {
+    display: flex;
+    flex-direction: column;
+    gap: space(3);
+    align-items: center;
+    max-width: 34rem;
+    padding: space(6) space(5);
+    margin: space(6) auto;
+    text-align: center;
+    background: color('surface');
+    border: 1px solid color('border');
+    border-radius: radius('lg');
+
+    .gm-icon {
+        color: color('removed-strong');
+    }
+}

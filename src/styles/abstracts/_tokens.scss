@@ -1,0 +1,151 @@
+// Design tokens. Contrast ratios (WCAG 2.2) checked 2026-11-04; keep them ≥ 4.5:1 for text, ≥ 3:1 for UI.
+// Theme-dependent values are emitted as `--gm-*` custom properties (see base/_root.scss); compile-time
+// values (breakpoints, spacing, radius, z-index) stay Sass maps.
+
+$colors-light: (
+    'bg': #f7f4f6,
+    'surface': #fff,
+    'surface-2': #f1ecf0,
+    'border': #e2d8e0,
+    'border-strong': #c9bcc6,
+    'text': #2a2228,
+    // 14.16 on bg
+    'text-muted': #5f545c,
+    // 6.19 on surface-2
+    'primary': #714b67,
+    // 7.23 on surface
+    'primary-hover': #5c3c54,
+    'on-primary': #fff,
+    // 7.23 on primary
+    'primary-soft': #efe6ed,
+    'on-primary-soft': #5c3c54,
+    // 7.72
+    'accent': #016d72,
+    // 6.12 on surface
+    'added': #0b5a4a,
+    // 7.12 on added-bg
+    'added-bg': #dcf5ee,
+    'added-strong': #0c7360,
+    // 5.77 with on-strong
+    'removed': #8f1f2c,
+    // 7.24 on removed-bg
+    'removed-bg': #fce4e6,
+    'removed-strong': #a8323d,
+    // 6.59 with on-strong
+    'moved': #6b4e00,
+    // 6.87 on moved-bg
+    'moved-bg': #fdf1cf,
+    'moved-strong': #7f5c00,
+    // 6.12 with on-strong
+    'on-strong': #fff,
+    'mark-bg': #ffe08a,
+    'mark-text': #2a2228,
+    // 11.99
+    'focus': #017e84,
+    // 4.45 on bg (≥ 3:1 required)
+    'backdrop': rgb(23 18 26 / 55%),
+    'shadow-sm': (
+        0 1px 2px rgb(42 34 40 / 6%),
+        0 1px 6px rgb(42 34 40 / 6%),
+    ),
+    'shadow-lg': (
+        0 8px 32px rgb(42 34 40 / 18%),
+        0 2px 8px rgb(42 34 40 / 8%),
+    ),
+    'page-gradient': (
+        radial-gradient(1200px 600px at 0% -10%, #efe3ec 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 0%, #ddefef 0%, transparent 55%),
+    ),
+);
+
+$colors-dark: (
+    'bg': #17121a,
+    'surface': #211a23,
+    'surface-2': #2b222d,
+    'border': #3b303d,
+    'border-strong': #554857,
+    'text': #f1eaf0,
+    // 15.61 on bg
+    'text-muted': #b8acb5,
+    // 7.01 on surface-2
+    'primary': #d4a9c8,
+    // 8.34 on surface
+    'primary-hover': #e6c4dc,
+    'on-primary': #1d121a,
+    // 8.94
+    'primary-soft': #33263a,
+    'on-primary-soft': #e9cfe1,
+    // 9.79
+    'accent': #5cc8ce,
+    // 8.58 on surface
+    'added': #8ee6cf,
+    // 8.44 on added-bg
+    'added-bg': #143b33,
+    'added-strong': #5fd1b5,
+    'removed': #ffb3ba,
+    // 8.93
+    'removed-bg': #3f1b21,
+    'removed-strong': #f08a94,
+    'moved': #ffd97a,
+    // 9.70
+    'moved-bg': #3a2f10,
+    'moved-strong': #e8c15a,
+    'on-strong': #17121a,
+    // ≥ 7.4 on every *-strong
+    'mark-bg': #e8c15a,
+    'mark-text': #17121a,
+    // 10.73
+    'focus': #5cc8ce,
+    // 9.32 on bg
+    'backdrop': rgb(0 0 0 / 65%),
+    'shadow-sm': (
+        0 1px 2px rgb(0 0 0 / 40%),
+    ),
+    'shadow-lg': (
+        0 8px 32px rgb(0 0 0 / 55%),
+    ),
+    'page-gradient': (
+        radial-gradient(1200px 600px at 0% -10%, #2a1b29 0%, transparent 60%),
+        radial-gradient(900px 500px at 110% 0%, #10292b 0%, transparent 55%),
+    ),
+);
+
+$space: (
+    0: 0,
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 0.75rem,
+    4: 1rem,
+    5: 1.5rem,
+    6: 2rem,
+    7: 3rem,
+);
+
+$radius: (
+    'sm': 4px,
+    'md': 8px,
+    'lg': 14px,
+    'pill': 999px,
+);
+
+$breakpoints: (
+    'sm': 576px,
+    'md': 768px,
+    'lg': 992px,
+    'xl': 1280px,
+);
+
+$z: (
+    'header': 10,
+    'toast': 60,
+);
+
+$font-sans:
+    'Poppins',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    roboto,
+    sans-serif;
+$font-mono: ui-monospace, sfmono-regular, menlo, consolas, monospace;
+$container-max: 1440px;

@@ -1,0 +1,25 @@
+@use '../abstracts' as *;
+
+:root {
+    @include theme-vars($colors-light);
+
+    color-scheme: light;
+
+    --gm-font-sans: #{$font-sans};
+    --gm-font-mono: #{$font-mono};
+    --gm-header-height: 4.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+        @include theme-vars($colors-dark);
+
+        color-scheme: dark;
+    }
+}
+
+:root[data-theme='dark'] {
+    @include theme-vars($colors-dark);
+
+    color-scheme: dark;
+}

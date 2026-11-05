@@ -1,0 +1,65 @@
+@use 'sass:map';
+@use 'tokens';
+@use 'functions' as fn;
+
+/// Mobile-first media query: `@include mq(md) { … }`.
+@mixin mq($bp) {
+    @media (min-width: map.get(tokens.$breakpoints, $bp)) {
+        @content;
+    }
+}
+
+/// Below a breakpoint (exclusive).
+@mixin mq-down($bp) {
+    @media (max-width: (map.get(tokens.$breakpoints, $bp) - 0.02px)) {
+        @content;
+    }
+}
+
+/// Emit a color map as `--gm-*` custom properties.
+@mixin theme-vars($map) {
+    @each $name, $value in $map {
+        --gm-#{$name}: #{$value};
+    }
+}
+
+@mixin focus-ring {
+    outline: 2px solid fn.color('focus');
+    outline-offset: 2px;
+}
+
+@mixin visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/// Wrap transitions/animations so they only run for users who did not ask for reduced motion.
+@mixin motion-safe {
+    @media (prefers-reduced-motion: no-preference) {
+        @content;
+    }
+}
+
+@mixin truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/// Reset native button look.
+@mixin button-reset {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}

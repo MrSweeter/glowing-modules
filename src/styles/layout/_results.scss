@@ -1,0 +1,157 @@
+@use '../abstracts' as *;
+
+.gm-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2) space(4);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: space(4);
+
+    &__text {
+        color: color('text-muted');
+
+        strong {
+            color: color('text');
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: space(2);
+    }
+}
+
+.gm-results {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: space(5);
+    align-items: start;
+
+    @include mq(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    // Mobile: only the selected tab's column is shown.
+    @include mq-down(md) {
+        &[data-tab='added'] > :not([data-column='added']),
+        &[data-tab='removed'] > :not([data-column='removed']),
+        &[data-tab='moved'] > :not([data-column='moved']) {
+            display: none;
+        }
+    }
+
+    &__col {
+        min-width: 0;
+        padding: space(1) space(4) space(3);
+        background: color('surface');
+        border: 1px solid color('border');
+        border-radius: radius('lg');
+        box-shadow: var(--gm-shadow-sm);
+
+        &--moved {
+            @include mq(md) {
+                grid-column: 1 / -1;
+            }
+        }
+    }
+
+    &__heading {
+        display: flex;
+        gap: space(2);
+        align-items: center;
+        padding: space(3) space(4);
+        margin: space(3) calc(-1 * #{space(4)} + #{space(2)}) space(2);
+        font-size: 1rem;
+        color: color('on-strong');
+        border-radius: radius('md');
+
+        &--added {
+            background: color('added-strong');
+        }
+
+        &--removed {
+            background: color('removed-strong');
+        }
+
+        &--moved {
+            background: color('moved-strong');
+        }
+
+        .gm-btn {
+            margin-left: auto;
+            color: inherit;
+        }
+    }
+
+    &__count {
+        font-variant-numeric: tabular-nums;
+    }
+
+    &__note {
+        margin-bottom: space(2);
+        font-size: 0.8125rem;
+        color: color('text-muted');
+    }
+}
+
+/// Collapsible repository group (<details>).
+.gm-repo-group {
+    border-top: 1px solid color('border');
+
+    &:first-of-type {
+        border-top: 0;
+    }
+
+    &__summary {
+        display: flex;
+        gap: space(2);
+        align-items: center;
+        padding: space(2) 0;
+        font-weight: 600;
+        cursor: pointer;
+        list-style: none;
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        .gm-icon {
+            color: color('text-muted');
+
+            @include motion-safe {
+                transition: transform 120ms ease;
+            }
+        }
+    }
+
+    &:not([open]) &__summary .gm-icon {
+        transform: rotate(-90deg);
+    }
+
+    &__count {
+        font-size: 0.8125rem;
+        font-weight: 400;
+        color: color('text-muted');
+    }
+}
+
+.gm-moved-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: space(2) space(4);
+    padding: space(2) 0 space(3);
+
+    &__item {
+        display: flex;
+        flex-wrap: wrap;
+        gap: space(2);
+        align-items: center;
+        font-size: 0.8125rem;
+    }
+
+    &__repos {
+        font-family: var(--gm-font-mono);
+        color: color('text-muted');
+    }
+}

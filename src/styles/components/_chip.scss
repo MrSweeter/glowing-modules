@@ -1,0 +1,77 @@
+@use '../abstracts' as *;
+
+.gm-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space(2);
+    padding: space(2) 0 space(3);
+}
+
+/// Module chip (a <button> opening the module details).
+.gm-chip {
+    @include button-reset;
+
+    display: inline-flex;
+    gap: space(1);
+    align-items: center;
+    max-width: 100%;
+    padding: 0.125rem space(2) 0.125rem space(1);
+    font-family: var(--gm-font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.5rem;
+    border: 1px solid transparent;
+    border-radius: radius('pill');
+
+    @include motion-safe {
+        transition: border-color 120ms ease;
+    }
+
+    &__label {
+        @include truncate;
+    }
+
+    &:hover {
+        border-color: currentcolor;
+    }
+
+    &--added {
+        color: color('added');
+        background: color('added-bg');
+    }
+
+    &--removed {
+        color: color('removed');
+        background: color('removed-bg');
+    }
+
+    &--moved {
+        color: color('moved');
+        background: color('moved-bg');
+    }
+}
+
+/// Filter chip (toggle button with aria-pressed).
+.gm-filter-chip {
+    @include button-reset;
+
+    display: inline-flex;
+    gap: space(1);
+    align-items: center;
+    min-height: 2rem;
+    padding: 0 space(3);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: color('on-primary-soft');
+    background: color('primary-soft');
+    border: 1px solid transparent;
+    border-radius: radius('pill');
+
+    &:hover {
+        border-color: color('primary');
+    }
+
+    &[aria-pressed='true'] {
+        color: color('on-primary');
+        background: color('primary');
+    }
+}
