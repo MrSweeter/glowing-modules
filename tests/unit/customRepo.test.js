@@ -114,7 +114,7 @@ describe('versions without a branch are unknown', () => {
         expect(unknownVersions(known, ['14.0', '17.0', '99.0'])).toEqual(['saas-14.1', '15.0', '16.0', 'master']);
     });
 
-    it('leaves the repository out of those snapshots (not carried forward)', () => {
+    it('leaves the repository out of those snapshots', () => {
         expect([...snapshotOf(model, '14.0').get(repo)]).toEqual(['a', 'b']);
         for (const v of ['saas-14.1', '15.0', '16.0', 'master']) {
             expect(snapshotOf(model, v).has(repo)).toBe(false);

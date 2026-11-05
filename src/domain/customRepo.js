@@ -84,8 +84,8 @@ export function modulesFromTree(tree) {
 
 /**
  * Module sets per branch → the per-version diff chain of the data format, for one repository.
- * Versions unknown to the main data are dropped. Each branch is diffed against the previous branch: a version
- * without a branch is not carried forward, its state is unknown (see unknownVersions).
+ * Versions unknown to the main data are dropped. Each branch is diffed against the previous branch; a version
+ * without a branch gets no entry (its state is unknown, see unknownVersions).
  * @param {string} id `owner/repo`
  * @param {Record<string, string[]>} modulesByVersion
  * @param {Iterable<string>} knownVersions versions of the main data
@@ -110,7 +110,7 @@ export function toVersionDiff(id, modulesByVersion, knownVersions) {
 
 /**
  * Versions of the main data where a custom repository has no branch: its modules there are unknown (maybe
- * removed, maybe not), so the repository is left out of those versions instead of being shown present or removed.
+ * removed, maybe not), so the repository is left out of those versions: neither present nor removed.
  * @param {Iterable<string>} knownVersions versions of the main data
  * @param {Iterable<string>} branches branches of the repository
  * @returns {string[]}

@@ -162,6 +162,10 @@ test.describe('search', () => {
 
         const l10n = page.locator('#name-chips [data-pattern="^l10n_"]');
         await expect(l10n).toHaveAccessibleName(/Localization/);
+        await expect(l10n).toHaveAttribute(
+            'title',
+            /Country-specific modules.*\nPattern: \^l10n_\nClick to show only/s
+        );
         await l10n.click();
         await expect(search).toHaveValue('name:^l10n_');
         await expect(l10n).toHaveAttribute('data-state', 'include');
