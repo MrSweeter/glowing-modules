@@ -22,7 +22,7 @@ export function renderControls(state, { view }) {
         const chipState = nameFilterState(state.query, chip.dataset.pattern);
         chip.dataset.state = chipState;
         chip.setAttribute('aria-pressed', String(chipState !== 'off'));
-        chip.title = NAME_CHIP_TITLE[chipState];
+        chip.title = `${chip.dataset.hint}\n${NAME_CHIP_TITLE[chipState]}`;
         chip.querySelector('[data-role="name-state"]').textContent = NAME_CHIP_STATE[chipState];
     }
     const q = view.query;
@@ -66,27 +66,28 @@ export function renderRepoChips(repos, onToggle) {
 
 /**
  * Module-name filter chips (`name:` / `-name:` tokens); each click moves to the next state (see cycleNameFilter).
- * @param {{ label: string, pattern: string }[]} filters
+ * The tooltip gives the description (if any), the pattern and what the next click does.
+ * @param {{ label: string, pattern: string, description?: string }[]} filters
  * @param {(pattern: string) => void} onCycle
  */
 export function renderNameChips(filters, onCycle) {
     $('#name-chips').replaceChildren(
-        ...filters.map(({ label, pattern }) =>
-            el(
+        ...filters.map(({ label, pattern, description }) => {
+            const hint = [description, `Pattern: ${pattern}`].filter(Boolean).join('\n');
+            return el(
                 'button',
                 {
                     type: 'button',
                     class: 'gm-filter-chip',
-                    dataset: { pattern, state: 'off' },
+                    dataset: { pattern, hint },
                     'aria-pressed': 'false',
-                    title: NAME_CHIP_TITLE.off,
+                    title: `${hint}\n${NAME_CHIP_TITLE.off}`,
                     onclick: () => onCycle(pattern),
                 },
                 el('span', { class: 'gm-filter-chip__label' }, label),
-                el('code', { class: 'gm-filter-chip__pattern' }, pattern),
                 el('span', { class: 'gm-visually-hidden', dataset: { role: 'name-state' } })
-            )
-        )
+            );
+        })
     );
 }
 

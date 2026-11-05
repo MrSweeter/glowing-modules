@@ -148,7 +148,7 @@ function buildData() {
         baseVersions,
         ...custom.map((d) => toVersionDiff(d.id, modulesByVersion(d), known))
     );
-    // A version without a branch is unknown for that repository (not carried forward from the previous branch).
+    // Versions where a custom repository has no branch: its modules there are unknown.
     const unknown = new Map();
     for (const d of custom) {
         for (const v of unknownVersions(known, Object.keys(d.branches))) {

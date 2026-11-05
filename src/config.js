@@ -28,23 +28,41 @@ export const CUSTOM_REPO_OUTDATED_MS = 7 * 24 * 60 * 60 * 1000;
 /**
  * Module-name filters of the Filter panel (regex on the module name; each chip cycles show only → hide → off).
  * Chosen from the most frequent name patterns of the data; a pattern must not contain whitespace (one search token).
+ * The chip shows the label; its tooltip shows the description (when the label needs one) and the pattern.
+ * @type {{ label: string, pattern: string, description?: string }[]}
  */
 export const NAME_FILTERS = [
-    { label: 'Tests', pattern: '(^|_)tests?(_|$)' },
-    { label: 'Localization', pattern: '^l10n_' },
+    { label: 'Tests', pattern: '(^|_)tests?(_|$)', description: 'Test modules and test helpers.' },
+    { label: 'Localization', pattern: '^l10n_', description: 'Country-specific modules (l10n = localization).' },
     { label: 'Website', pattern: '^website_' },
     { label: 'Point of Sale', pattern: '^pos_' },
     { label: 'Sales', pattern: '^sale_' },
     { label: 'Accounting', pattern: '^account_' },
-    { label: 'Employees', pattern: '^hr_' },
+    { label: 'Employees', pattern: '^hr_', description: 'Human resources apps (hr = human resources).' },
     { label: 'AI', pattern: '^ai_' },
-    { label: 'Themes', pattern: '^theme_' },
-    { label: 'Spreadsheet', pattern: '^spreadsheet_' },
+    { label: 'Themes', pattern: '^theme_', description: 'Website themes.' },
+    { label: 'Spreadsheet', pattern: '^spreadsheet_', description: 'Spreadsheet integrations of other apps.' },
     { label: 'Project', pattern: '^project_' },
-    { label: 'Payment', pattern: '^payment_' },
-    { label: 'Inventory', pattern: '^stock_' },
-    { label: 'Manufacturing', pattern: '^mrp_' },
-    { label: 'EDI', pattern: '_edi(_|$)' },
-    { label: 'Reports', pattern: '_reports$' },
-    { label: 'Enterprise bridges', pattern: '_enterprise$' },
+    { label: 'Payment', pattern: '^payment_', description: 'Payment providers.' },
+    { label: 'Inventory', pattern: '^stock_', description: 'Inventory app (technical name: stock).' },
+    {
+        label: 'Manufacturing',
+        pattern: '^mrp_',
+        description: 'Manufacturing app (mrp = manufacturing resource planning).',
+    },
+    {
+        label: 'EDI',
+        pattern: '_edi(_|$)',
+        description: 'Electronic data interchange: e-invoicing formats and connectors.',
+    },
+    {
+        label: 'Reports',
+        pattern: '_reports$',
+        description: 'Reporting modules, mostly country-specific financial reports.',
+    },
+    {
+        label: 'Enterprise bridges',
+        pattern: '_enterprise$',
+        description: 'Modules adding Enterprise features to a Community module.',
+    },
 ];

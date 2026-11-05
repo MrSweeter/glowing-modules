@@ -95,14 +95,14 @@ test('adds a repository, keeps it after a reload and removes it', async ({ page,
     expect(consoleErrors).toEqual([]);
 });
 
-test('a version without a branch is unknown: not compared, not carried forward', async ({ page, consoleErrors }) => {
+test('a version without a branch is unknown: neither present nor compared', async ({ page, consoleErrors }) => {
     await github(page);
     await page.goto('./');
     await ready(page);
     await addRepository(page, 'acme/addons');
     await expect(page.locator('#custom-repo-status')).toHaveText('Added acme/addons: 3 modules in 2 versions.');
 
-    // acme/addons has no master branch: its 18.0 modules are neither carried into master nor listed as removed.
+    // acme/addons has no master branch: its modules are neither present in master nor listed as removed.
     await page.goto('./?from=18.0&to=master');
     await ready(page);
     await expect(page.locator('#summary')).toContainText('Not compared: acme/addons (no master branch)');
