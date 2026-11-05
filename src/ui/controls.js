@@ -15,7 +15,7 @@ export function renderControls(state, { view }) {
     if (document.activeElement !== input && input.value !== state.query) input.value = state.query;
     $('#search-clear').hidden = !input.value;
 
-    for (const chip of document.querySelectorAll('#repo-chips [data-token]')) {
+    for (const chip of document.querySelectorAll('#owner-chips [data-token], #repo-chips [data-token]')) {
         chip.setAttribute('aria-pressed', String(hasToken(state.query, chip.dataset.token)));
     }
     /** @type {HTMLInputElement} */ ($('#show-tests')).checked = state.showTests;
@@ -34,25 +34,36 @@ export function renderControls(state, { view }) {
     $('#search-errors').textContent = messages.join(' ');
 }
 
-/** Repository filter chips (built once from the data). */
+/** Owner filter chips (`owner:` token), from the repositories of the data. */
+export function renderOwnerChips(repos, onToggle) {
+    const owners = [...new Set(repos.map((full) => full.split('/')[0]))];
+    $('#owner-chips').replaceChildren(
+        ...owners.map((owner) => tokenChip(`owner:${owner}`, owner, `Only repositories of ${owner}`, onToggle))
+    );
+}
+
+/** Repository filter chips (`repository:` token), from the repositories of the data. */
 export function renderRepoChips(repos, onToggle) {
     $('#repo-chips').replaceChildren(
         ...repos.map((full) => {
             const name = full.split('/')[1];
-            const token = `repository:${name}`;
-            return el(
-                'button',
-                {
-                    type: 'button',
-                    class: 'gm-filter-chip',
-                    dataset: { token },
-                    'aria-pressed': 'false',
-                    title: `Only ${full}`,
-                    onclick: () => onToggle(token),
-                },
-                name
-            );
+            return tokenChip(`repository:${name}`, name, `Only ${full}`, onToggle);
         })
+    );
+}
+
+function tokenChip(token, label, title, onToggle) {
+    return el(
+        'button',
+        {
+            type: 'button',
+            class: 'gm-filter-chip',
+            dataset: { token },
+            'aria-pressed': 'false',
+            title,
+            onclick: () => onToggle(token),
+        },
+        label
     );
 }
 

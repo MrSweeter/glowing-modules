@@ -18,7 +18,7 @@ import { initialSelection, normalize, setFrom, setTo } from './state/selection.j
 import { createStore } from './state/store.js';
 import { readUrl, writeUrl } from './state/url.js';
 import { buildView, changeCountsByVersion } from './state/view.js';
-import { renderAppVersion, renderControls, renderDataInfo, renderRepoChips } from './ui/controls.js';
+import { renderAppVersion, renderControls, renderDataInfo, renderOwnerChips, renderRepoChips } from './ui/controls.js';
 import { createCustomRepos } from './ui/customRepos.js';
 import { $, debounce, el, icon, storage } from './ui/dom.js';
 import { createModuleDetails } from './ui/moduleDetails.js';
@@ -157,9 +157,9 @@ function buildData() {
         sorted: model.versions,
         branches: new Map(custom.map((d) => [d.id, Object.keys(d.branches)])),
     };
-    renderRepoChips(model.repos, (token) =>
-        commit({ query: toggleToken(store.get().query, token) }, { mode: 'replace' })
-    );
+    const toggle = (token) => commit({ query: toggleToken(store.get().query, token) }, { mode: 'replace' });
+    renderOwnerChips(model.repos, toggle);
+    renderRepoChips(model.repos, toggle);
 }
 
 function onError(error) {
