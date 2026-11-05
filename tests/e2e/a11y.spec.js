@@ -37,6 +37,26 @@ for (const scheme of /** @type {const} */ (['light', 'dark'])) {
             await audit(page);
         });
 
+        test('filter panel with a custom repository', async ({ page }) => {
+            await page.addInitScript(() => {
+                const repo = {
+                    id: 'acme/addons',
+                    fetchedAt: new Date().toISOString(),
+                    etags: {},
+                    pages: 1,
+                    ignored: 0,
+                    branches: { '17.0': { sha: 's', modules: ['acme_a'], truncated: false } },
+                };
+                localStorage.setItem('gm.repos', JSON.stringify([repo.id]));
+                localStorage.setItem(`gm.repo:${repo.id}`, JSON.stringify(repo));
+            });
+            await page.goto('./');
+            await ready(page);
+            await page.locator('#filter-toggle').click();
+            await expect(page.locator('#custom-repo-list li')).toHaveCount(1);
+            await audit(page);
+        });
+
         test('module details', async ({ page }) => {
             await page.goto('./?from=16.0&to=18.0&m=moved_mod');
             await ready(page);

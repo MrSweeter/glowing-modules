@@ -1,6 +1,6 @@
 // External links for a module. Pure.
 
-import { isSaas, versionKey } from './versions.js';
+import { compareVersions, isSaas, versionKey } from './versions.js';
 
 // design-themes has no branch for most saas versions before saas-14.1 (checked 2026-11-04).
 const DESIGN_THEMES_OLD_SAAS = new Set(['saas-11.3', 'saas-12.3', 'saas-13.5']);
@@ -10,11 +10,19 @@ const DESIGN_THEMES_OLD_SAAS = new Set(['saas-11.3', 'saas-12.3', 'saas-13.5']);
  * @param {string} repo `owner/name`
  * @param {string} version
  * @param {string} module
+ * @param {{ branches?: string[] }} [options] branches of a custom repository: the link points to the latest
+ *   branch at or before `version` (a version without branch carries the previous branch's modules)
  * @returns {{ url: string, branch: string, private: boolean } | null}
  */
-export function githubUrl(repo, version, module) {
+export function githubUrl(repo, version, module, { branches } = {}) {
     const [owner, name] = repo.split('/');
-    if (owner !== 'odoo') return null;
+    if (owner !== 'odoo') {
+        const branch = (branches ?? [])
+            .filter((b) => compareVersions(b, version) <= 0)
+            .sort(compareVersions)
+            .at(-1);
+        return branch ? { url: treeUrl(repo, branch, module), branch, private: false } : null;
+    }
     let branch = version;
     if (
         name === 'design-themes' &&
@@ -25,9 +33,9 @@ export function githubUrl(repo, version, module) {
         branch = `${versionKey(version)[0]}.0`;
     }
     const path = name === 'odoo' ? `addons/${module}` : module;
-    return {
-        url: `https://github.com/${repo}/tree/${encodeURIComponent(branch)}/${encodeURIComponent(path).replace(/%2F/g, '/')}`,
-        branch,
-        private: name === 'enterprise',
-    };
+    return { url: treeUrl(repo, branch, path), branch, private: name === 'enterprise' };
+}
+
+function treeUrl(repo, branch, path) {
+    return `https://github.com/${repo}/tree/${encodeURIComponent(branch)}/${encodeURIComponent(path).replace(/%2F/g, '/')}`;
 }

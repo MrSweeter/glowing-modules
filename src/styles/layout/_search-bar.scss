@@ -1,7 +1,8 @@
 @use '../abstracts' as *;
 
+// Vertical rhythm: header → notices → search → results, space(4) apart (gm-main adds its own space(4) on top).
 .gm-search {
-    padding-block: space(4) space(2);
+    padding-top: space(4);
 
     &__row {
         display: flex;

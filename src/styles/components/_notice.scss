@@ -1,10 +1,19 @@
 @use '../abstracts' as *;
 
+/// Page-level notices, between the header and the search bar (hidden when empty).
+.gm-notices {
+    padding-top: space(4);
+
+    &:empty {
+        display: none;
+    }
+}
+
 /// Inline message: fallback data, URL warnings, errors, empty states.
 .gm-notice {
     display: flex;
     gap: space(3);
-    align-items: flex-start;
+    align-items: center;
     padding: space(3) space(4);
     font-size: 0.875rem;
     background: color('surface');

@@ -17,6 +17,7 @@ src/config.js           constants (data URLs, site URL, fetch timeout); plain ES
 src/data/               where the data comes from
   source.js             resolveSource (gist / local snapshot / custom), loadData (timeout, retry, fallback)
   validate.js           normalizePayload: accepts the v1 and v2 formats, rejects bad data (DataFormatError)
+  github.js             fetchRepository: a visitor repository from the GitHub API (ETag, pagination, rate limit)
 
 src/domain/             pure functions, no DOM, no state: the logic that is unit-tested
   versions.js           sort and classify versions (5.0 … saas-x … master), default selection
@@ -25,12 +26,14 @@ src/domain/             pure functions, no DOM, no state: the logic that is unit
   history.js            buildHistory: per-module timeline; availability ranges; isTestModule
   search.js             parseQuery (text, owner:, repository:), matching, highlight ranges, chip tokens
   links.js              GitHub URL of a module at a version
+  customRepo.js         visitor repositories: input parsing, odoo rule, branch filter, manifests → diff chain, merge
 
 src/state/              application state
   store.js              20-line observable store
   selection.js          from/to rules (defaults, swap when reversed)
   url.js                state ⇄ query string (deep links)
   view.js               buildView: domain + state → what to render; per-version match counts
+  customRepos.js        visitor repositories saved in localStorage (list + cached copy), staleness
 
 src/ui/                 DOM rendering, built with text nodes only (never innerHTML)
   dom.js                el(), $, icon(), debounce, storage
@@ -38,6 +41,7 @@ src/ui/                 DOM rendering, built with text nodes only (never innerHT
   results.js            added / removed / moved lists
   versionPicker.js      version dialog
   moduleDetails.js      module dialog (history, availability, links)
+  customRepos.js        "Your repositories" in the Filters drawer: add, refresh, remove
 ```
 
 Dependency rule (checked by reading the imports, not enforced by a tool):

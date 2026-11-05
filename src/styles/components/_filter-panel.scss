@@ -15,3 +15,103 @@
         letter-spacing: 0.06em;
     }
 }
+
+/// "Your repositories": add form and list of custom repositories.
+.gm-repo-form {
+    &__label {
+        display: block;
+        margin-bottom: space(1);
+        font-size: 0.8125rem;
+    }
+
+    &__row {
+        display: flex;
+        gap: space(2);
+    }
+
+    &__input {
+        flex: 1;
+        min-width: 0;
+        min-height: 2.5rem;
+        padding: space(1) space(3);
+        font-family: var(--gm-font-mono);
+        font-size: 1rem; // iOS zooms on focus below 16px
+        color: color('text');
+        background: color('surface');
+        border: 1px solid color('border-strong');
+        border-radius: radius('md');
+
+        &:focus-visible {
+            border-color: color('focus');
+            outline: 1px solid color('focus');
+        }
+    }
+
+    &__row > .gm-btn {
+        min-height: 2.5rem;
+    }
+
+    &__status {
+        margin-top: space(2);
+        font-size: 0.8125rem;
+        color: color('text-muted');
+
+        &:empty {
+            display: none;
+        }
+
+        &[data-kind='error'] {
+            color: color('removed');
+        }
+    }
+}
+
+.gm-repo-list {
+    display: flex;
+    flex-direction: column;
+    gap: space(2);
+    padding: 0;
+    margin-block: space(3);
+    list-style: none;
+
+    &:empty {
+        display: none;
+    }
+
+    &__item {
+        display: flex;
+        gap: space(1);
+        align-items: center;
+        padding: space(2) space(2) space(2) space(3);
+        background: color('surface-2');
+        border-radius: radius('md');
+    }
+
+    &__text {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    &__name {
+        @include truncate;
+
+        font-family: var(--gm-font-mono);
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    &__meta {
+        font-size: 0.75rem;
+        color: color('text-muted');
+
+        &[data-kind='warning'] {
+            color: color('moved');
+        }
+
+        &[data-kind='error'] {
+            color: color('removed');
+        }
+    }
+}
