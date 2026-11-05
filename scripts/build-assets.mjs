@@ -55,7 +55,7 @@ const text = Buffer.from(`
   </defs>
   <rect width="1200" height="630" fill="url(#g)"/>
   <text x="600" y="470" text-anchor="middle" font-family="Poppins, DejaVu Sans, sans-serif" font-size="68" font-weight="700" fill="#ffffff">Glowing Modules</text>
-  <text x="600" y="535" text-anchor="middle" font-family="Poppins, DejaVu Sans, sans-serif" font-size="30" fill="#e9dce6">Odoo modules added, removed &amp; moved between versions</text>
+  <text x="600" y="535" text-anchor="middle" font-family="Poppins, DejaVu Sans, sans-serif" font-size="30" fill="#e9dce6">The history of every Odoo module</text>
 </svg>`);
 await sharp(text)
     .composite([{ input: bannerForOg, top: 60, left: 190 }])

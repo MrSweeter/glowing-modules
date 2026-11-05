@@ -257,7 +257,7 @@ function render(state) {
     });
     renderControls(state, { view });
     renderResults(view, { model: data.model, tab: state.tab, onTab: (tab) => store.set({ tab }) });
-    document.title = `${state.from ? `${state.from} → ` : ''}${state.to} · Glowing Modules`;
+    document.title = `${state.from ? `${state.from} → ` : ''}${state.to} · Glowing`;
 }
 
 // ─── Events ─────────────────────────────────────────────────────────────────────────────────────

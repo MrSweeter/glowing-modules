@@ -11,7 +11,7 @@ test.describe('comparison', () => {
         await expect(page.locator('[data-role="to"]')).toHaveText('18.0');
         await expect(page.locator('#summary')).toContainText('+2 / −1');
         await expect(page).toHaveURL(/\/glowing-modules\/$/);
-        await expect(page).toHaveTitle('17.0 → 18.0 · Glowing Modules');
+        await expect(page).toHaveTitle('17.0 → 18.0 · Glowing');
         expect(data.requests.remote).toBe(1);
         expect(consoleErrors).toEqual([]);
     });

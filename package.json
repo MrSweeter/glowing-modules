@@ -1,7 +1,7 @@
 {
     "name": "glowing-modules",
     "version": "2.0.0",
-    "description": "Discover the Odoo modules' history: compare Odoo versions and see which modules were added, removed or moved.",
+    "description": "The history of every Odoo module: compare Odoo versions and see which modules were added, removed or moved.",
     "private": true,
     "author": "Gaëtan Vanden Bergh (MrSweeter)",
     "type": "module",
