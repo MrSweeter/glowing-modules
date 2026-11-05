@@ -19,8 +19,10 @@ version X and Y, and in which repository?".
   added and removed ones.
 - **Search** with regular expressions (syntax behind the ⓘ button, see below). Matches are highlighted, and the
   version picker shows how many matching modules changed in each version.
-- **Filter panel** (Filter button in the search bar): repository filters and test modules, with a count of active filters
-  and a reset button.
+- **Filter panel** (Filter button in the search bar): owner and repository filters, and module-name chips (Tests,
+  Localization `^l10n_`, Website, Point of Sale, …) that cycle show only → hide → off. They only write `name:` /
+  `-name:` terms in the search bar. Shows a count of active
+  filters and has a reset button.
 - **Your repositories** (Filter panel): add a public GitHub repository that uses Odoo version branches (`17.0`,
   `saas-17.2`, `master`), for example `OCA/sale-workflow`. Its modules join the comparison, search and details like
   the Odoo repositories. Modules are the top-level folders with a `__manifest__.py`; other branches are ignored.
@@ -29,7 +31,6 @@ version X and Y, and in which repository?".
   never automatically; a copy older than a week is flagged as outdated. Up to 5 repositories; GitHub
   allows about 60 anonymous requests per hour, roughly 2 plus one per version branch for each repository.
 - **Module details:** availability ranges, a timeline, the full history and a link to the source on GitHub.
-- **Test modules** (`test_*`, `*_test`, …) are hidden by default; the Filter panel shows them and counts what is hidden.
 - **Shareable links:** the URL keeps the versions, search and filters; copy it from the address bar.
 - Light and dark theme: follows the system by default, with a Theme selector in the footer. Keyboard accessible,
   works on mobile.
@@ -43,11 +44,13 @@ version X and Y, and in which repository?".
 | `account edi` | several words must all match |
 | `repository:enterprise` (or `repo:`) | only that repository; several `repository:` terms are combined with OR |
 | `owner:odoo` | only repositories of that owner |
+| `name:^pos_` | only module names matching; several `name:` terms are combined with OR |
+| `-name:^l10n_` | hide module names matching |
 
 ### URL parameters
 
-`?from=17.0&to=18.0&q=account+repository:enterprise&tests=1&m=hr_payroll`. Every parameter is
-optional; defaults are left out of the URL. Old `?compare` and `?lts=1` links still open (the parameters are ignored).
+`?from=17.0&to=18.0&q=account+repository:enterprise&m=hr_payroll`. Every parameter is
+optional; defaults are left out of the URL.
 
 ## Data
 

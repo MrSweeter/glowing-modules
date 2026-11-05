@@ -23,7 +23,7 @@ src/domain/             pure functions, no DOM, no state: the logic that is unit
   versions.js           sort and classify versions (5.0 … saas-x … master), default selection
   snapshots.js          buildSnapshots: replay the diff chain into the full module set of every version
   compare.js            compare(from, to): set difference of two snapshots, plus modules moved between repos
-  history.js            buildHistory: per-module timeline; availability ranges; isTestModule
+  history.js            buildHistory: per-module timeline; availability ranges
   search.js             parseQuery (text, owner:, repository:), matching, highlight ranges, chip tokens
   links.js              GitHub URL of a module at a version
   customRepo.js         visitor repositories: input parsing, odoo rule, branch filter, manifests → diff chain, merge

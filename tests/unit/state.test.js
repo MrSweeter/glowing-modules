@@ -43,7 +43,7 @@ describe('selection', () => {
 });
 
 describe('url', () => {
-    const base = { from: '17.0', to: '18.0', query: '', showTests: false, module: null };
+    const base = { from: '17.0', to: '18.0', query: '', module: null };
 
     it('omits defaults', () => {
         expect(writeUrl(base, SORTED)).toBe('');
@@ -55,22 +55,20 @@ describe('url', () => {
             from: '16.0',
             to: 'master',
             query: 'account repository:enterprise',
-            showTests: true,
             module: 'sale',
         };
         const search = writeUrl(state, SORTED);
-        expect(search).toBe('?to=master&from=16.0&q=account+repository:enterprise&tests=1&m=sale');
+        expect(search).toBe('?to=master&from=16.0&q=account+repository:enterprise&m=sale');
         expect(readUrl(search, SORTED).patch).toEqual({ ...state });
     });
 
     it('omits a linked "from"', () => {
         expect(writeUrl({ ...base, from: 'saas-17.2', to: '18.0' }, SORTED)).toBe('?to=18.0');
         expect(readUrl('?to=18.0', SORTED).patch).toMatchObject({ from: 'saas-17.2', to: '18.0' });
-        expect(readUrl('?to=18.0&lts=1', SORTED).patch).toMatchObject({ from: 'saas-17.2', to: '18.0' });
     });
 
-    it('keeps unrelated params and drops legacy compare / lts', () => {
-        expect(writeUrl(base, SORTED, '?compare&lts=1&utm_source=x')).toBe('?utm_source=x');
+    it('keeps unrelated params', () => {
+        expect(writeUrl(base, SORTED, '?q=old&utm_source=x')).toBe('?utm_source=x');
     });
 
     it('warns about unknown versions', () => {

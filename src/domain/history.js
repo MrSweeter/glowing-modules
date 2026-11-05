@@ -63,9 +63,3 @@ export function availability(model, module) {
 export function versionsContaining(model, module) {
     return model.versions.filter((v) => [...model.snapshots.get(v).values()].some((set) => set.has(module)));
 }
-
-/** Test / technical test modules hidden by default. */
-export function isTestModule(name) {
-    // `test_*`, `*_test`, `*_tests`, `*_test_*`, `*_tests_*`, `test`, `tests`; not `snippet_latest_posts`.
-    return /(?:^|_)tests?(?:_|$)/.test(name);
-}

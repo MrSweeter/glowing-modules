@@ -1,12 +1,12 @@
 // URL ⇄ state. Pure functions.
 //
-//   ?from=17.0&to=18.0&q=account+repository:enterprise&tests=1&m=hr_payroll
-// Defaults are omitted so the default view keeps a clean URL. Legacy `?compare` and `?lts` are accepted and dropped.
+//   ?from=17.0&to=18.0&q=account+repository:enterprise&m=hr_payroll
+// Defaults are omitted so the default view keeps a clean URL.
 
 import { previousVersion } from '../domain/versions.js';
 import { initialSelection } from './selection.js';
 
-const OWN_PARAMS = ['from', 'to', 'q', 'lts', 'tests', 'm', 'compare'];
+const OWN_PARAMS = ['from', 'to', 'q', 'm'];
 
 /**
  * @param {string} search location.search
@@ -17,7 +17,6 @@ export function readUrl(search, sorted) {
     const params = new URLSearchParams(search);
     const warnings = [];
     const patch = {};
-    patch.showTests = params.get('tests') === '1';
     patch.query = params.get('q') ?? '';
     patch.module = params.get('m') || null;
 
@@ -42,7 +41,7 @@ export function readUrl(search, sorted) {
 }
 
 /**
- * @param {{ from?: string, to: string, query: string, showTests: boolean, module: string|null }} state
+ * @param {{ from?: string, to: string, query: string, module: string|null }} state
  * @param {string[]} sorted
  * @param {string} [currentSearch] keeps unrelated params (utm_*, data, …)
  * @returns {string} query string including `?`, or '' when everything is default
@@ -58,7 +57,6 @@ export function writeUrl(state, sorted, currentSearch = '') {
         if (state.from !== linkedFrom && state.from) params.set('from', state.from);
     }
     if (state.query.trim()) params.set('q', state.query.trim());
-    if (state.showTests) params.set('tests', '1');
     if (state.module) params.set('m', state.module);
     const str = params.toString().replace(/%3A/gi, ':').replace(/%2F/gi, '/');
     return str ? `?${str}` : '';

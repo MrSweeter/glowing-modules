@@ -1,7 +1,7 @@
 // Header controls, search bar and footer rendering (state → DOM).
 
 import { hasToken, nameFilterState } from '../domain/search.js';
-import { $, el, formatCount } from './dom.js';
+import { $, el } from './dom.js';
 
 /**
  * @param {object} state store state
@@ -25,15 +25,12 @@ export function renderControls(state, { view }) {
         chip.title = NAME_CHIP_TITLE[chipState];
         chip.querySelector('[data-role="name-state"]').textContent = NAME_CHIP_STATE[chipState];
     }
-    /** @type {HTMLInputElement} */ ($('#show-tests')).checked = state.showTests;
     const q = view.query;
-    const active = q.repository.length + q.owner.length + q.name.length + q.notName.length + (state.showTests ? 1 : 0);
+    const active = q.repository.length + q.owner.length + q.name.length + q.notName.length;
     const badge = $('[data-role="filter-count"]');
     badge.textContent = String(active);
     badge.hidden = !active;
     $('[data-role="filter-count-label"]').textContent = active ? ` (${active} active)` : '';
-    $('[data-role="tests-hidden"]').textContent =
-        !state.showTests && view.hiddenTests ? `(${formatCount(view.hiddenTests)} hidden)` : '';
 
     const messages = [...view.query.errors];
     if (view.query.ignored.length) {
