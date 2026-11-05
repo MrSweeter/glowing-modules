@@ -5,20 +5,27 @@ import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
 import './styles/main.scss';
 
-import { CUSTOM_REPO_OUTDATED_MS, REMOTE_DATA_PAGE } from './config.js';
+import { CUSTOM_REPO_OUTDATED_MS, NAME_FILTERS, REMOTE_DATA_PAGE } from './config.js';
 import { fetchRepository } from './data/github.js';
 import { loadData, resolveSource } from './data/source.js';
 import { mergeVersionDiffs, toVersionDiff, unknownVersions } from './domain/customRepo.js';
 import { formatDuration } from './domain/duration.js';
 import { buildHistory } from './domain/history.js';
-import { parseQuery, removeFilterTokens, toggleToken } from './domain/search.js';
+import { cycleNameFilter, parseQuery, removeFilterTokens, toggleToken } from './domain/search.js';
 import { buildSnapshots } from './domain/snapshots.js';
 import { createCustomRepoStore, modulesByVersion } from './state/customRepos.js';
 import { initialSelection, normalize, setFrom, setTo } from './state/selection.js';
 import { createStore } from './state/store.js';
 import { readUrl, writeUrl } from './state/url.js';
 import { buildView, changeCountsByVersion } from './state/view.js';
-import { renderAppVersion, renderControls, renderDataInfo, renderOwnerChips, renderRepoChips } from './ui/controls.js';
+import {
+    renderAppVersion,
+    renderControls,
+    renderDataInfo,
+    renderNameChips,
+    renderOwnerChips,
+    renderRepoChips,
+} from './ui/controls.js';
 import { createCustomRepos } from './ui/customRepos.js';
 import { $, debounce, el, icon, storage } from './ui/dom.js';
 import { createModuleDetails } from './ui/moduleDetails.js';
@@ -321,6 +328,9 @@ function bindEvents() {
         clearSearch();
         input.focus();
     });
+    renderNameChips(NAME_FILTERS, (pattern) =>
+        commit({ query: cycleNameFilter(store.get().query, pattern) }, { mode: 'replace' })
+    );
     $('#show-tests').addEventListener('change', (e) => commit({ showTests: e.target.checked }, { mode: 'replace' }));
 
     const filters = /** @type {HTMLDialogElement} */ ($('#filter-dialog'));

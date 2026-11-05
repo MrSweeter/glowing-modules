@@ -1,8 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import {
+    cycleNameFilter,
     hasToken,
     matches,
+    matchesModule,
     matchRanges,
+    nameFilterState,
     parseQuery,
     removeFilterTokens,
     toggleToken,
@@ -83,5 +86,46 @@ describe('removeFilterTokens', () => {
         expect(removeFilterTokens('repository:odoo')).toBe('');
         expect(removeFilterTokens('')).toBe('');
         expect(removeFilterTokens('  account  ')).toBe('account');
+    });
+});
+
+describe('module-name filters', () => {
+    const names = ['l10n_be', 'pos_restaurant', 'website_sale', 'sale', 'l10n_be_pos'];
+    const keep = (input) => names.filter((n) => matchesModule(parseQuery(input), n));
+
+    it('parses name: and -name: terms', () => {
+        const q = parseQuery('name:^pos_ -name:^l10n_ NAME:x');
+        expect(q.name.map((t) => t.source)).toEqual(['^pos_', 'x']);
+        expect(q.notName.map((t) => t.source)).toEqual(['^l10n_']);
+        expect(q.text).toEqual([]);
+        expect(q.active).toBe(true);
+        expect(parseQuery('-repository:x').text.map((t) => t.source)).toEqual(['-repository:x']);
+    });
+
+    it('ORs name: terms, ANDs them with text terms and hides -name: matches', () => {
+        expect(keep('name:^pos_ name:^website_')).toEqual(['pos_restaurant', 'website_sale']);
+        expect(keep('name:^pos_ name:^website_ sale')).toEqual(['website_sale']);
+        expect(keep('-name:^l10n_')).toEqual(['pos_restaurant', 'website_sale', 'sale']);
+        expect(keep('name:pos -name:^l10n_')).toEqual(['pos_restaurant']);
+        expect(keep('name:(')).toEqual([]);
+        expect(parseQuery('name:(').errors).toHaveLength(1);
+    });
+
+    it('cycles a chip: off → include → exclude → off, keeping other tokens in order', () => {
+        let q = 'acc repository:odoo';
+        expect(nameFilterState(q, '^l10n_')).toBe('off');
+        q = cycleNameFilter(q, '^l10n_');
+        expect(q).toBe('acc repository:odoo name:^l10n_');
+        expect(nameFilterState(q, '^l10n_')).toBe('include');
+        q = cycleNameFilter(`${q} owner:odoo`, '^l10n_');
+        expect(q).toBe('acc repository:odoo -name:^l10n_ owner:odoo');
+        expect(nameFilterState(q, '^l10n_')).toBe('exclude');
+        q = cycleNameFilter(q, '^l10n_');
+        expect(q).toBe('acc repository:odoo owner:odoo');
+        expect(nameFilterState(q, '^l10n_')).toBe('off');
+    });
+
+    it('are removed with the other filter tokens', () => {
+        expect(removeFilterTokens('name:^pos_ acc -name:^l10n_ owner:odoo edi')).toBe('acc edi');
     });
 });

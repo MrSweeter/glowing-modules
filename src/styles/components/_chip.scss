@@ -79,4 +79,27 @@
         color: color('on-primary');
         background: color('primary');
     }
+
+    // Module-name filter: "show only" (green) and "hide" (red) states.
+    &[data-state='include'] {
+        color: color('added');
+        background: color('added-bg');
+        border-color: color('added');
+    }
+
+    &[data-state='exclude'] {
+        color: color('removed');
+        background: color('removed-bg');
+        border-color: color('removed');
+
+        .gm-filter-chip__label {
+            text-decoration: line-through;
+        }
+    }
+
+    &__pattern {
+        font-family: $font-mono;
+        font-size: 0.75rem;
+        opacity: 0.8;
+    }
 }
