@@ -30,6 +30,7 @@ export const CUSTOM_REPO_OUTDATED_MS = 7 * 24 * 60 * 60 * 1000;
  * Chosen from the most frequent name patterns of the data; a pattern must not contain whitespace (one search token).
  */
 export const NAME_FILTERS = [
+    { label: 'Tests', pattern: '(^|_)tests?(_|$)' },
     { label: 'Localization', pattern: '^l10n_' },
     { label: 'Website', pattern: '^website_' },
     { label: 'Point of Sale', pattern: '^pos_' },

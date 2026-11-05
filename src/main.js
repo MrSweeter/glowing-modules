@@ -36,7 +36,6 @@ const store = createStore({
     from: undefined,
     to: '',
     query: '',
-    showTests: false,
     module: null,
     tab: 'added',
 });
@@ -93,7 +92,7 @@ function onData({ payload, lastModified, usedFallback, primaryError }, source) {
         );
     }
 
-    const { state: initial, warnings } = stateFromUrl(location.search, { useStoredPrefs: true });
+    const { state: initial, warnings } = stateFromUrl(location.search);
     for (const w of warnings) notice('warning', `${w} Showing the default comparison instead.`);
     store.set(initial);
     history.replaceState(null, '', urlFor(store.get()));
@@ -209,16 +208,14 @@ function onError(error) {
 
 // ─── State ⇄ URL ────────────────────────────────────────────────────────────────────────────────
 
-function stateFromUrl(search, { useStoredPrefs }) {
-    const params = new URLSearchParams(search);
+function stateFromUrl(search) {
     const { patch, warnings } = readUrl(search, data.sorted);
-    const showTests = params.has('tests') || !useStoredPrefs ? patch.showTests : storage.get('gm.showTests') === '1';
     const selection = patch.to
         ? normalize(data.sorted, { from: patch.from, to: patch.to })
         : initialSelection(data.sorted);
     const module = patch.module && data.history.has(patch.module) ? patch.module : null;
     if (patch.module && !module) warnings.push(`Module "${patch.module}" does not exist.`);
-    return { state: { ...selection, query: patch.query, showTests, module }, warnings };
+    return { state: { ...selection, query: patch.query, module }, warnings };
 }
 
 function urlFor(state) {
@@ -235,7 +232,6 @@ const replaceUrlSoon = debounce(() => history.replaceState(null, '', urlFor(stor
 function commit(patch, { mode = 'push' } = {}) {
     store.set(patch);
     const state = store.get();
-    if ('showTests' in patch) storage.set('gm.showTests', state.showTests ? '1' : null);
     if (mode === 'push') {
         const url = urlFor(state);
         if (url !== `${location.pathname}${location.search}${location.hash}`) history.pushState(null, '', url);
@@ -246,7 +242,7 @@ function commit(patch, { mode = 'push' } = {}) {
 
 addEventListener('popstate', () => {
     if (!data) return;
-    const { state } = stateFromUrl(location.search, { useStoredPrefs: false });
+    const { state } = stateFromUrl(location.search);
     store.set(state);
     if (state.module) openModule(state.module, null);
     else details?.close();
@@ -260,7 +256,6 @@ function render(state) {
         from: state.from,
         to: state.to,
         query: state.query,
-        showTests: state.showTests,
     });
     renderControls(state, { view });
     renderResults(view, { model: data.model, tab: state.tab, onTab: (tab) => store.set({ tab }) });
@@ -302,12 +297,7 @@ function bindEvents() {
 
     const openPicker = (end) => (e) => {
         const state = store.get();
-        picker.open(
-            end,
-            state,
-            changeCountsByVersion(data.history, parseQuery(state.query), state.showTests),
-            e.currentTarget
-        );
+        picker.open(end, state, changeCountsByVersion(data.history, parseQuery(state.query)), e.currentTarget);
     };
     $('#from-toggle').addEventListener('click', openPicker('from'));
     $('#to-toggle').addEventListener('click', openPicker('to'));
@@ -331,7 +321,6 @@ function bindEvents() {
     renderNameChips(NAME_FILTERS, (pattern) =>
         commit({ query: cycleNameFilter(store.get().query, pattern) }, { mode: 'replace' })
     );
-    $('#show-tests').addEventListener('change', (e) => commit({ showTests: e.target.checked }, { mode: 'replace' }));
 
     const filters = /** @type {HTMLDialogElement} */ ($('#filter-dialog'));
     $('#filter-toggle').addEventListener('click', () => filters.showModal());
@@ -340,7 +329,7 @@ function bindEvents() {
     });
     filters.addEventListener('close', () => $('#filter-toggle').focus());
     $('#filter-reset').addEventListener('click', () =>
-        commit({ query: removeFilterTokens(store.get().query), showTests: false }, { mode: 'replace' })
+        commit({ query: removeFilterTokens(store.get().query) }, { mode: 'replace' })
     );
 
     $('#results-grid').addEventListener('click', (e) => {

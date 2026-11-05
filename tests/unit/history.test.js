@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { availability, buildHistory, isTestModule, versionsContaining } from '../../src/domain/history.js';
+import { availability, buildHistory, versionsContaining } from '../../src/domain/history.js';
 import { githubUrl } from '../../src/domain/links.js';
 import { buildSnapshots } from '../../src/domain/snapshots.js';
 
@@ -42,22 +42,6 @@ describe('availability', () => {
             { repo: 'odoo/enterprise', from: '17.0', to: 'master' },
         ]);
         expect(versionsContaining(model, 'master_only')).toEqual(['master']);
-    });
-});
-
-describe('isTestModule', () => {
-    it.each([
-        ['test_lint', true],
-        ['account_test', true],
-        ['web_tests', true],
-        ['web_tests_demo', true],
-        ['l10n_test_pos_qr_payment', true],
-        ['tests', true],
-        ['snippet_latest_posts', false],
-        ['contest', false],
-        ['account', false],
-    ])('%s → %s', (name, expected) => {
-        expect(isTestModule(name)).toBe(expected);
     });
 });
 

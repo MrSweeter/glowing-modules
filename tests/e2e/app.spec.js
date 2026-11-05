@@ -17,7 +17,7 @@ test.describe('comparison', () => {
     });
 
     test('a range ignores modules that came and went', async ({ page, isMobile }) => {
-        await page.goto('./?from=16.0&to=17.0&tests=1');
+        await page.goto('./?from=16.0&to=17.0');
         await ready(page);
         const results = page.locator('#results-grid');
         if (isMobile) await page.getByRole('tab', { name: /Moved/ }).click();
@@ -45,11 +45,10 @@ test.describe('comparison', () => {
         await expect(page.locator('[data-role="from"]')).toHaveText('16.0');
     });
 
-    test('lists every version and ignores the legacy lts parameter', async ({ page, data }) => {
-        await page.goto('./?lts=1&from=saas-17.1&to=master');
+    test('lists every version', async ({ page, data }) => {
+        await page.goto('./?from=saas-17.1&to=master');
         await ready(page);
         await expect(page).toHaveURL(/\?to=master&from=saas-17\.1$/);
-        await expect(page.locator('#lts-filter, #range-prev, #range-next')).toHaveCount(0);
         await page.locator('#to-toggle').click();
         await expect(page.locator('#version-dialog [data-version^="saas-"]')).toHaveCount(3);
         await page.keyboard.press('Escape');
@@ -81,12 +80,6 @@ test.describe('comparison', () => {
         await expect(page.locator('#notices')).toContainText('Version "99.0" does not exist.');
         await expect(page.locator('[data-role="to"]')).toHaveText('18.0');
     });
-
-    test('legacy ?compare still opens the app', async ({ page }) => {
-        await page.goto('./?compare');
-        await ready(page);
-        await expect(page).toHaveURL(/\/glowing-modules\/$/);
-    });
 });
 
 test.describe('search', () => {
@@ -94,7 +87,7 @@ test.describe('search', () => {
         await page.goto('./?from=16.0&to=18.0');
         await ready(page);
         await page.locator('#search').fill('ent_');
-        await expect(heading(page, 'added')).toContainText('1 of 3 added');
+        await expect(heading(page, 'added')).toContainText('1 of 4 added');
         await expect(page.locator('#results-grid mark')).toHaveText(['ent_']);
 
         await page.locator('#filter-toggle').click();
@@ -114,14 +107,18 @@ test.describe('search', () => {
         await expect(page).not.toHaveURL(/q=/);
     });
 
-    test('shows test modules on demand', async ({ page }) => {
+    test('test modules are shown and filtered by the Tests name chip', async ({ page }) => {
         await page.goto('./?from=16.0&to=17.0');
         await ready(page);
-        await page.locator('#filter-toggle').click();
-        await expect(page.locator('[data-role="tests-hidden"]')).toHaveText('(1 hidden)');
-        await page.locator('#show-tests').check();
         await expect(page.locator('[data-module="test_lint"]')).toBeVisible();
-        await expect(page).toHaveURL(/tests=1/);
+        await page.locator('#filter-toggle').click();
+        const chip = page.locator('#name-chips [data-pattern="(^|_)tests?(_|$)"]');
+        await chip.click();
+        await expect(page.locator('#search')).toHaveValue('name:(^|_)tests?(_|$)');
+        await expect(page.locator('#results-grid [data-module]')).toHaveCount(1);
+        await chip.click();
+        await expect(page.locator('#search')).toHaveValue('-name:(^|_)tests?(_|$)');
+        await expect(page.locator('[data-module="test_lint"]')).toHaveCount(0);
     });
 
     test('filter panel counts active filters and resets them', async ({ page, isMobile }) => {
@@ -130,19 +127,19 @@ test.describe('search', () => {
         const badge = page.locator('[data-role="filter-count"]');
         await expect(badge).toBeHidden();
 
-        await page.goto('./?q=ent+repository:odoo&tests=1');
+        await page.goto('./?q=ent+repository:odoo+-name:^l10n_');
         await ready(page);
         await expect(badge).toHaveText('2');
         await expect(page.locator('#filter-toggle')).toHaveAccessibleName(/Filter.*2 active/);
 
         await page.locator('#filter-toggle').click();
         await expect(page.locator('#filter-dialog')).toBeVisible();
-        await expect(page.locator('#show-tests')).toBeChecked();
+        await expect(page.locator('#name-chips [data-pattern="^l10n_"]')).toHaveAttribute('data-state', 'exclude');
         await page.locator('#filter-reset').click();
         await expect(page.locator('#search')).toHaveValue('ent');
-        await expect(page.locator('#show-tests')).not.toBeChecked();
+        await expect(page.locator('#name-chips [data-pattern="^l10n_"]')).toHaveAttribute('data-state', 'off');
         await expect(badge).toBeHidden();
-        await expect(page).not.toHaveURL(/tests=1/);
+        await expect(page).toHaveURL(/q=ent$/);
 
         await page.locator('#filter-dialog [data-close]').click();
         await expect(page.locator('#filter-dialog')).toBeHidden();
