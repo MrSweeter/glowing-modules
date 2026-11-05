@@ -7,8 +7,8 @@ import { sortVersions } from './versions.js';
 
 /** Branch names following Odoo's version naming (same rules as the checker). */
 const STANDARD_BRANCH_RE = /^(?:master|\d+\.0|saas-\d+\.\d+)$/;
-/** A top-level folder holding a manifest is a module. */
-const MANIFEST_RE = /^([A-Za-z0-9_]+)\/__(?:manifest|openerp)__\.py$/;
+/** A top-level folder holding `__manifest__.py`, `__openerp__.py` or `__terp__.py` (5.0) is a module (checker rule). */
+const MANIFEST_RE = /^([A-Za-z0-9_]+)\/__(?:manifest|openerp|terp)__\.py$/;
 const NAME_RE = /^[A-Za-z0-9_.-]+$/;
 const FORBIDDEN_OWNER = 'odoo';
 
