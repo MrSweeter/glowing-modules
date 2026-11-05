@@ -19,7 +19,7 @@ body:
       id: url
       attributes:
           label: Link to the view
-          description: Use the "Copy link" button in the header (it includes the versions and the search).
+          description: Copy the URL from the address bar (it includes the versions, the search and the filters).
           placeholder: https://mrsweeter.github.io/glowing-modules/?from=17.0&to=18.0&q=account
     - type: dropdown
       id: browser
