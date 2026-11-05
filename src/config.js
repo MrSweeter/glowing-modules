@@ -16,3 +16,11 @@ export const UPSTREAM_DATA_CREDIT = 'https://github.com/mao-odoo/all_standard_od
 
 /** Timeout (ms) for one data fetch attempt. */
 export const FETCH_TIMEOUT_MS = 8000;
+
+/** GitHub REST API, used only when a visitor adds a repository (anonymous: 60 requests per hour per IP). */
+export const GITHUB_API = 'https://api.github.com';
+
+/** Repositories a visitor can add. */
+export const MAX_CUSTOM_REPOS = 5;
+/** Saved copies are never refreshed automatically (refresh is manual); older than this, they are flagged as outdated. */
+export const CUSTOM_REPO_OUTDATED_MS = 7 * 24 * 60 * 60 * 1000;

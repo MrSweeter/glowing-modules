@@ -6,9 +6,12 @@ import { isMajor } from '../domain/versions.js';
 import { $, el, icon } from './dom.js';
 
 /**
- * @param {{ model: import('../domain/snapshots.js').Snapshots, history: Map<string, import('../domain/history.js').HistoryEvent[]>, onClose: () => void }} options
+ * @typedef {{ model: import('../domain/snapshots.js').Snapshots, history: Map<string, import('../domain/history.js').HistoryEvent[]>,
+ *   branchesOf?: (repo: string) => string[]|undefined }} DetailsData
+ * @param {{ getData: () => DetailsData, onClose: () => void }} options  getData is read on each open (custom
+ *   repositories can change the data)
  */
-export function createModuleDetails({ model, history, onClose }) {
+export function createModuleDetails({ getData, onClose }) {
     const dialog = /** @type {HTMLDialogElement} */ ($('#module-dialog'));
     const body = $('#module-details');
     let opener = null;
@@ -32,6 +35,7 @@ export function createModuleDetails({ model, history, onClose }) {
      * @param {HTMLElement|null} trigger
      */
     function open(module, selection, trigger = null) {
+        const { model, history, branchesOf } = getData();
         const events = history.get(module);
         if (!events) return false;
         opener = trigger;
@@ -52,7 +56,9 @@ export function createModuleDetails({ model, history, onClose }) {
         const linkRange = ranges.find((r) => inRange(model.versions, selection.to, r)) ?? last;
         const linkVersion =
             linkRange && inRange(model.versions, selection.to, linkRange) ? selection.to : linkRange?.to;
-        const gh = linkRange ? githubUrl(linkRange.repo, linkVersion, module) : null;
+        const gh = linkRange
+            ? githubUrl(linkRange.repo, linkVersion, module, { branches: branchesOf?.(linkRange.repo) })
+            : null;
 
         const present = new Set(ranges.flatMap((r) => versionsBetween(model.versions, r.from, r.to)));
         const timeline = el(

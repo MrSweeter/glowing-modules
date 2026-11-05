@@ -40,8 +40,8 @@ button {
     cursor: pointer;
 }
 
-ul[class],
-ol[class] {
+// :where() keeps the specificity at zero, so a component class can set its own padding.
+:where(ul[class], ol[class]) {
     padding: 0;
     list-style: none;
 }

@@ -26,7 +26,7 @@ function cspPlugin() {
         "style-src 'self'",
         "img-src 'self' data:",
         "font-src 'self'",
-        "connect-src 'self' https://gist.githubusercontent.com",
+        "connect-src 'self' https://gist.githubusercontent.com https://api.github.com",
         "manifest-src 'self'",
         "base-uri 'self'",
         "form-action 'none'",

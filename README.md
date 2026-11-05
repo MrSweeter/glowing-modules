@@ -21,6 +21,13 @@ version X and Y, and in which repository?".
   version picker shows how many matching modules changed in each version.
 - **Filter panel** (Filter button in the search bar): repository filters and test modules, with a count of active filters
   and a reset button.
+- **Your repositories** (Filter panel): add a public GitHub repository that uses Odoo version branches (`17.0`,
+  `saas-17.2`, `master`), for example `OCA/sale-workflow`. Its modules join the comparison, search and details like
+  the Odoo repositories. Modules are the top-level folders with a `__manifest__.py`; other branches are ignored.
+  Repositories of the `odoo` organisation and their forks are refused (already included). The list and a copy of
+  the data are saved in the browser and can be removed. GitHub is only called when you click Add or Refresh,
+  never automatically; a copy older than a week is flagged as outdated. Up to 5 repositories; GitHub
+  allows about 60 anonymous requests per hour, roughly 2 plus one per version branch for each repository.
 - **Module details:** availability ranges, a timeline, the full history and a link to the source on GitHub.
 - **Test modules** (`test_*`, `*_test`, …) are hidden by default; the Filter panel shows them and counts what is hidden.
 - **Shareable links:** the URL keeps the versions, search and filters; copy it from the address bar.
@@ -99,7 +106,7 @@ See [docs/architecture.md](docs/architecture.md) for the runtime layers, the dat
 Pushing to `master` runs the checks and deploys **only the production build** (`dist/`) to GitHub Pages
 (`.github/workflows/deploy.yml`). A daily workflow checks that the site and the data source are up.
 The site uses a Content-Security-Policy (meta tag), self-hosts every asset, and has no third-party request
-apart from the data gist.
+apart from the data gist, and the GitHub API when a visitor adds one of their repositories.
 
 ## Contributing
 

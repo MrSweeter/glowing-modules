@@ -77,6 +77,15 @@
             </div>
         </header>
 
+        <div class="gm-container gm-notices" id="notices"></div>
+        <noscript>
+            <div class="gm-container gm-notices">
+                <div class="gm-notice gm-notice--warning">
+                    <div class="gm-notice__body">Glowing Modules needs JavaScript to compare Odoo versions.</div>
+                </div>
+            </div>
+        </noscript>
+
         <section class="gm-container gm-search" aria-label="Search modules" data-requires-data>
             <label for="search" class="gm-visually-hidden">Search modules</label>
             <div class="gm-search__row">
@@ -113,14 +122,6 @@
         </section>
 
         <main class="gm-container gm-main" id="results" tabindex="-1">
-            <div id="notices"></div>
-
-            <noscript>
-                <div class="gm-notice gm-notice--warning">
-                    <div class="gm-notice__body">Glowing Modules needs JavaScript to compare Odoo versions.</div>
-                </div>
-            </noscript>
-
             <div id="loading" class="gm-skeleton" aria-hidden="true">
                 <span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span
                 ><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span><span class="gm-skeleton__item"></span
@@ -199,6 +200,32 @@
                         <span>Show test modules <span data-role="tests-hidden"></span></span>
                     </label>
                 </fieldset>
+                <section class="gm-filter-group" aria-labelledby="custom-repos-title">
+                    <h3 class="gm-filter-group__title" id="custom-repos-title">Your repositories</h3>
+                    <form class="gm-repo-form" id="custom-repo-form" novalidate>
+                        <label class="gm-repo-form__label" for="custom-repo-input">GitHub repository</label>
+                        <div class="gm-repo-form__row">
+                            <input
+                                class="gm-repo-form__input"
+                                id="custom-repo-input"
+                                type="text"
+                                placeholder="OCA/sale-workflow"
+                                autocomplete="off"
+                                spellcheck="false"
+                                aria-describedby="custom-repo-status custom-repo-hint"
+                            >
+                            <button type="submit" class="gm-btn gm-btn--sm gm-btn--primary" id="custom-repo-add">
+                                <span class="gm-icon gm-icon--sm" aria-hidden="true">add</span>
+                                Add
+                            </button>
+                        </div>
+                    </form>
+                    <p class="gm-repo-form__status" id="custom-repo-status" aria-live="polite"></p>
+                    <ul class="gm-repo-list" id="custom-repo-list"></ul>
+                    <p class="gm-search__hint" id="custom-repo-hint">
+                        Public repositories with Odoo version branches (17.0, saas-17.2, master). Read from GitHub by your browser and saved in this browser only.
+                    </p>
+                </section>
             </div>
             <div class="gm-dialog__footer">
                 <button type="button" class="gm-btn gm-btn--sm" id="filter-reset">Reset filters</button>

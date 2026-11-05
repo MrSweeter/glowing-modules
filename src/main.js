@@ -5,16 +5,21 @@ import '@fontsource/poppins/latin-500.css';
 import '@fontsource/poppins/latin-600.css';
 import './styles/main.scss';
 
-import { REMOTE_DATA_PAGE } from './config.js';
+import { CUSTOM_REPO_OUTDATED_MS, REMOTE_DATA_PAGE } from './config.js';
+import { fetchRepository } from './data/github.js';
 import { loadData, resolveSource } from './data/source.js';
+import { mergeVersionDiffs, toVersionDiff } from './domain/customRepo.js';
+import { formatDuration } from './domain/duration.js';
 import { buildHistory } from './domain/history.js';
 import { parseQuery, removeFilterTokens, toggleToken } from './domain/search.js';
 import { buildSnapshots } from './domain/snapshots.js';
+import { createCustomRepoStore, modulesByVersion } from './state/customRepos.js';
 import { initialSelection, normalize, setFrom, setTo } from './state/selection.js';
 import { createStore } from './state/store.js';
 import { readUrl, writeUrl } from './state/url.js';
 import { buildView, changeCountsByVersion } from './state/view.js';
 import { renderAppVersion, renderControls, renderDataInfo, renderRepoChips } from './ui/controls.js';
+import { createCustomRepos } from './ui/customRepos.js';
 import { $, debounce, el, icon, storage } from './ui/dom.js';
 import { createModuleDetails } from './ui/moduleDetails.js';
 import { renderResults } from './ui/results.js';
@@ -29,8 +34,11 @@ const store = createStore({
     tab: 'added',
 });
 
-/** Immutable after load. */
-let data = null; // { model, history, sorted }
+/** Rebuilt when custom repositories change (see buildData). */
+let data = null; // { model, history, sorted, branches: Map<repo, string[]> }
+/** Versions diff of the main data (gist or bundled snapshot). */
+let baseVersions = null;
+const customStore = createCustomRepoStore(storage);
 
 renderAppVersion();
 // Theme: follows the system unless the user picks light or dark (saved; applied early by theme-init.js).
@@ -63,8 +71,8 @@ async function start() {
 // ─── Data ───────────────────────────────────────────────────────────────────────────────────────
 
 function onData({ payload, lastModified, usedFallback, primaryError }, source) {
-    const model = buildSnapshots(payload.versions);
-    data = { model, history: buildHistory(payload.versions), sorted: model.versions };
+    baseVersions = payload.versions;
+    buildData();
 
     renderDataInfo({ meta: payload.meta, lastModified, usedFallback, label: source.label });
     if (usedFallback) {
@@ -83,9 +91,6 @@ function onData({ payload, lastModified, usedFallback, primaryError }, source) {
     store.set(initial);
     history.replaceState(null, '', urlFor(store.get()));
 
-    renderRepoChips(model.repos, (token) =>
-        commit({ query: toggleToken(store.get().query, token) }, { mode: 'replace' })
-    );
     bindEvents();
 
     $('#loading').hidden = true;
@@ -98,6 +103,55 @@ function onData({ payload, lastModified, usedFallback, primaryError }, source) {
     });
     render(store.get());
     if (initial.module) openModule(initial.module, null);
+    updateOutdatedNotice();
+}
+
+/**
+ * Custom repositories are never refreshed automatically: say when a saved copy is older than
+ * CUSTOM_REPO_OUTDATED_MS. Updated on load and after every add / refresh / remove.
+ */
+function updateOutdatedNotice() {
+    $('#notice-outdated-repos')?.remove();
+    const ids = customRepos.outdated();
+    if (!ids.length) return;
+    const names = ids.join(', ');
+    const since = `more than ${formatDuration(CUSTOM_REPO_OUTDATED_MS)} ago`;
+    const message =
+        ids.length === 1
+            ? `Your repository ${names} was last read from GitHub ${since}. Its modules may be outdated.`
+            : `Your repositories ${names} were last read from GitHub ${since}. Their modules may be outdated.`;
+    notice(
+        'warning',
+        message,
+        { label: 'Review', onClick: () => /** @type {HTMLDialogElement} */ ($('#filter-dialog')).showModal() },
+        'notice-outdated-repos'
+    );
+}
+
+/**
+ * Main data + the custom repositories saved in this browser (cached copies: no network here).
+ * Custom repositories only use versions of the main data, so the version list never changes.
+ */
+function buildData() {
+    const known = Object.keys(baseVersions);
+    const custom = customStore
+        .list()
+        .map((id) => customStore.get(id))
+        .filter(Boolean);
+    const versions = mergeVersionDiffs(
+        baseVersions,
+        ...custom.map((d) => toVersionDiff(d.id, modulesByVersion(d), known))
+    );
+    const model = buildSnapshots(versions);
+    data = {
+        model,
+        history: buildHistory(versions),
+        sorted: model.versions,
+        branches: new Map(custom.map((d) => [d.id, Object.keys(d.branches)])),
+    };
+    renderRepoChips(model.repos, (token) =>
+        commit({ query: toggleToken(store.get().query, token) }, { mode: 'replace' })
+    );
 }
 
 function onError(error) {
@@ -202,6 +256,7 @@ function render(state) {
 
 let picker = null;
 let details = null;
+let customRepos = null;
 
 function bindEvents() {
     picker = createVersionPicker({
@@ -213,12 +268,22 @@ function bindEvents() {
         },
     });
     details = createModuleDetails({
-        model: data.model,
-        history: data.history,
+        getData: () => ({ model: data.model, history: data.history, branchesOf: (repo) => data.branches.get(repo) }),
         onClose: () => {
             if (store.get().module) commit({ module: null }, { mode: 'replace' });
         },
     });
+    customRepos = createCustomRepos({
+        store: customStore,
+        fetchRepository,
+        knownVersions: () => Object.keys(baseVersions),
+        onChange: () => {
+            buildData();
+            render(store.get());
+            updateOutdatedNotice();
+        },
+    });
+    customRepos.render();
 
     const openPicker = (end) => (e) => {
         const state = store.get();
@@ -281,11 +346,11 @@ function openModule(module, trigger) {
     if (details.open(module, state, trigger) && state.module !== module) commit({ module }, { mode: 'replace' });
 }
 
-function notice(kind, message, action) {
+function notice(kind, message, action, id = undefined) {
     $('#notices').append(
         el(
             'div',
-            { class: `gm-notice gm-notice--${kind}`, role: kind === 'error' ? 'alert' : 'status' },
+            { id, class: `gm-notice gm-notice--${kind}`, role: kind === 'error' ? 'alert' : 'status' },
             icon(kind === 'warning' ? 'warning' : 'info'),
             el('div', { class: 'gm-notice__body' }, message),
             action
