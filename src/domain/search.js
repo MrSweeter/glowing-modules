@@ -4,14 +4,19 @@
 //   plain terms        case-insensitive regex on the module name, 3+ characters, all terms must match (AND)
 //   repository:<re>    regex on the repository name (`odoo`, `enterprise`, …), 1+ character, alias `repo:`
 //   owner:<re>         regex on the repository owner (`odoo`), 1+ character
-// Several `repository:` (or `owner:`) terms are alternatives (OR). Invalid regexes fall back to literal text.
+//   name:<re>          regex on the module name, 1+ character (e.g. `name:^pos_`)
+//   -name:<re>         hide modules whose name matches (e.g. `-name:^l10n_`)
+// Several `repository:`, `owner:` or `name:` terms are alternatives (OR); text terms must all match (AND).
+// Invalid regexes fall back to literal text.
 
 export const MIN_TEXT_LENGTH = 3;
-const FILTER_RE = /^(repository|repo|owner):(.*)$/i;
+const FILTER_RE = /^(?:repository|repo|owner|-?name):/i;
+const FILTER_KEYS = { repository: 'repository', repo: 'repository', owner: 'owner', name: 'name', '-name': 'notName' };
 
 /**
  * @typedef {{ source: string, regex: RegExp }} Term
- * @typedef {{ text: Term[], repository: Term[], owner: Term[], ignored: string[], errors: string[], active: boolean }} Query
+ * @typedef {{ text: Term[], repository: Term[], owner: Term[], name: Term[], notName: Term[], ignored: string[],
+ *   errors: string[], active: boolean }} Query
  */
 
 /**
@@ -20,12 +25,22 @@ const FILTER_RE = /^(repository|repo|owner):(.*)$/i;
  */
 export function parseQuery(input = '') {
     /** @type {Query} */
-    const query = { text: [], repository: [], owner: [], ignored: [], errors: [], active: false };
+    const query = {
+        text: [],
+        repository: [],
+        owner: [],
+        name: [],
+        notName: [],
+        ignored: [],
+        errors: [],
+        active: false,
+    };
     for (const token of tokenize(input)) {
-        const filter = FILTER_RE.exec(token);
-        if (filter) {
-            const key = filter[1].toLowerCase() === 'owner' ? 'owner' : 'repository';
-            if (filter[2]) query[key].push(compile(filter[2], query.errors));
+        if (FILTER_RE.test(token)) {
+            const at = token.indexOf(':');
+            const key = FILTER_KEYS[token.slice(0, at).toLowerCase()];
+            const source = token.slice(at + 1);
+            if (source) query[key].push(compile(source, query.errors));
             continue;
         }
         if (token.length < MIN_TEXT_LENGTH) {
@@ -34,13 +49,18 @@ export function parseQuery(input = '') {
         }
         query.text.push(compile(token, query.errors));
     }
-    query.active = query.text.length + query.repository.length + query.owner.length > 0;
+    query.active =
+        query.text.length + query.repository.length + query.owner.length + query.name.length + query.notName.length > 0;
     return query;
 }
 
-/** True when the module name matches every text term. */
+/** True when the module name matches every text term, one `name:` term (if any) and no `-name:` term. */
 export function matchesModule(query, name) {
-    return query.text.every((t) => t.regex.test(name));
+    return (
+        query.text.every((t) => t.regex.test(name)) &&
+        (!query.name.length || query.name.some((t) => t.regex.test(name))) &&
+        !query.notName.some((t) => t.regex.test(name))
+    );
 }
 
 /** True when `owner/repo` passes the owner and repository filters. */
@@ -90,7 +110,28 @@ export function toggleToken(input, token) {
     return kept.join(' ');
 }
 
-/** Remove every `repository:` / `repo:` / `owner:` token, keeping text terms in order. */
+/**
+ * State of a module-name filter chip: `name:<source>` → include, `-name:<source>` → exclude.
+ * @returns {'include'|'exclude'|'off'}
+ */
+export function nameFilterState(input, source) {
+    if (hasToken(input, `name:${source}`)) return 'include';
+    if (hasToken(input, `-name:${source}`)) return 'exclude';
+    return 'off';
+}
+
+/** Next state of a module-name filter chip: off → include (appended) → exclude (in place) → off. */
+export function cycleNameFilter(input, source) {
+    const include = `name:${source}`.toLowerCase();
+    const exclude = `-name:${source}`.toLowerCase();
+    const tokens = tokenize(input);
+    const state = nameFilterState(input, source);
+    if (state === 'off') return [...tokens, `name:${source}`].join(' ');
+    if (state === 'include') return tokens.map((t) => (t.toLowerCase() === include ? `-name:${source}` : t)).join(' ');
+    return tokens.filter((t) => t.toLowerCase() !== exclude).join(' ');
+}
+
+/** Remove every filter token (`repository:` / `repo:` / `owner:` / `name:` / `-name:`), keeping text terms in order. */
 export function removeFilterTokens(input) {
     return tokenize(input)
         .filter((t) => !FILTER_RE.test(t))

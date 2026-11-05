@@ -24,3 +24,26 @@ export const GITHUB_API = 'https://api.github.com';
 export const MAX_CUSTOM_REPOS = 5;
 /** Saved copies are never refreshed automatically (refresh is manual); older than this, they are flagged as outdated. */
 export const CUSTOM_REPO_OUTDATED_MS = 7 * 24 * 60 * 60 * 1000;
+
+/**
+ * Module-name filters of the Filter panel (regex on the module name; each chip cycles show only → hide → off).
+ * Chosen from the most frequent name patterns of the data; a pattern must not contain whitespace (one search token).
+ */
+export const NAME_FILTERS = [
+    { label: 'Localization', pattern: '^l10n_' },
+    { label: 'Website', pattern: '^website_' },
+    { label: 'Point of Sale', pattern: '^pos_' },
+    { label: 'Sales', pattern: '^sale_' },
+    { label: 'Accounting', pattern: '^account_' },
+    { label: 'Employees', pattern: '^hr_' },
+    { label: 'AI', pattern: '^ai_' },
+    { label: 'Themes', pattern: '^theme_' },
+    { label: 'Spreadsheet', pattern: '^spreadsheet_' },
+    { label: 'Project', pattern: '^project_' },
+    { label: 'Payment', pattern: '^payment_' },
+    { label: 'Inventory', pattern: '^stock_' },
+    { label: 'Manufacturing', pattern: '^mrp_' },
+    { label: 'EDI', pattern: '_edi(_|$)' },
+    { label: 'Reports', pattern: '_reports$' },
+    { label: 'Enterprise bridges', pattern: '_enterprise$' },
+];

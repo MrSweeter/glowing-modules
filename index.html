@@ -106,7 +106,8 @@
                 </button>
             </div>
             <p class="gm-visually-hidden" id="search-syntax">
-                Plain words of 3 or more characters are regular expressions matched against module names. Use repository: or owner: to filter repositories.
+                Plain words of 3 or more characters are regular expressions matched against module names. Use repository: or owner: to filter repositories, name: to keep only matching module names and
+                -name: to hide them.
             </p>
             <p class="gm-search__errors" id="search-errors" aria-live="polite"></p>
             <div popover id="search-help" class="gm-popover">
@@ -117,6 +118,8 @@
                     <li><code>account edi</code>: several words must all match</li>
                     <li><code>repository:enterprise</code> (or <code>repo:</code>): only that repository; several are combined with OR</li>
                     <li><code>owner:odoo</code>: only repositories of that owner</li>
+                    <li><code>name:^pos_</code>: only module names matching; several are combined with OR</li>
+                    <li><code>-name:^l10n_</code>: hide module names matching</li>
                 </ul>
             </div>
         </section>
@@ -196,6 +199,11 @@
                 <fieldset class="gm-filter-group">
                     <legend class="gm-filter-group__title">Repository</legend>
                     <div class="gm-cluster" id="repo-chips"></div>
+                </fieldset>
+                <fieldset class="gm-filter-group" aria-describedby="name-chips-hint">
+                    <legend class="gm-filter-group__title">Module name</legend>
+                    <p class="gm-filter-group__hint" id="name-chips-hint">Click once to show only these, twice to hide them.</p>
+                    <div class="gm-cluster" id="name-chips"></div>
                 </fieldset>
                 <fieldset class="gm-filter-group">
                     <legend class="gm-filter-group__title">Test modules</legend>

@@ -1,6 +1,6 @@
 // Header controls, search bar and footer rendering (state → DOM).
 
-import { hasToken } from '../domain/search.js';
+import { hasToken, nameFilterState } from '../domain/search.js';
 import { $, el, formatCount } from './dom.js';
 
 /**
@@ -18,8 +18,16 @@ export function renderControls(state, { view }) {
     for (const chip of document.querySelectorAll('#owner-chips [data-token], #repo-chips [data-token]')) {
         chip.setAttribute('aria-pressed', String(hasToken(state.query, chip.dataset.token)));
     }
+    for (const chip of document.querySelectorAll('#name-chips [data-pattern]')) {
+        const chipState = nameFilterState(state.query, chip.dataset.pattern);
+        chip.dataset.state = chipState;
+        chip.setAttribute('aria-pressed', String(chipState !== 'off'));
+        chip.title = NAME_CHIP_TITLE[chipState];
+        chip.querySelector('[data-role="name-state"]').textContent = NAME_CHIP_STATE[chipState];
+    }
     /** @type {HTMLInputElement} */ ($('#show-tests')).checked = state.showTests;
-    const active = view.query.repository.length + view.query.owner.length + (state.showTests ? 1 : 0);
+    const q = view.query;
+    const active = q.repository.length + q.owner.length + q.name.length + q.notName.length + (state.showTests ? 1 : 0);
     const badge = $('[data-role="filter-count"]');
     badge.textContent = String(active);
     badge.hidden = !active;
@@ -33,6 +41,13 @@ export function renderControls(state, { view }) {
     }
     $('#search-errors').textContent = messages.join(' ');
 }
+
+const NAME_CHIP_STATE = { off: '', include: ', showing only these', exclude: ', hidden' };
+const NAME_CHIP_TITLE = {
+    off: 'Click to show only these modules',
+    include: 'Click to hide these modules',
+    exclude: 'Click to clear this filter',
+};
 
 /** Owner filter chips (`owner:` token), from the repositories of the data. */
 export function renderOwnerChips(repos, onToggle) {
@@ -49,6 +64,32 @@ export function renderRepoChips(repos, onToggle) {
             const name = full.split('/')[1];
             return tokenChip(`repository:${name}`, name, `Only ${full}`, onToggle);
         })
+    );
+}
+
+/**
+ * Module-name filter chips (`name:` / `-name:` tokens); each click moves to the next state (see cycleNameFilter).
+ * @param {{ label: string, pattern: string }[]} filters
+ * @param {(pattern: string) => void} onCycle
+ */
+export function renderNameChips(filters, onCycle) {
+    $('#name-chips').replaceChildren(
+        ...filters.map(({ label, pattern }) =>
+            el(
+                'button',
+                {
+                    type: 'button',
+                    class: 'gm-filter-chip',
+                    dataset: { pattern, state: 'off' },
+                    'aria-pressed': 'false',
+                    title: NAME_CHIP_TITLE.off,
+                    onclick: () => onCycle(pattern),
+                },
+                el('span', { class: 'gm-filter-chip__label' }, label),
+                el('code', { class: 'gm-filter-chip__pattern' }, pattern),
+                el('span', { class: 'gm-visually-hidden', dataset: { role: 'name-state' } })
+            )
+        )
     );
 }
 

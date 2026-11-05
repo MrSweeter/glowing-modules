@@ -149,10 +149,11 @@ test.describe('search', () => {
         if (!isMobile) await expect(page.locator('#filter-toggle')).toBeFocused();
     });
 
-    test('owner chips', async ({ page }) => {
+    test('owner chips and module-name chips (show only → hide → off)', async ({ page }) => {
         await page.goto('./');
         await ready(page);
         const search = page.locator('#search');
+        const badge = page.locator('[data-role="filter-count"]');
         await page.locator('#filter-toggle').click();
 
         const owner = page.locator('#owner-chips [data-token="owner:odoo"]');
@@ -160,6 +161,27 @@ test.describe('search', () => {
         await expect(search).toHaveValue('owner:odoo');
         await expect(owner).toHaveAttribute('aria-pressed', 'true');
         await owner.click();
+        await expect(search).toHaveValue('');
+
+        const l10n = page.locator('#name-chips [data-pattern="^l10n_"]');
+        await expect(l10n).toHaveAccessibleName(/Localization/);
+        await l10n.click();
+        await expect(search).toHaveValue('name:^l10n_');
+        await expect(l10n).toHaveAttribute('data-state', 'include');
+        await expect(l10n).toHaveAccessibleName(/showing only these/);
+        await expect(badge).toHaveText('1');
+        await l10n.click();
+        await expect(search).toHaveValue('-name:^l10n_');
+        await expect(l10n).toHaveAttribute('data-state', 'exclude');
+        await expect(l10n).toHaveAccessibleName(/hidden/);
+        await expect(page).toHaveURL(/q=-name(:|%3A)%5El10n_/);
+        await l10n.click();
+        await expect(search).toHaveValue('');
+        await expect(l10n).toHaveAttribute('data-state', 'off');
+        await expect(badge).toBeHidden();
+
+        await page.locator('#name-chips [data-pattern="^pos_"]').click();
+        await page.locator('#filter-reset').click();
         await expect(search).toHaveValue('');
     });
 

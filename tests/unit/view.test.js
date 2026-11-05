@@ -30,6 +30,15 @@ describe('buildView', () => {
         expect(v.moved.visible).toBe(0);
     });
 
+    it('hides modules with -name: and counts only what is left', () => {
+        const all = buildView({ model, from: '16.0', to: '18.0', query: '', showTests: false });
+        const v = buildView({ model, from: '16.0', to: '18.0', query: '-name:^ent_', showTests: false });
+        const names = (col) => col.groups.flatMap((g) => g.modules);
+        expect(names(all.added)).toContain('ent_18');
+        expect(names(v.added)).not.toContain('ent_18');
+        expect(v.added.visible).toBe(all.added.visible - 1);
+    });
+
     it('matches moved modules on either repository', () => {
         const v = buildView({ model, from: '16.0', to: '18.0', query: 'repository:enterprise', showTests: false });
         expect(v.moved.visible).toBe(1);
