@@ -17,6 +17,16 @@ describe('normalizePayload', () => {
         expect(p.meta).toEqual({ schemaVersion: 2, generatedAt: '2026-11-03T00:00:00Z' });
     });
 
+    it('keeps the checker meta unchanged (v2)', () => {
+        const meta = {
+            schemaVersion: 2,
+            generatedAt: '2026-11-05T10:50:15.047Z',
+            source: 'https://github.com/MrSweeter/glowing-modules-checker',
+            branches: { '17.0': { 'odoo/odoo': 'abc123', 'odoo/enterprise': 'def456' } },
+        };
+        expect(normalizePayload({ meta, versions: V1 }).meta).toEqual(meta);
+    });
+
     it.each([
         [null, /not a JSON object/],
         [[], /not a JSON object/],

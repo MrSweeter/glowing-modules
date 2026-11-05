@@ -24,8 +24,8 @@ The format the checker published before November 2026: a bare object keyed by ve
 
 ## v2 (published by the checker)
 
-The same `versions` object wrapped with metadata, written to the gist by the checker (`src/payload.js` in
-`MrSweeter/glowing-modules-checker`). The app accepts both formats. The bundled snapshot
+The same `versions` object wrapped with metadata, written to the gist file `glowing-modules-diff.json` by the checker
+(`src/publish/payload.js` in `MrSweeter/glowing-modules-checker`). The app accepts both formats. The bundled snapshot
 (`public/data/glowing-modules-diff.json`) is written as v2 by `npm run data:pull`.
 
 ```json
@@ -45,8 +45,10 @@ The same `versions` object wrapped with metadata, written to the gist by the che
 | `meta.generatedAt` | When the checker last published a change (it only writes the gist when the data changed). Shown in the footer as "Data updated …". Without it, the app falls back to the HTTP `Last-Modified` header, then to `meta.pulledAt`. |
 | `meta.source` | URL of the checker repository. |
 | `meta.branches` | Optional: commit of each repository branch the checker read (`{ version: { "owner/repo": sha } }`), for traceability. Versions the checker has not fetched since this field was added have no entry. |
-| `meta.pulledAt`, `meta.sourceSchemaVersion` | Written by `scripts/pull-data.mjs` for the bundled snapshot. |
-| `meta.renames` | Reserved for a future rename mapping (`{ "17.0": { "old_name": "new_name" } }`). |
+| `meta.pulledAt`, `meta.pulledFrom`, `meta.sourceSchemaVersion` | Written by `scripts/pull-data.mjs` for the bundled snapshot: when and from which URL it was pulled, and the format of the source. `meta.source` is kept as published. |
+
+The checker can also write a second gist file, `glowing-modules-history.json` (dated log of its recent
+notifications, enabled with `SAVE_GIST_HISTORY`). The app does not read it.
 
 ## Rules (checked by the validator)
 
@@ -55,6 +57,9 @@ The same `versions` object wrapped with metadata, written to the gist by the che
 - Actions: only `+` and `-`, each an array of module technical names matching `^[A-Za-z0-9_]+$`.
 - Invariants of the chain (checked by the regression tests on the real snapshot): replaying the versions in
   order never adds a module that is already present nor removes one that is absent.
+
+The checker runs the same rules, plus the chain invariants and the `meta` fields, before saving or
+publishing (`src/publish/validate.js`): an invalid payload is never written to the gist.
 
 ## How the app uses it
 
