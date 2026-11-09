@@ -1,7 +1,7 @@
 {
   "meta": {
     "schemaVersion": 2,
-    "generatedAt": "2026-11-05T10:50:15.047Z",
+    "generatedAt": "2026-11-09T10:09:52.706Z",
     "source": "https://github.com/MrSweeter/glowing-modules-checker",
     "branches": {
       "10.0": {
@@ -37,31 +37,31 @@
       "16.0": {
         "odoo/design-themes": "470f66b9c1c135ae60bc4b229296f71324e7753b",
         "odoo/enterprise": "e12820c482f906731729528032face0df0154775",
-        "odoo/odoo": "a7a38b444d8d72a0e5585bc57ac904d2ccc1927e"
+        "odoo/odoo": "cb69381971ff0b10bf81fa01dbcc091871811d6e"
       },
       "17.0": {
         "odoo/design-themes": "312e77eaa2ea88a180027194106e1d2cac94ca6c",
-        "odoo/enterprise": "1a15a6b9633019db4cbbbf6327bef6920e8a797a",
+        "odoo/enterprise": "a0f2ff37b1796f8796dcd679351dd3c97027dadc",
         "odoo/industry": "2a75f8b0581a5bbf0fa8ec822ba5439d842a74ae",
-        "odoo/odoo": "0f8fff61ec9693fe35295a15ebb3c72f94fca094"
+        "odoo/odoo": "b148b46b9bc463985b2cb80c3dece3896be8ada2"
       },
       "18.0": {
-        "odoo/design-themes": "21f90352d6c3a96c3d62214972f50848f9799789",
-        "odoo/enterprise": "b3e321a922b9fb599a9fcc09f5f7b21408e9b9a6",
-        "odoo/industry": "42ed466c17816fe705bb9c4c685770a575aade9b",
-        "odoo/odoo": "e16af5fb7d34b5eab703ff8e34f481adccc929af"
+        "odoo/design-themes": "c673d2ee0a215ab6996bd0fa0dd708510d613b9b",
+        "odoo/enterprise": "d7aa8744b5c7fcbdefe8dff101824eb0c8348772",
+        "odoo/industry": "bfe1193ae3d3e0834e1f72c78fe0d829c6347ed1",
+        "odoo/odoo": "066e375706c4abf665ac66b62e30e93b247fb180"
       },
       "19.0": {
-        "odoo/design-themes": "1e974823a0ada1fc0d31acff343e11c53c086d0b",
-        "odoo/enterprise": "46464eeb87305df10967873d5d0f552980fed01e",
-        "odoo/industry": "4fb6c46706109d8574d6a4c4330fbcbf1cf54ca6",
-        "odoo/odoo": "3828306014f63c07b769f0fb3cfce5eb7f7c50d3"
+        "odoo/design-themes": "79da7a87a8a04ecaecfbceb752d2069b83a0736d",
+        "odoo/enterprise": "b1d91e9a20e7dca82108e993268bacd4ea2b9469",
+        "odoo/industry": "495de9f41d81ae1bb81db362dbda5c9b1abe315d",
+        "odoo/odoo": "8cb9bd199ce97812d4d796272341cb14ad5ad2d7"
       },
       "20.0": {
-        "odoo/design-themes": "29a1133a56376c557a7984ccf3649c153b2cf4f4",
-        "odoo/enterprise": "0d2a8594a0384be465e7bb8ce6835c246cafe4cc",
-        "odoo/industry": "202f456c46d18ca71d84747fb90e613308ecf156",
-        "odoo/odoo": "15847649b67efb5c8e2d314363aa97c33061a99b"
+        "odoo/design-themes": "1c9c851757b5fa52ea33086c637b245113358e0a",
+        "odoo/enterprise": "a92887a37ea40c2cecb3d74840559b8668b6b90e",
+        "odoo/industry": "1734ae4872b06d1b76e59bdca90f36f6d0d743d5",
+        "odoo/odoo": "b0d4e4ab7a21af8ac4ef66e8cdd57198f1378f35"
       },
       "8.0": {
         "odoo/design-themes": "02b2cc072a33ca66342d82d4ec429ed41920e17c",
@@ -74,9 +74,9 @@
       },
       "master": {
         "odoo/design-themes": "efe3122c8b674a85f09173426db1237c1a36df40",
-        "odoo/enterprise": "28bc1ff36eaba6546d357cad47ab09ea6c8b3c6c",
-        "odoo/industry": "e3b90a70a1fba15a076b449ffa906c75d9e8d61c",
-        "odoo/odoo": "5268d45fe39a8c0296bfe0a9ace805dc28a50356"
+        "odoo/enterprise": "082ccfbdd3fffe30adae354d00cfc655b6af826d",
+        "odoo/industry": "521eac20de6632b050ea17fc36d959f705d97484",
+        "odoo/odoo": "641899166a08ae84e9e4cffc4c83377c7b6615c3"
       },
       "saas-11.3": {
         "odoo/design-themes": "68b9b836c07a5be30c927cb91fee0d686c3904db",
@@ -207,28 +207,28 @@
         "odoo/odoo": "d8da4c45035c663ec288b202f909beca6e30c18a"
       },
       "saas-19.1": {
-        "odoo/design-themes": "8db77c6343de1cfd177a8b62e3bc2732acb724fa",
-        "odoo/enterprise": "1b8a03acb0a9fa55295c76e2c36789da08531a85",
-        "odoo/industry": "53b27c3f09ebe972c43f07e762c6a15e742aeb02",
-        "odoo/odoo": "d141211cd9e52a572233bf9f2c8ecd9dc5bbd02c"
+        "odoo/design-themes": "da66c852c6d47076cb1a11707f5112307c138240",
+        "odoo/enterprise": "539feaca0db63765561d7f667f52e96bd61fcce6",
+        "odoo/industry": "99c39792ebd9bf0f2f827f3c9866bac64b757541",
+        "odoo/odoo": "2f46883b0ad60b3d924773a5381eb9c2c6ecf5c4"
       },
       "saas-19.2": {
         "odoo/design-themes": "97143a1d5baf18aaf852c019760c09923d916724",
-        "odoo/enterprise": "13bfb88ce50cfcbb2f3401171a91c0f87734525f",
-        "odoo/industry": "b6b79b6d655c82ae8e55684e3c67e055277ce1c0",
-        "odoo/odoo": "7a751f3cba5f44d3fcd160dfe0e18a6580884e5c"
+        "odoo/enterprise": "d18accc729374c8765b2e77a31546e6d99875d0e",
+        "odoo/industry": "90c0f411c611429929a46507c35c542de6ed622e",
+        "odoo/odoo": "39fd9f701de0bbf53c3d88c0e7d96e51157015f3"
       },
       "saas-19.3": {
-        "odoo/design-themes": "08e5a4275f50e37fbceab01ffb14b8fabfe5e4f8",
-        "odoo/enterprise": "bf0997d40d5195acc389f4ea55db3f84e3e42a97",
-        "odoo/industry": "b2b5b1e401f80acf598996c6d5f06e3706a49bd0",
-        "odoo/odoo": "a92377c428dcf132a4ac50ec160fb887eb8662c9"
+        "odoo/design-themes": "28ebe926289ab8c787e0ad5a35f63e107621e545",
+        "odoo/enterprise": "ee9e90681bc98245094072e002cc005d3127cbda",
+        "odoo/industry": "191e889972b95d885e9b59a930e0dbb0001f2102",
+        "odoo/odoo": "5c8347a950f207ce6d88ef2bc6b57bc7f673d516"
       },
       "saas-19.4": {
-        "odoo/design-themes": "99e2238db1a8f87f4d4945e41e1662b270bfa4f7",
-        "odoo/enterprise": "c50d3534b4a36a3726635664c36e23bb5507f635",
-        "odoo/industry": "010ea0a2d7241775db03ff0f197a746f4bd59b43",
-        "odoo/odoo": "349253b03e4eae40645e1944dc7e44d767173cd5"
+        "odoo/design-themes": "6595cbc4888cb5baaa75d1f69233d3e5afc8f35b",
+        "odoo/enterprise": "3f32b6fea8433b7361aca40326bc6fd0aacd3605",
+        "odoo/industry": "10b8d68c03d6c22d2a42ab80ca86645ac766d409",
+        "odoo/odoo": "82bad748d605f6a15e3f3ef7fe0abb5bb3fb0eb7"
       },
       "saas-11.1": {
         "odoo/enterprise": "1a31f92c4c11bea8303230da52b855562407ad48",
@@ -290,7 +290,7 @@
     },
     "sourceSchemaVersion": 2,
     "pulledFrom": "https://gist.githubusercontent.com/GaetanVandenBergh/35a02a7148d9919a9aea76796d824d63/raw/glowing-modules-diff.json",
-    "pulledAt": "2026-11-05T21:35:59.466Z"
+    "pulledAt": "2026-11-09T13:35:03.770Z"
   },
   "versions": {
     "5.0": {
@@ -384,7 +384,6 @@
           "purchase",
           "purchase_analytic_plans",
           "purchase_manual",
-          "quality_integration_server",
           "report_account",
           "report_analytic",
           "report_analytic_line",
@@ -538,7 +537,6 @@
           "profile_manufacturing",
           "profile_service",
           "purchase_manual",
-          "quality_integration_server",
           "report_account",
           "report_analytic",
           "report_analytic_line",
@@ -1526,13 +1524,11 @@
           "crm_enterprise",
           "documents",
           "documents_account",
-          "documents_mrp",
           "documents_product",
           "documents_project",
           "documents_sign",
           "event_enterprise",
           "iot",
-          "iot_drivers",
           "l10n_au_aba",
           "l10n_be_intrastat",
           "l10n_co_edi",
@@ -1636,10 +1632,6 @@
           "sale_intrastat",
           "sale_subscription_taxcloud",
           "stock_barcode_quality_control"
-        ],
-        "-": [
-          "documents_mrp",
-          "iot_drivers"
         ]
       }
     },
@@ -1674,6 +1666,7 @@
           "payment_stripe_checkout_webhook",
           "payment_stripe_sca",
           "pos_cash_rounding",
+          "survey_crm",
           "test_lint",
           "test_rpc"
         ]
@@ -1729,8 +1722,7 @@
         ],
         "-": [
           "crm_reveal",
-          "stock_zebra",
-          "survey_crm"
+          "stock_zebra"
         ]
       },
       "odoo/enterprise": {
@@ -1855,6 +1847,7 @@
           "l10n_vn_reports",
           "l10n_za_reports",
           "mrp_account",
+          "sale_coupon",
           "sale_coupon_delivery",
           "sale_subscription_asset",
           "website_sale_coupon"
@@ -1871,9 +1864,7 @@
           "hw_scale",
           "hw_scanner",
           "hw_screen",
-          "mrp_subcontracting",
           "payment_alipay",
-          "purchase_mrp_subcontracting",
           "sale_timesheet_purchase",
           "test_action_bindings",
           "test_documentation_examples"
@@ -1900,7 +1891,6 @@
         "+": [
           "hr_contract_reports",
           "industry_fsm_stock",
-          "l10n_ar_reports",
           "map_view_contact",
           "purchase_enterprise",
           "sale_rental",
@@ -1922,7 +1912,6 @@
           "l10n_mx_edi_sale_coupon",
           "pos_account_reports",
           "product_unspsc",
-          "sale_coupon",
           "sale_coupon_taxcloud",
           "sale_coupon_taxcloud_delivery",
           "sale_ebay_account_deletion",
@@ -1946,6 +1935,7 @@
           "mass_mailing_event_track_sms",
           "mass_mailing_slides",
           "mass_mailing_sms",
+          "mrp_subcontracting",
           "mrp_subcontracting_account",
           "mrp_subcontracting_dropshipping",
           "payment_ingenico",
@@ -1964,6 +1954,7 @@
           "website_sms"
         ],
         "-": [
+          "account_cancel",
           "decimal_precision",
           "hr_attendance_presence",
           "hw_scale",
@@ -1974,7 +1965,6 @@
           "l10n_in_schedule6",
           "payment_ogone",
           "payment_stripe_sca",
-          "purchase_mrp_subcontracting",
           "test_pylint",
           "web_settings_dashboard",
           "website_crm_phone_validation",
@@ -1999,6 +1989,7 @@
           "hr_payroll_account_sepa",
           "hr_payroll_expense",
           "hr_referral",
+          "l10n_ar_reports",
           "l10n_at_reports",
           "l10n_be_us_consolidation_demo",
           "l10n_generic_auto_transfer_demo",
@@ -2075,7 +2066,6 @@
           "test_xlsx_export"
         ],
         "-": [
-          "account_cancel",
           "hw_blackbox_be",
           "hw_posbox_upgrade",
           "test_documentation_examples"
@@ -2131,7 +2121,6 @@
           "product_unspsc",
           "sale_amazon_authentication",
           "sale_amazon_spapi",
-          "sale_coupon",
           "sale_coupon_taxcloud",
           "sale_coupon_taxcloud_delivery",
           "sale_ebay_account_deletion",
@@ -2219,7 +2208,6 @@
           "pos_account_reports",
           "sale_amazon_authentication",
           "sale_amazon_spapi",
-          "sale_coupon",
           "sale_ebay_account_deletion",
           "sale_subscription_timesheet",
           "social_linkedin_company_support",
@@ -2253,7 +2241,6 @@
           "data_merge",
           "data_merge_crm",
           "data_merge_utm",
-          "event_social_facebook",
           "hr_expense_extract",
           "hr_expense_predict_product",
           "industry_fsm_forecast",
@@ -2308,7 +2295,6 @@
           "purchase_intrastat",
           "purchase_stock_enterprise",
           "sale_amazon_authentication",
-          "sale_coupon",
           "sale_renting_crm",
           "sale_subscription_timesheet",
           "website_event_social",
@@ -2316,7 +2302,6 @@
           "website_event_twitter_wall"
         ],
         "-": [
-          "event_social_facebook",
           "social_linkedin_company_support"
         ]
       }
@@ -2431,7 +2416,6 @@
           "iot_pairing",
           "l10n_co_edi_ubl_2_1",
           "sale_amazon_authentication",
-          "sale_coupon",
           "sale_subscription_timesheet"
         ]
       }
@@ -2593,7 +2577,6 @@
           "pos_hr_l10n_be",
           "quality_control_worksheet",
           "quality_mrp_workorder_worksheet",
-          "sale_coupon",
           "worksheet"
         ],
         "-": [
@@ -2708,8 +2691,6 @@
       "odoo/design-themes": {},
       "odoo/enterprise": {
         "+": [
-          "account_online_sync",
-          "account_yodlee",
           "helpdesk_mail_plugin",
           "hr_work_entry_contract_enterprise",
           "hr_work_entry_holidays_enterprise",
@@ -2720,13 +2701,13 @@
           "pos_l10n_se",
           "social_test_full",
           "social_youtube",
-          "website_calendar_crm",
-          "website_crm_score"
+          "website_calendar_crm"
         ],
         "-": [
           "account_reports_tax",
           "documents_l10n_be_hr_payroll_273S_274",
           "hr_work_entry_contract",
+          "hr_work_entry_holidays",
           "l10n_be_hr_payroll_273S_274",
           "l10n_be_hr_payroll_273S_274_account",
           "l10n_be_hr_payroll_impulsion",
@@ -2761,6 +2742,7 @@
           "sale_ebay_account_deletion"
         ],
         "-": [
+          "l10n_be_hr_payroll_eco_vouchers",
           "l10n_be_sale_intrastat"
         ]
       }
@@ -2822,6 +2804,8 @@
           "sale_payment_odoo",
           "sale_timesheet_purchase",
           "website_form",
+          "website_mail_channel",
+          "website_sale_blog",
           "website_sale_management"
         ]
       },
@@ -2864,7 +2848,6 @@
         ],
         "-": [
           "crm_enterprise_iap_lead_website",
-          "hr_work_entry_holidays",
           "l10n_be_hr_payroll_canteen",
           "l10n_be_hr_payroll_december",
           "l10n_lu_reports_electronic",
@@ -2922,10 +2905,6 @@
           "sale_mrp_margin",
           "test_http",
           "website_sale_delivery_giftcard"
-        ],
-        "-": [
-          "website_mail_channel",
-          "website_sale_blog"
         ]
       },
       "odoo/design-themes": {},
@@ -2986,12 +2965,7 @@
           "website_sale_delivery_avatax"
         ],
         "-": [
-          "account_online_sync",
-          "account_yodlee",
-          "l10n_be_hr_payroll_eco_vouchers",
-          "pos_hr_l10n_be",
-          "sale_coupon",
-          "website_crm_score"
+          "pos_hr_l10n_be"
         ]
       }
     },
@@ -3141,6 +3115,7 @@
         ],
         "-": [
           "account_asset_ndt",
+          "l10n_be_hr_contract_salary_group_insurance",
           "l10n_be_hr_payroll_canteen",
           "l10n_be_hr_payroll_december",
           "l10n_be_hr_payroll_holiday_pay_recovery",
@@ -3245,7 +3220,6 @@
           "mass_mailing_themes",
           "mrp_subonctracting_landed_costs",
           "payment_flutterwave",
-          "pos_coupon",
           "pos_hr_restaurant",
           "pos_stripe",
           "privacy_lookup",
@@ -3289,9 +3263,9 @@
         "-": [
           "account_accountant_check_printing",
           "documents_spreadsheet_bundle",
-          "l10n_be_hr_contract_salary_group_insurance",
           "l10n_de_datev_reports",
           "l10n_lt_saft",
+          "l10n_lu_reports_annual_vat",
           "l10n_mx_xml_polizas_edi",
           "l10n_pe_edi_stock_20",
           "l10n_rs_reports",
@@ -3396,7 +3370,6 @@
           "l10n_no_edi",
           "payment_test",
           "payment_transfer",
-          "pos_coupon",
           "purchase_requisition_stock_dropshipping",
           "website_utm"
         ]
@@ -3508,7 +3481,6 @@
           "fleet_dashboard",
           "im_livechat_enterprise",
           "l10n_es_reports_2021",
-          "l10n_lu_reports_annual_vat",
           "l10n_nl_report_intrastat",
           "planning_calendar",
           "pos_hr_l10n_be",
@@ -3546,6 +3518,7 @@
           "l10n_it_edi_doi",
           "l10n_mt_pos",
           "payment_worldline",
+          "pos_cache",
           "spreadsheet_dashboard_sale_expense"
         ]
       },
@@ -3567,6 +3540,7 @@
           "delivery_fedex_certified",
           "delivery_fedex_rest",
           "delivery_usps_rest",
+          "event_sale_dashboard",
           "l10n_be_reports_prorata",
           "l10n_de_datev_reports",
           "l10n_de_intrastat",
@@ -3576,7 +3550,8 @@
           "l10n_mx_edi_stock_extended_31",
           "l10n_nl_reports_sbr_ob_nummer",
           "l10n_nl_reports_sbr_status_info",
-          "project_timesheet_forecast_contract"
+          "project_timesheet_forecast_contract",
+          "sale_enterprise"
         ]
       }
     },
@@ -3590,13 +3565,14 @@
         "-": [
           "account_payment_invoice_online_payment_patch",
           "account_sequence",
+          "l10n_generic_coa",
           "l10n_in_tcs_tds",
           "l10n_latam_account_sequence",
           "l10n_lu_peppol_id",
           "l10n_multilang",
           "l10n_sa_edi_pos",
-          "pos_cache",
           "pos_daily_sales_reports",
+          "purchase_price_diff",
           "website_payment_paypal",
           "website_sale_delivery",
           "website_sale_delivery_mondialrelay",
@@ -3636,11 +3612,9 @@
         "-": [
           "barcodes_mobile",
           "event_barcode_mobile",
-          "event_sale_dashboard",
           "hr_attendance_mobile",
           "l10n_generic_auto_transfer_demo",
           "project_timesheet_synchro",
-          "sale_enterprise",
           "sale_subscription_dashboard",
           "test_web_grid",
           "website_delivery_fedex",
@@ -3723,7 +3697,6 @@
           "l10n_de_skr03",
           "l10n_de_skr04",
           "l10n_in_upi",
-          "purchase_price_diff",
           "website_sale_stock_product_configurator"
         ]
       },
@@ -3868,7 +3841,6 @@
         ],
         "-": [
           "l10n_ae_pos",
-          "l10n_generic_coa",
           "l10n_it_edi_pa",
           "l10n_pl_jpk",
           "l10n_pl_sale_stock",
@@ -4065,8 +4037,7 @@
           "software_reseller",
           "solar_installation",
           "sports_club",
-          "surveyor",
-          "tests"
+          "surveyor"
         ]
       }
     },
@@ -4182,6 +4153,9 @@
         ]
       },
       "odoo/industry": {
+        "+": [
+          "tests"
+        ],
         "-": [
           "agriculture_shop",
           "bike_leasing",
@@ -4296,7 +4270,6 @@
           "pos_account_tax_python",
           "pos_sms",
           "web_tour_recorder",
-          "website_form_project",
           "website_sale_mass_mailing"
         ],
         "-": [
@@ -4447,8 +4420,7 @@
           "im_livechat_mail_bot",
           "l10n_de_audit_trail",
           "l10n_fr_invoice_addr",
-          "l10n_ro_efactura",
-          "website_form_project"
+          "l10n_ro_efactura"
         ]
       },
       "odoo/design-themes": {},
@@ -4769,6 +4741,9 @@
           "tattoo_shop",
           "toy_store",
           "wedding_planner"
+        ],
+        "-": [
+          "tests"
         ]
       }
     },
@@ -4783,8 +4758,7 @@
           "l10n_in_ewaybill_irn",
           "rpc",
           "stock_maintenance",
-          "website_sale_collect_wishlist",
-          "website_twitter"
+          "website_sale_collect_wishlist"
         ],
         "-": [
           "account_add_gln",
@@ -4873,6 +4847,7 @@
           "l10n_pl_reports_vat_eu",
           "l10n_ro_saft_stock",
           "l10n_se_bban",
+          "l10n_us_hr_payroll_state_calculation",
           "l10n_uy_edi_stock",
           "pos_no_followup",
           "pos_sale_purchase_stock_inter_company_rules",
@@ -4882,7 +4857,11 @@
           "whatsapp_identifiers"
         ]
       },
-      "odoo/industry": {}
+      "odoo/industry": {
+        "+": [
+          "tests"
+        ]
+      }
     },
     "saas-18.2": {
       "odoo/odoo": {
@@ -4923,6 +4902,7 @@
         "-": [
           "l10n_ar_website_sale",
           "l10n_ec_website_sale",
+          "l10n_es_website_sale",
           "l10n_in_gstin_status",
           "l10n_in_withholding",
           "l10n_it_edi_ndd",
@@ -4932,8 +4912,7 @@
           "l10n_uy_website_sale",
           "payment_razorpay_oauth",
           "pos_six",
-          "product_images",
-          "website_twitter"
+          "product_images"
         ]
       },
       "odoo/design-themes": {},
@@ -4978,7 +4957,6 @@
           "l10n_in_reports_tds_tcs",
           "l10n_ke_hr_payroll_shif",
           "l10n_mx_hr_payroll_localisation",
-          "l10n_us_hr_payroll_state_calculation",
           "pos_l10n_se"
         ]
       },
@@ -4989,6 +4967,9 @@
           "gallery",
           "real_estate",
           "wine_merchant"
+        ],
+        "-": [
+          "tests"
         ]
       }
     },
@@ -5006,9 +4987,16 @@
           "website_timesheet"
         ],
         "-": [
-          "l10n_es_website_sale",
           "l10n_in_purchase",
-          "test_apikeys"
+          "membership",
+          "pos_viva_wallet",
+          "sale_async_emails",
+          "test_apikeys",
+          "website_event_jitsi",
+          "website_event_meet",
+          "website_event_meet_quiz",
+          "website_jitsi",
+          "website_membership"
         ]
       },
       "odoo/design-themes": {},
@@ -5076,8 +5064,12 @@
           "l10n_be_reports_post_wizard",
           "l10n_br_test_avatax_sale",
           "l10n_nl_reports_vat_pay_wizard",
+          "pos_hr_preparation_display",
+          "pos_preparation_display",
           "sale_commission_linked_achievement",
-          "test_l10n_ch_hr_payroll_account"
+          "sale_renting_sign",
+          "test_l10n_ch_hr_payroll_account",
+          "website_sale_shiprocket"
         ]
       },
       "odoo/industry": {
@@ -5116,19 +5108,11 @@
           "l10n_it_edi_ndd_account_dn",
           "l10n_jo_edi_extended",
           "l10n_ro_efactura_synchronize",
-          "membership",
-          "pos_viva_wallet",
-          "sale_async_emails",
           "test_exceptions",
           "test_hr_contract_calendar",
           "test_limits",
           "test_new_api",
-          "test_performance",
-          "website_event_jitsi",
-          "website_event_meet",
-          "website_event_meet_quiz",
-          "website_jitsi",
-          "website_membership"
+          "test_performance"
         ]
       },
       "odoo/design-themes": {},
@@ -5163,14 +5147,10 @@
           "l10n_ch_hr_payroll_elm_transmission",
           "l10n_ch_hr_payroll_elm_transmission_account",
           "planning_contract",
-          "pos_hr_preparation_display",
-          "pos_preparation_display",
           "project_enterprise_hr_contract",
           "sale_amazon_channel_management",
-          "sale_renting_sign",
           "spreadsheet_dashboard_hr_contract",
-          "test_rental_product_configurators",
-          "website_sale_shiprocket"
+          "test_rental_product_configurators"
         ]
       },
       "odoo/industry": {
@@ -5431,6 +5411,7 @@
           "pos_restaurant_adyen",
           "pos_restaurant_stripe",
           "pos_self_order_adyen",
+          "pos_self_order_stripe",
           "pos_self_order_viva_com",
           "sale_project_stock_account",
           "test_access_rights",
@@ -5442,7 +5423,8 @@
           "test_mimetypes",
           "test_read_group",
           "test_rpc",
-          "test_search_panel"
+          "test_search_panel",
+          "test_translation_import"
         ]
       },
       "odoo/design-themes": {},
@@ -5529,8 +5511,10 @@
           "l10n_ro_cpv_code",
           "purchase_requisition_sale",
           "website_sale_collect_wishlist",
+          "website_sale_comparison",
           "website_sale_comparison_wishlist",
-          "website_sale_stock_wishlist"
+          "website_sale_stock_wishlist",
+          "website_sale_wishlist"
         ]
       },
       "odoo/design-themes": {
@@ -5588,6 +5572,7 @@
           "hr_work_entry_holidays_enterprise",
           "hr_work_entry_planning",
           "hr_work_entry_planning_attendance",
+          "industry_fsm",
           "industry_fsm_repair",
           "industry_fsm_report",
           "industry_fsm_sale",
@@ -5635,8 +5620,7 @@
         "-": [
           "l10n_ec_stock",
           "l10n_tr_nilvera_base_vat",
-          "test_testing_utilities",
-          "website_sale_wishlist"
+          "test_testing_utilities"
         ]
       },
       "odoo/design-themes": {},
@@ -5715,10 +5699,10 @@
         "-": [
           "account_peppol_response",
           "delivery_mondialrelay",
+          "l10n_dk_nemhandel_response",
           "l10n_pl_bank_verification",
           "l10n_sa_withholding_tax",
           "l10n_tr_gib_invoice_scenarios",
-          "pos_self_order_stripe",
           "website_sale_autocomplete",
           "website_sale_mondialrelay"
         ]
@@ -5730,8 +5714,7 @@
           "theme_linea",
           "theme_muse",
           "theme_pawtastic",
-          "theme_zenith",
-          "tooling"
+          "theme_zenith"
         ]
       },
       "odoo/enterprise": {
@@ -5775,11 +5758,11 @@
           "test_lint_enterprise",
           "voip_cloud_storage_google",
           "website_planning_field_service",
-          "whatsapp_planning",
           "whatsapp_pos_self_order"
         ],
         "-": [
           "l10n_be_hr_payroll_acerta",
+          "l10n_be_hr_payroll_fleet",
           "l10n_be_hr_payroll_group_s",
           "l10n_be_hr_payroll_partena",
           "l10n_be_hr_payroll_prisma",
@@ -5847,7 +5830,6 @@
           "delivery_stock_picking_batch",
           "l10n_ar_stock_batch",
           "l10n_cn_city",
-          "l10n_dk_nemhandel_response",
           "l10n_hu_edi_receive",
           "l10n_latam_base",
           "l10n_lk_invoice",
@@ -5856,16 +5838,15 @@
           "l10n_tr_nilvera_edispatch",
           "l10n_tr_nilvera_einvoice",
           "l10n_uy_pos",
+          "mrp_subcontracting_repair",
           "portal_address_extended",
           "stock_picking_batch",
           "test_core",
           "test_modules",
           "test_orm",
           "test_tools",
-          "test_translation_import",
           "transifex",
-          "website_event_track_location_display",
-          "website_sale_comparison"
+          "website_event_track_location_display"
         ]
       },
       "odoo/design-themes": {
@@ -5953,7 +5934,8 @@
           "stock_barcode_fleet",
           "stock_pricer",
           "website_sale_collect_renting",
-          "website_sale_enterprise"
+          "website_sale_enterprise",
+          "whatsapp_planning"
         ],
         "-": [
           "account_winbooks_import",
@@ -5961,8 +5943,6 @@
           "esg_project",
           "hr_payroll_sale_commission",
           "hr_work_entry_attendance",
-          "industry_fsm",
-          "l10n_be_hr_payroll_fleet",
           "l10n_br_edi_fiscal_reform",
           "l10n_br_edi_pos_fiscal_reform",
           "l10n_br_edi_sale_fiscal_reform",
@@ -6014,14 +5994,11 @@
           "project_hr_skills"
         ]
       },
-      "odoo/design-themes": {
-        "+": [
-          "ecommerce_previews"
-        ]
-      },
+      "odoo/design-themes": {},
       "odoo/enterprise": {
         "+": [
-          "hr_payroll_address_extended"
+          "hr_payroll_address_extended",
+          "l10n_pa_edi"
         ],
         "-": [
           "databases_auth",
@@ -6034,6 +6011,8 @@
           "l10n_be_pos_blackbox_self_order",
           "l10n_be_pos_blackbox_settle_due",
           "l10n_be_pos_blackbox_urban_piper",
+          "l10n_be_reports_vat_comment",
+          "l10n_cl_edi_stock_reform",
           "l10n_in_reports_gstr_pos",
           "obox_android",
           "obox_point_of_sale_android",
