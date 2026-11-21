@@ -47,7 +47,8 @@
     }
 
     &__body {
-        flex: 1;
+        flex: 1 1 auto;
+        min-height: 0;
         padding: space(4) space(5) space(5);
         overflow-y: auto;
         overscroll-behavior: contain;
